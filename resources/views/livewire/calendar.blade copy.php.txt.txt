@@ -1,0 +1,176 @@
+<div>
+    <div>
+
+        <style>
+        #calendar-container {
+            width: 100%;
+        }
+
+        #calendar {
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+            height: 610px;
+            border: 2px solid black;
+        }
+        </style>
+    </div>
+
+    <div>
+        <div id='calendar' wire:ignore>
+            <div id='calendar'></div>
+        </div>
+    </div>
+
+    @push('scripts')
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.js'></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar');
+        if (!calendarEl) {
+            console.error('Calendar element not found');
+            return;
+        }
+
+        let eventsData;
+        try {
+            eventsData = JSON.parse(calendarEl.getAttribute('data-events'));
+        } catch (e) {
+            console.error('Failed to parse events data:', e);
+            return;
+        }
+
+        console.log('Livewire available:', !!window.Livewire);
+
+        const translations = {
+            title_ar_prompt: "{{ __('Students_trans.Enter_Event_Title') }}",
+            title_ar_required: "{{ __('Students_trans.title_required') }}",
+            title_en_prompt: "{{ __('Students_trans.Enter_Event_Title_en') }}",
+            title_en_required: "{{ __('Students_trans.title_en_required') }}",
+            success_message: "{{ __('Students_trans.Done_events') }}",
+            error_message: "{{ __('Students_trans.Event_add_failed') }}"
+        };
+
+        let lastAddedEvent = null;
+
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            events: eventsData,
+            editable: true,
+            selectable: true,
+            dateClick(info) {
+                try {
+                    console.log('dateClick triggered with:', info);
+                    let title_ar = prompt(translations.title_ar_prompt);
+                    console.log('title_ar:', title_ar);
+                    if (!title_ar || title_ar.trim() === '') {
+                        alert(translations.title_ar_required);
+                        return;
+                    }
+
+                    let title_en = prompt(translations.title_en_prompt);
+                    console.log('title_en:', title_en);
+                    if (!title_en || title_en.trim() === '') {
+                        alert(translations.title_en_required);
+                        return;
+                    }
+
+                    let event = {
+                        title_ar: title_ar.trim(),
+                        title_en: title_en.trim(),
+                        start: info.dateStr
+                    };
+                    console.log('Event object:', JSON.stringify(event, null, 2));
+
+                    let locale = '{{ app()->getLocale() }}';
+                    console.log('Locale:', locale);
+                    if (!locale || !['ar', 'en'].includes(locale)) {
+                        console.warn('Invalid locale, defaulting to en:', locale);
+                        locale = 'en';
+                    }
+                    let title_to_show = (locale === 'ar') ? title_ar : title_en;
+                    console.log('title_to_show:', title_to_show);
+
+                    lastAddedEvent = calendar.addEvent({
+                        id: 'temp-' + Date.now(),
+                        title: title_to_show,
+                        start: info.dateStr,
+                        allDay: true
+                    });
+                    console.log('Event added to calendar:', lastAddedEvent);
+
+                    if (!lastAddedEvent) {
+                        throw new Error('Failed to add event to calendar');
+                    }
+
+                    if (window.Livewire) {
+                        console.log('Dispatching to Livewire:', JSON.stringify(event, null, 2));
+                        Livewire.dispatch('addevent', event);
+                    } else {
+                        console.error('Livewire is not initialized');
+                        alert(translations.error_message + ': Livewire is not initialized');
+                        lastAddedEvent.remove();
+                        lastAddedEvent = null;
+                    }
+                } catch (e) {
+                    console.error('Error in dateClick:', e);
+                    alert(translations.error_message + ': ' + e.message);
+                    if (lastAddedEvent) {
+                        lastAddedEvent.remove();
+                        lastAddedEvent = null;
+                    }
+                }
+            },
+            eventDrop(info) {
+                try {
+                    console.log('Dispatching event to eventDrop:', {
+                        id: info.event.id,
+                        start: info.event.start.toISOString()
+                    });
+                    if (window.Livewire) {
+                        Livewire.dispatch('eventDrop', {
+                            id: info.event.id,
+                            start: info.event.start.toISOString(),
+                        });
+                    } else {
+                        console.error('Livewire is not initialized');
+                    }
+                } catch (e) {
+                    console.error('Error in eventDrop:', e);
+                }
+            }
+        });
+
+        try {
+            calendar.render();
+        } catch (e) {
+            console.error('Failed to render calendar:', e);
+        }
+
+        if (window.Livewire) {
+            Livewire.on('event-added', (data) => {
+                console.log('Event added:', JSON.stringify(data, null, 2));
+                alert(data.message || translations.success_message);
+                if (lastAddedEvent && data.id) {
+                    lastAddedEvent.setProp('id', data.id);
+                    lastAddedEvent = null;
+                }
+            });
+            Livewire.on('event-add-failed', (data) => {
+                console.error('Event add failed:', JSON.stringify(data, null, 2));
+                alert(data.message || translations.error_message);
+                if (lastAddedEvent) {
+                    lastAddedEvent.remove();
+                    lastAddedEvent = null;
+                }
+            });
+        }
+    });
+    </script>
+
+
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.3.1/main.min.css' rel='stylesheet' />
+    @endpush
+</div>

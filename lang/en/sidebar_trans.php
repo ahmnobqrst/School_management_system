@@ -1,0 +1,84 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used during authentication for various
+    | messages that we need to display to the user. You are free to modify
+    | these language lines according to your application's requirements.
+    |
+    */
+'Dashboard'=>'Dashboard',
+    'Grades'=>'Grades',
+    'Grade_list'=>'Grade List',
+    'Add_Grade'=>'Add New Grade',
+    'Departments'=>'Classrooms',
+    'students'=>'students',
+    'students_list'=>'Students List',
+
+    'add_student'=>'Add Student',
+    'Teachers'=>'Teachers',
+    'Parents'=>'Parents',
+    'Accounters'=>'Accounters',
+    'Apperance'=>'Apperance',
+    'Exams'=>'Exams',
+    'Laiberary'=>'Laiberary',
+    'lecture'=>'Classes',
+    'Settings'=>'Settings',
+    'Users'=>'Users',
+    'sure_delete'=>'sure delete',
+    'close'=>'close',
+    'delete'=>'delete',
+    'the grade are updated successfully'=>'the grade are updated successfully',
+    'Add_classroom'=>'Add Classroom',
+    'classrooms'=>'classrooms',
+    'class_list'=>'class list',
+    'Sections'=>'Sections',
+    'Section'=>'Section',
+    'section_list'=>'list of Sections',
+    'Add_Parent'=>'Add Parent',
+    'Parent_list'=>'Parent list',
+    'Promotions'=>'student Promotions',
+    'Promotions_management'=>'Promotions Management', 
+    'Student_information'=>'students information',
+    'Graduate_students'=>'Graduates Student',
+    'add_Graduate'=>'Add Graduation',
+    'list_Graduate'=>'Graduations List',   
+    'Graduate'=>'Graduate student',
+    'fees'=>'fees',
+    'Accounters'=>'Accounters',
+    'fees_invoices'=>'Fee Invoices',
+    'reciept'=>'reciept',
+    'processingfee'=>'processingfee',
+    'payments'=>'Payments',
+    'Apperance_list'=>'Attendence list',
+    'attendence_list_list'=>'Attendence List',
+    'add_attendence'=>'Attendence Today',
+    'Subject'=>'Subjects',
+    'subject_list'=>'Subjects List',
+    'Add_subject'=>'Add Subject',
+    'Exams'=>'Quizzes',
+    'Exam_list'=>'Quizzes List',
+    'create_quiz'=>'Create Quiz',
+    'question'=>'Questions',
+    'create_question'=>'create Question',
+    'lecture'=>'Classes',
+    'Offline_lecture'=>'Offline Classes',
+    'Liberary'=>'Liberary',
+    'Liberary_book'=>'Books',
+    'Apperance_report'=>'Attendence Reports',
+        'start_data'=>'Start Date',
+    'choose_start_data'=>'Choose Start Date',
+    'end_data'=>'End Date',
+    'choose_end_data'=>'Choose End Date',
+    'Liberary_book'=>'Books',
+    'Liberary_book'=>'Books',
+    'Liberary_book'=>'Books',
+    'Liberary_book'=>'Books',
+    'Liberary_book'=>'Books',
+    'Liberary_book'=>'Books',
+];

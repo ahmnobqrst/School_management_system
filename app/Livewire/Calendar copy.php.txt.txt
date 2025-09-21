@@ -1,0 +1,113 @@
+<?php
+namespace App\Livewire;
+
+use App\Models\Event;
+use Livewire\Component;
+
+class Calendar extends Component
+{
+    public $events;
+
+    protected $listeners = ['addevent', 'eventDrop'];
+
+    public function mount()
+    {
+        $this->loadEvents();
+    }
+
+    public function loadEvents()
+    {
+        $this->events = json_encode(
+            Event::all()->map(function ($event) {
+                return [
+                    'id'    => $event->id,
+                    'title' => $event->getTranslation('title', app()->getLocale()),
+                    'start' => $event->start,
+                ];
+            })
+        );
+    }
+
+    public function addevent($event = null)
+    {
+        \Log::debug('addevent called with:', ['event' => $event, 'encoded' => json_encode($event, JSON_PRETTY_PRINT)]);
+
+        if (is_null($event)) {
+            $errorMessage = 'Event data is null';
+            \Log::error($errorMessage);
+            $this->dispatch('event-add-failed', ['message' => $errorMessage]);
+            return;
+        }
+
+        if (!is_array($event)) {
+            $errorMessage = 'Event data is not an array: ' . json_encode($event, JSON_PRETTY_PRINT);
+            \Log::error($errorMessage);
+            $this->dispatch('event-add-failed', ['message' => $errorMessage]);
+            return;
+        }
+
+        if (!isset($event['title_en']) || !isset($event['title_ar']) || !isset($event['start'])) {
+            $errorMessage = 'Missing required fields: ' . json_encode(array_keys($event), JSON_PRETTY_PRINT);
+            \Log::error($errorMessage, ['event' => $event]);
+            $this->dispatch('event-add-failed', ['message' => $errorMessage]);
+            return;
+        }
+
+        if (empty(trim($event['title_en'])) || empty(trim($event['title_ar']))) {
+            $errorMessage = 'Title fields cannot be empty';
+            \Log::error($errorMessage, ['event' => $event]);
+            $this->dispatch('event-add-failed', ['message' => $errorMessage]);
+            return;
+        }
+
+        try {
+            $startDate = \Carbon\Carbon::parse($event['start']);
+            if (!$startDate->isValid()) {
+                throw new \Exception('Invalid start date format: ' . $event['start']);
+            }
+
+            $newEvent = Event::create([
+                'title' => [
+                    'en' => trim($event['title_en']),
+                    'ar' => trim($event['title_ar']),
+                ],
+                'start' => $startDate->toDateString(),
+            ]);
+
+            $this->loadEvents();
+            $this->dispatch('event-added', ['message' => 'Event added successfully', 'id' => $newEvent->id]);
+        } catch (\Exception $e) {
+            $errorMessage = 'Failed to add event: ' . $e->getMessage();
+            \Log::error($errorMessage, ['exception' => $e, 'event' => $event]);
+            $this->dispatch('event-add-failed', ['message' => $errorMessage]);
+        }
+    }
+
+    public function eventDrop($event = null)
+    {
+        \Log::debug('eventDrop called with:', ['event' => json_encode($event, JSON_PRETTY_PRINT)]);
+
+        if (is_null($event) || !isset($event['id'], $event['start'])) {
+            \Log::error('Invalid or missing event data for eventDrop:', ['event' => $event]);
+            return;
+        }
+
+        try {
+            $eventData = Event::find($event['id']);
+            if ($eventData) {
+                $eventData->start = \Carbon\Carbon::parse($event['start'])->toDateString();
+                $eventData->save();
+                $this->loadEvents();
+            } else {
+                \Log::error('Event not found for ID: ' . $event['id']);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Failed to update event: ' . $e->getMessage(), ['exception' => $e]);
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.calendar');
+    }
+}

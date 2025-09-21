@@ -1,0 +1,178 @@
+@extends('Dashboard.layouts.master')
+@section('css')
+<style>
+    .studentname {
+        color: blue;
+        font-size: 30px;
+    }
+</style>
+@toastr_css
+@section('title')
+{{trans('Students_trans.attendence_list_register')}}
+@stop
+@endsection
+@section('page-header')
+<div class="page-title">
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="mb-0">{{trans('Students_trans.attendence_list_register')}}</h4>
+        </div>
+        <div class="col-sm-12">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
+                <li class="breadcrumb-item"><a href="{{route('section.index')}}"
+                        class="default-color">{{trans('Students_trans.Home')}}</a></li>
+                <li class="breadcrumb-item active">{{trans('Students_trans.attendence_list_register')}}</li>
+            </ol>
+        </div>
+    </div>
+</div>
+@if($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+
+<h5 style="font-family: 'Cairo', sans-serif;color: red"> {{trans('Students_trans.data_today')}}: {{ date('Y-m-d') }}
+</h5>
+<form method="post" action="{{ route('registerattendence.store',['sectionId' => $section->id]) }}">
+
+    @csrf
+    <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="30"
+        style="text-align: center">
+        <thead>
+            <tr>
+                <th class="alert-success">#</th>
+                <th class="alert-success">{{ trans('Students_trans.name') }}</th>
+                <th class="alert-success">{{ trans('Students_trans.email') }}</th>
+                <th class="alert-success">{{ trans('Students_trans.gender') }}</th>
+                <th class="alert-success">{{ trans('Students_trans.Grade') }}</th>
+                <th class="alert-success">{{ trans('Students_trans.classrooms') }}</th>
+                <th class="alert-success">{{ trans('Students_trans.section') }}</th>
+                <th class="alert-success">{{ trans('Students_trans.Processes') }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($students as $student)
+            @php
+            
+           $attendance = $student->attendance()->whereDate('created_at', today())->first() ?? '';
+            @endphp
+
+            <tr>
+                <td>{{ $loop->index + 1 }}</td>
+                <td>{{ $student->name }}</td>
+                <td>{{ $student->email }}</td>
+                <td>{{ $student->Gender->name }}</td>
+                <td>{{ $student->Grade->name }}</td>
+                <td>{{ $student->Classroom->name }}</td>
+                <td>{{ $student->Section->section_name }}</td>
+                <td>
+                    @if($attendance)
+                    <!-- سجل حضور لليوم موجود -->
+                    <label class="block text-gray-500 font-semibold sm:border-r sm:pr-4">
+                        <input name="attendences[{{ $student->id }}]" disabled
+                            {{ $attendance->attendence_status == 1 ? 'checked' : '' }}
+                            class="leading-tight" type="radio" value="presence">
+                        <span class="text-success">{{trans('Students_trans.presence')}}</span>
+                    </label>
+
+                    <label class="ml-4 block text-gray-500 font-semibold">
+                        <input name="attendences[{{ $student->id }}]" disabled
+                            {{ $attendance->attendence_status == 0 ? 'checked' : '' }}
+                            class="leading-tight" type="radio" value="absent">
+                        <span class="text-danger">{{trans('Students_trans.absence')}}</span>
+                    </label>
+
+                    <button type="button" class="btn btn-secondary btn-sm"
+                        data-toggle="modal"
+                        data-target="#edit_attendance{{ $student->id }}" title="{{__('Students_trans.edit')}}"><i
+                            class="fa fa-edit"></i></button>
+
+                    @else
+                    <!-- لا يوجد حضور لليوم -->
+                    <label class="block text-gray-500 font-semibold sm:border-r sm:pr-4">
+                        <input name="attendences[{{ $student->id }}]" class="leading-tight" type="radio"
+                            value="presence">
+                        <span class="text-success">{{trans('Students_trans.presence')}}</span>
+                    </label>
+
+                    <label class="ml-4 block text-gray-500 font-semibold">
+                        <input name="attendences[{{ $student->id }}]" class="leading-tight" type="radio" value="absent">
+                        <span class="text-danger">{{trans('Students_trans.absence')}}</span>
+                    </label>
+                    @endif
+
+                    <input type="hidden" name="student_id[]" value="{{ $student->id }}">
+                    <input type="hidden" name="grade_id" value="{{ $student->grade_id }}">
+                    <input type="hidden" name="classroom_id" value="{{ $student->classroom_id }}">
+                    <input type="hidden" name="section_id" value="{{ $student->section_id }}">
+                </td>
+            </tr>
+
+            {{-- Edit Modal --}}
+            @if($attendance)
+            <div class="modal fade" id="edit_attendance{{ $student->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{ trans('Students_trans.edit_attendence') }} :
+                    <span class="studentname">{{ $student->name }}</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('updateattendence.store', $section->id) }}" method="post">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $attendance->id }}">
+
+                    <div class="form-group">
+                        <label class="mr-3">
+                            <input name="attendence_status" 
+                                   {{ $attendance->attendence_status == 1 ? 'checked' : '' }}
+                                   type="radio" value="1" required>
+                            <span class="text-success">{{ trans('Students_trans.presence') }}</span>
+                        </label>
+
+                        <label>
+                            <input name="attendence_status" 
+                                   {{ $attendance->attendence_status == 0 ? 'checked' : '' }}
+                                   type="radio" value="0" required>
+                            <span class="text-danger">{{ trans('Students_trans.absence') }}</span>
+                        </label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('Students_trans.Close') }}</button>
+                        <button class="btn btn-primary" type="submit">{{ trans('Students_trans.submit') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+            @endif
+            {{-- End Edit Modal --}}
+            @endforeach
+
+        </tbody>
+
+    </table>
+    @if($students->count() > 0)
+    <p>
+        <button class="btn btn-success" type="submit">{{ trans('Students_trans.submit') }}</button>
+    </p>
+    @endif
+
+</form><br>
+<!-- row closed -->
+@endsection
+@section('js')
+@toastr_js
+@toastr_render
+@endsection
