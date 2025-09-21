@@ -312,5 +312,7 @@ return [
     'date_to'=>'Student Name Is Required',
     'to_date_format'=>'Student Name Is Required',
     'after_or_equal'=>'Student Name Is Required',
+    'after_or_equal'=>'Student Name Is Required',
+    'after_or_equal'=>'Student Name Is Required',
 
 ];
