@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TeacherRequest;
+use App\Http\Requests\{TeacherRequest,ReportRequest};
 use App\Interface\TeacherRepositoryInterface;
 use App\Models\Teacher;
 use App\Models\Student;
 use App\Models\Grade;
+use App\Models\Subject;
 use App\Models\Section;
 use App\Models\Classroom;
 use App\Models\Attendence;
@@ -89,6 +90,26 @@ class TeacherController extends Controller
 
         return view('Data.allclassrooms', compact('classrooms'));
     }
+    public function getgrade()
+    {
+        $teacher = Teacher::findOrFail(auth()->user()->id);
+        $sectionsIds = $teacher->Sections()->pluck('section_id');
+        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
+            $q->whereIn('id', $sectionsIds);
+        })
+            // ->with(['Sections' => function ($q) use ($sectionsIds) {
+            //     $q->whereIn('id', $sectionsIds);
+            // }])
+            ->firstOrFail();
+        
+            return view('Data.grade', compact('grade'));
+    }
+    public function getsubject()
+    {
+        $teacher = Teacher::findOrFail(auth()->user()->id);
+        $subject = Subject::where('teacher_id',$teacher->id)->firstOrFail();
+        return view('Data.subject', compact('subject'));
+    }
     public function getteachersections()
     {
         $teacher = Teacher::findOrFail(auth()->user()->id);
@@ -139,34 +160,79 @@ class TeacherController extends Controller
         return view('Data.attendence.attendence', compact('students', 'section'));
     }
 
+    // public function registerattendencestore(Request $request)
+    // {
+    //     try {
+    //         $attenddate = date('Y-m-d');
+    //         foreach ($request->attendences as $studentid => $attendence) {
+                
+    //             if ($attendence == 'presence') {
+    //                 $attendence_status = true;
+    //             } else if ($attendence == 'absent') {
+    //                 $attendence_status = false;
+    //             }
+
+    //             if(!date('Y-m-d'))
+    //             {
+    //                 Attendence::create([
+    //                 'student_id' => $studentid,
+    //                 'grade_id' => $request->grade_id,
+    //                 'classroom_id' => $request->classroom_id,
+    //                 'section_id' => $request->section_id,
+    //                 'teacher_id' => 1,
+    //                 'attendence_date' => $attenddate,
+    //                 'attendence_status' => $attendence_status
+    //                ]);
+    //             }else{
+    //                 Attendence::updateOrCreate(['student_id' => $studentid], [
+    //                     'student_id' => $studentid,
+    //                     'grade_id' => $request->grade_id,
+    //                     'classroom_id' => $request->classroom_id,
+    //                     'section_id' => $request->section_id,
+    //                     'teacher_id' => 1,
+    //                     'attendence_date' => $attenddate,
+    //                     'attendence_status' => $attendence_status
+    //                 ]);
+    //             }
+    //         }
+    //         toastr()->success(trans('Students_trans.success_attendence'));
+    //         return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+    //     }
+    // }
+
     public function registerattendencestore(Request $request)
-    {
-        try {
-            $attenddate = date('Y-m-d');
-            foreach ($request->attendences as $studentid => $attendence) {
+{
+    try {
+        $attenddate = date('Y-m-d');
 
-                if ($attendence == 'presence') {
-                    $attendence_status = true;
-                } else if ($attendence == 'absent') {
-                    $attendence_status = false;
-                }
+        foreach ($request->attendences as $studentid => $attendence) {
+            $attendence_status = $attendence === 'presence';
 
-                Attendence::updateOrCreate(['student_id' => $studentid], [
-                    'student_id' => $studentid,
-                    'grade_id' => $request->grade_id,
-                    'classroom_id' => $request->classroom_id,
-                    'section_id' => $request->section_id,
-                    'teacher_id' => 1,
+            Attendence::updateOrCreate(
+                [
+                    'student_id'      => $studentid,
                     'attendence_date' => $attenddate,
-                    'attendence_status' => $attendence_status
-                ]);
-            }
-            toastr()->success(trans('Students_trans.success_attendence'));
-            return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+                ],
+                [
+                    'grade_id'          => $request->grade_id,
+                    'classroom_id'      => $request->classroom_id,
+                    'section_id'        => $request->section_id,
+                    'teacher_id'        => 1,
+                    'attendence_status' => $attendence_status,
+                ]
+            );
         }
+
+        toastr()->success(trans('Students_trans.success_attendence'));
+        return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
+
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
+}
+
 
 
     //     public function updateattendencestore(Request $request, $sectionId)
@@ -220,10 +286,13 @@ class TeacherController extends Controller
         
     }
 
-    public function get_attendence_report(Request $request)
+    public function get_attendence_report(ReportRequest $request)
     {
-        // $from = Carbon::createFromFormat('Y-m-d', $request->from)->format('Y-m-d');
-        // $to   = Carbon::createFromFormat('Y-m-d', $request->to)->format('Y-m-d');
+
+        $Students = Attendence::whereBetween('attendence_date',[$request->from,$request->to])->paginate(15);
+        return view('Data.attendence.reports.result_report',compact('Students'));
+
+
 
        
 

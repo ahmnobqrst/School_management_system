@@ -24,7 +24,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="elements" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="{{route('grades.index')}}">{{trans('sidebar_trans.Grade_list')}}</a></li>
+                            <li><a href="{{route('getgrade')}}">{{trans('sidebar_trans.Grade_list')}}</a></li>
                         </ul>
                     </li>
                     <li>
@@ -73,7 +73,7 @@
                                 </ul>
                             </li>
 
-                            <li>
+                            <!-- <li>
                                 <a href="javascript:void(0);" data-toggle="collapse"
                                     data-target="#Students_upgrade">{{trans('sidebar_trans.Promotions')}}<div
                                         class="pull-right"><i class="ti-plus"></i></div>
@@ -87,9 +87,9 @@
                                             href="{{route('promotions.create')}}">{{trans('sidebar_trans.Promotions_management')}}</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
 
-                            <li>
+                            <!-- <li>
                                 <a href="javascript:void(0);" data-toggle="collapse"
                                     data-target="#Graduate students">{{trans('sidebar_trans.Graduate_students')}}<div
                                         class="pull-right"><i class="ti-plus"></i></div>
@@ -103,7 +103,7 @@
                                             href="{{route('graduates.index')}}">{{trans('sidebar_trans.list_Graduate')}}</a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
 
@@ -152,8 +152,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="subject" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('subjects.create')}}">{{trans('sidebar_trans.Add_subject')}}</a> </li>
-                            <li> <a href="{{route('subjects.index')}}">{{trans('sidebar_trans.subject_list')}}</a> </li>
+                            <li> <a href="{{route('getsubject')}}">{{trans('sidebar_trans.subject_list')}}</a> </li>
                         </ul>
                     </li>
                     <li>
@@ -164,8 +163,8 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="authentication" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('quizzes.create')}}">{{trans('sidebar_trans.create_quiz')}}</a> </li>
-                            <li> <a href="{{route('quizzes.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
+                            <li> <a href="{{route('quizz.create')}}">{{trans('sidebar_trans.create_quiz')}}</a> </li>
+                            <li> <a href="{{route('quizz.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
                         </ul>
                     </li>
 

@@ -144,8 +144,20 @@
                 <div class="dropdown-header">
                     <div class="media">
                         <div class="media-body">
+                            @if(Auth('web')->check())
                             <h5 class="mt-0 mb-0">{{ Auth::user()->name }}</h5>
                             <span>{{ Auth::user()->email }}</span>
+                            @elseif(Auth('teacher')->check())
+                            <h5 class="mt-0 mb-0">{{ Auth::guard('teacher')->user()->name }}</h5>
+                            <span>{{ Auth::guard('teacher')->user()->email }}</span>
+                            @elseif(Auth('student')->check())
+                            <h5 class="mt-0 mb-0">{{ Auth::guard('student')->user()->name }}</h5>
+                            <span>{{ Auth::guard('student')->user()->email }}</span>
+                            @else
+                            <h5 class="mt-0 mb-0">{{ Auth::guard('parent')->user()->name }}</h5>
+                            <span>{{ Auth::guard('parent')->user()->email }}</span>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
