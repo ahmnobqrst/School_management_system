@@ -60,9 +60,9 @@ Route::group(
 
 
                 // theses End Routes For Teacher 
+                Route::resources(['quizz' => TeacherQuizController::class,]);
             });
 
-            Route::resources(['quizz' => TeacherQuizController::class,]);
         });
     }
 );

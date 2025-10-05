@@ -65,8 +65,9 @@
                                     <div class="form-group">
                                         <label for="Grade_id">{{trans('Students_trans.subject_name')}} : <span
                                                 class="text-danger">*</span></label>
-                                        <select class="custom-select mr-sm-2" name="subject_id" disabled>
-                                            <option value="{{ $subjects->id }}">{{ $subjects->name }}</option>
+                                        <select class="custom-select mr-sm-2" name="subject_id" readonly>
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -135,42 +136,51 @@
 @toastr_js
 @toastr_render
 <script>
-$('select[name="grade_id"]').on('change', function() {
-    var Grade_id = $(this).val();
-    if (!Grade_id) return;
-
-    var url = "{{ route('teacher.classes_for_grade', ['grade_id' => '__ID__']) }}";
-    url = url.replace('__ID__', Grade_id);
-
-    $.getJSON(url, function(data) {
-        var $classroom = $('select[name="classroom_id"]').empty();
-        $classroom.append('<option selected disabled>{{ trans("parent_trans.Choose") }}...</option>');
-        $.each(data, function(id, name) {
-            $classroom.append('<option value="'+ id +'">'+ name +'</option>');
-        });
-        // مسح الأقسام القديمة لأن الفصل تغيّر
-        $('select[name="section_id"]').empty().append('<option selected disabled>{{ trans("parent_trans.Choose") }}...</option>');
-    }).fail(function(xhr){
-        console.error('Error loading classrooms:', xhr);
+$(document).ready(function() {
+    $('select[name="grade_id"]').on('change', function() {
+        var Grade_id = $(this).val();
+        if (Grade_id) {
+            $.ajax({
+                url: "{{ URL::to('teacher/dashboard/classes_for_grade') }}/" + Grade_id,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $('select[name="classroom_id"]').empty();
+                    $('select[name="classroom_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
+                    $.each(data, function(key, value) {
+                        $('select[name="classroom_id"]').append('<option value="' +
+                            key + '">' + value + '</option>');
+                            console.log("this is id For Classroom : ",key);
+                    });
+                },
+            });
+            
+        } else {
+            console.log('AJAX load did not work');
+        }
     });
 });
 
 $('select[name="classroom_id"]').on('change', function() {
     var Classroom_id = $(this).val();
-    if (!Classroom_id) return;
-
-    var url = "{{ route('teacher.sections_for_grade', ['classroom_id' => '__ID__']) }}";
-    url = url.replace('__ID__', Classroom_id);
-
-    $.getJSON(url, function(data) {
-        var $section = $('select[name="section_id"]').empty();
-        $section.append('<option selected disabled>{{ trans("parent_trans.Choose") }}...</option>');
-        $.each(data, function(id, name) {
-            $section.append('<option value="'+ id +'">'+ name +'</option>');
+    if (Classroom_id) {
+        $.ajax({
+            url: "{{ URL::to('teacher/dashboard/sections_for_grade') }}/" + Classroom_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('select[name="section_id"]').empty();
+                // $('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
+                $('select[name="section_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
+                $.each(data, function(key, value) {
+                    $('select[name="section_id"]').append('<option value="' + key + '">' +
+                        value + '</option>');
+                });
+            },
         });
-    }).fail(function(xhr){
-        console.error('Error loading sections:', xhr);
-    });
+    } else {
+        console.log('AJAX load did not work');
+    }
 });
 </script>
 

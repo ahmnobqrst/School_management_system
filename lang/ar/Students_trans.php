@@ -318,5 +318,18 @@ return [
     'choose_student'                                     => 'اختار الطالب',
     'search'                                     => 'بحث',
     'submit_report'                                     => 'عرض التقرير',
+    'Choose'                                     => 'اختر من القائمة',
+    'subject_id'   => 'المادة',
+    'grade_id'     => 'المرحلة',
+    'classroom_id' => 'الفصل',
+    'section_id'   => 'الشعبة',
+    'name_ar' => 'الاسم بالعربية',
+    'name_en' => 'الاسم بالإنجليزية',
+    'required_field' => 'حقل :attribute مطلوب.',
+    'numbers_only' => 'حقل :attribute لا يمكن أن يحتوي على أرقام فقط.',
+    'must_contain_arabic' => 'حقل :attribute يجب أن يحتوي على أحرف عربية.',
+    'no_english_allowed' => 'حقل :attribute لا يجب أن يحتوي على أحرف إنجليزية.',
+    'invalid_characters' => 'حقل :attribute يحتوي على رموز غير مسموحة.',
+    'success_quizz'=>'تم إضافة الامتحان بنجاح'
 
 ];

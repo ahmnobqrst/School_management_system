@@ -317,6 +317,19 @@ return [
     'choose_student'=>'Choose Student',
     'search'=>'Search',
     'submit_report'=>'Show Report',
+    'Choose'=>'Choose',
+    'subject_id'   => 'Subject',
+    'grade_id'     => 'Grade',
+    'classroom_id' => 'Classroom',
+    'section_id'   => 'Section',
+    'name_ar' => 'Name (Arabic)',
+    'name_en' => 'Name (English)',
+    'required_field' => 'The :attribute field is required.',
+    'numbers_only' => 'The :attribute cannot contain numbers only.',
+    'must_contain_arabic' => 'The :attribute must contain Arabic characters.',
+    'no_english_allowed' => 'The :attribute must not contain English characters.',
+    'invalid_characters' => 'The :attribute contains invalid characters.',
+    'success_quizz'=>'Quizz Are Added Successfully',
    
 
 ];

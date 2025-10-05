@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\Grade;
 use App\Models\Section;
+use App\Models\Quiz;
 use App\Models\Teacher;
 use App\Models\Classroom;
+use App\Http\Requests\QuizTeacherRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class TeacherQuizController extends Controller
@@ -18,7 +21,8 @@ class TeacherQuizController extends Controller
      */
     public function index()
     {
-        //
+        $quizzes = Quiz::where('teacher_id',Auth::guard('teacher')->user()->id)->get();
+        return view('Data.quizzes.index',compact('quizzes'));
     }
 
     /**
@@ -27,11 +31,8 @@ class TeacherQuizController extends Controller
     public function create()
     {
         $teacher = Auth::guard('teacher')->user();
-        $data['subjects'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
+        $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
         $sectionsIds = $teacher->Sections()->pluck('section_id');
-        // $data['grades'] = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-        //     $q->whereIn('id', $sectionsIds);
-        // })
         $data['grades'] = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
             $q->whereIn('id', $sectionsIds);
         })
@@ -47,9 +48,20 @@ class TeacherQuizController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(QuizTeacherRequest $request)
     {
-        //
+        $quiz = Quiz::create([
+           'name'=>['ar'=>$request->name_ar,'en'=>$request->name_en],
+           'subject_id'=>$request->subject_id,
+           'teacher_id'=>Auth::guard('teacher')->user()->id,
+           'grade_id'=>$request->grade_id,
+           'classroom_id'=>$request->classroom_id,
+           'section_id'=>$request->section_id,
+           
+        ]);
+
+        toastr()->success(trans('Students_trans.success_quizz'));
+        return redirect()->route('quizz.index');
     }
 
     /**
@@ -85,47 +97,35 @@ class TeacherQuizController extends Controller
     }
 public function get_classes_for_grade($grade_id)
 {
-    $teacher = Teacher::findOrFail(auth()->id());
+    $teacher = Auth::guard('teacher')->user();
+    $sectionsIds = $teacher->Sections()->pluck('section_id');
 
-    // نحاول نجيب ids للأقسام اللي المدرس بيديها
-    // نتحسب للحالتين: علاقة ترجع pivot (section_id) أو ترجع موديولات Section (id)
-    $sectionIds = $teacher->Sections()->pluck('section_id')->toArray();
-    if (empty($sectionIds)) {
-        // لو ما رجعش pivot، نحاول نجيب ids من الموديلات نفسها
-        $sectionIds = $teacher->Sections()->pluck('id')->toArray();
-    }
-
-    // من الأقسام اللي المدرس بيديها ونفس المرحلة المطلوبة
-    // ملاحظة: نستخدم أسماء الأعمدة كما هي في DB: Grade_id و Class_id
-    $classroomIds = Section::whereIn('id', $sectionIds)
-        ->where('Grade_id', $grade_id)
-        ->distinct()
-        ->pluck('Class_id')   // هنا ناخد ids الفصول
-        ->toArray();
-
-    // نرجع أسماء الفصول بصيغة (id => name) جاهزة للـ select
-    $classrooms = Classroom::whereIn('id', $classroomIds)
-        ->pluck('name', 'id');
+    $classes = Section::whereIn('id',$sectionsIds)->where('Grade_id',$grade_id)->pluck('Class_id');
+    // $class = $classes->Classes->name;
+    $classrooms = Classroom::whereIn('id', $classes)
+        ->pluck('name','id');
 
     return response()->json($classrooms);
 }
 
+    // $teacher = Auth::guard('teacher')->user();
+    // $sectionIds = $teacher->Sections()->pluck('section_id')->toArray();
+    // $classroomIds = Section::whereIn('id', $sectionIds)
+    //     ->where('Grade_id', $grade_id)
+    //     ->pluck('Class_id')
+    //     ->unique()
+    //     ->toArray();
+    // $classrooms = Classroom::whereIn('id', $classroomIds)
+    //     ->pluck('name', 'id');
+    // return response()->json($classrooms);
+   
+    
+// }
+
 public function get_sections_for_grade($classroom_id)
 {
-    $teacher = Teacher::findOrFail(auth()->id());
+    $section = Section::where('Class_id',$classroom_id)->pluck('section_name','id');
+    return response()->json($section);
 
-    $sectionIds = $teacher->Sections()->pluck('section_id')->toArray();
-    if (empty($sectionIds)) {
-        $sectionIds = $teacher->Sections()->pluck('id')->toArray();
-    }
-
-    // هنا نرجع الأقسام التابعة للفصل المختار واللي المدرس بيديها
-    $sections = Section::whereIn('id', $sectionIds)
-        ->where('Class_id', $classroom_id)  // استخدام اسم العمود الصحيح
-        ->pluck('section_name', 'id');
-
-    return response()->json($sections);
 }
-
-
 }
