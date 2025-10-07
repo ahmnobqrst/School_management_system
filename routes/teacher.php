@@ -6,7 +6,7 @@ use App\Models\Section;
 use App\Models\Classroom;
 use App\Models\Grade;
 use App\Http\Controllers\student\StudentController;
-use App\Http\Controllers\Teacher\{TeacherController, TeacherQuizController};
+use App\Http\Controllers\Teacher\{TeacherController, TeacherQuizController,TeacherQuestionController};
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -54,13 +54,22 @@ Route::group(
 
                 route::get('/sections_for_grade/{classroom_id}', [TeacherQuizController::class, 'get_sections_for_grade'])
                     ->name('teacher.sections_for_grade');
-
-
-
-
-
                 // theses End Routes For Teacher 
-                Route::resources(['quizz' => TeacherQuizController::class,]);
+
+                // route For Questions for Teacher
+
+                 Route::get('/question_sections', [TeacherController::class, 'question_section_report'])->name('question_section');
+                 Route::get('/getquestions/{sectionId}', [TeacherController::class, 'get_questions'])->name('questions');
+                 Route::get('/createquestion/{sectionId}', [TeacherController::class, 'create_question_for_section'])->name('questionsss.create');
+
+                // end Route For Question For teacher
+
+
+                
+                Route::resources([
+                    'quizz' => TeacherQuizController::class,
+                    'question' => TeacherQuestionController::class,
+                ]);
             });
 
         });

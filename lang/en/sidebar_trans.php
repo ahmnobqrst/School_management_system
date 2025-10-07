@@ -75,6 +75,8 @@ return [
     'choose_start_data'=>'Choose Start Date',
     'end_data'=>'End Date',
     'choose_end_data'=>'Choose End Date',
+    'question_sections'=>'Questions For All Sections',
+    'question_sections_report'=>'Questions',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',

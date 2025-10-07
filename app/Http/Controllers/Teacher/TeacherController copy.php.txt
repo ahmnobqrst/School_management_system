@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\{TeacherRequest, ReportRequest};
+use App\Http\Requests\{TeacherRequest,ReportRequest};
 use App\Interface\TeacherRepositoryInterface;
 use App\Models\Teacher;
 use App\Models\Student;
 use App\Models\Grade;
-use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Subject;
 use App\Models\Section;
@@ -103,13 +102,13 @@ class TeacherController extends Controller
             //     $q->whereIn('id', $sectionsIds);
             // }])
             ->firstOrFail();
-
-        return view('Data.grade', compact('grade'));
+        
+            return view('Data.grade', compact('grade'));
     }
     public function getsubject()
     {
         $teacher = Teacher::findOrFail(auth()->user()->id);
-        $subject = Subject::where('teacher_id', $teacher->id)->firstOrFail();
+        $subject = Subject::where('teacher_id',$teacher->id)->firstOrFail();
         return view('Data.subject', compact('subject'));
     }
     public function getteachersections()
@@ -167,7 +166,7 @@ class TeacherController extends Controller
     //     try {
     //         $attenddate = date('Y-m-d');
     //         foreach ($request->attendences as $studentid => $attendence) {
-
+                
     //             if ($attendence == 'presence') {
     //                 $attendence_status = true;
     //             } else if ($attendence == 'absent') {
@@ -205,34 +204,35 @@ class TeacherController extends Controller
     // }
 
     public function registerattendencestore(Request $request)
-    {
-        try {
-            $attenddate = date('Y-m-d');
+{
+    try {
+        $attenddate = date('Y-m-d');
 
-            foreach ($request->attendences as $studentid => $attendence) {
-                $attendence_status = $attendence === 'presence';
+        foreach ($request->attendences as $studentid => $attendence) {
+            $attendence_status = $attendence === 'presence';
 
-                Attendence::updateOrCreate(
-                    [
-                        'student_id'      => $studentid,
-                        'attendence_date' => $attenddate,
-                    ],
-                    [
-                        'grade_id'          => $request->grade_id,
-                        'classroom_id'      => $request->classroom_id,
-                        'section_id'        => $request->section_id,
-                        'teacher_id'        => 1,
-                        'attendence_status' => $attendence_status,
-                    ]
-                );
-            }
-
-            toastr()->success(trans('Students_trans.success_attendence'));
-            return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+            Attendence::updateOrCreate(
+                [
+                    'student_id'      => $studentid,
+                    'attendence_date' => $attenddate,
+                ],
+                [
+                    'grade_id'          => $request->grade_id,
+                    'classroom_id'      => $request->classroom_id,
+                    'section_id'        => $request->section_id,
+                    'teacher_id'        => 1,
+                    'attendence_status' => $attendence_status,
+                ]
+            );
         }
+
+        toastr()->success(trans('Students_trans.success_attendence'));
+        return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
+
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
+}
 
 
 
@@ -266,8 +266,7 @@ class TeacherController extends Controller
     //     }
     // }
 
-    public function attendence_report()
-    {
+    public function attendence_report() {
         $teacher = Teacher::findOrFail(auth()->user()->id);
         $sectionsIds = $teacher->Sections()->pluck('section_id');
         $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
@@ -280,19 +279,19 @@ class TeacherController extends Controller
 
         return view('Data.attendence.reports.attendence_report', compact('grade'));
     }
-    public function get_report_attendence($sectionId)
-    {
+    public function get_report_attendence($sectionId) {
         $section = Section::findOrFail($sectionId);
         $students   = Student::where('section_id', $section->id)->get();
 
         return view('Data.attendence.reports.report', compact('students'));
+        
     }
-
+   
     public function get_attendence_report(ReportRequest $request)
     {
 
-        $Students = Attendence::whereBetween('attendence_date', [$request->from, $request->to])->paginate(15);
-        return view('Data.attendence.reports.result_report', compact('Students'));
+        $Students = Attendence::whereBetween('attendence_date',[$request->from,$request->to])->paginate(15);
+        return view('Data.attendence.reports.result_report',compact('Students'));
     }
 
 
@@ -314,32 +313,11 @@ class TeacherController extends Controller
         return view('Data.question.question_sections', compact('grade'));
     }
 
-    public function get_questions($sectionId)
-    {
-
-        $section = Section::find($sectionId);
-
-        if (!$section) {
-            return view('Data.question.index', ['questions' => collect()]);
-        }
-        $quizsection = Quiz::where('section_id', $section->id)->first();
-
-        if (!$quizsection) {
-            return view('Data.question.index', ['questions' => collect()]);
-        }
-
-        $questions = Question::where('quiz_id', $quizsection->id)->get();
-
-        return view('Data.question.index', compact('questions','section'));
+     public function get_questions($sectionId) {
+        $section = Section::findOrFail($sectionId);
+        $quiz_for_section = Quiz::where('section_id',$section->id)->get();
+        return view('Data.attendence.reports.report', compact('students'));
+        
     }
 
-    public function create_question_for_section($sectionId)
-    {
-        if($sectionId)
-        {
-            dd($sectionId);
-        }else{
-            dd("jjjjjjjj");
-        }
-    }
 }

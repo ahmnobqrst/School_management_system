@@ -330,6 +330,16 @@ return [
     'no_english_allowed' => 'The :attribute must not contain English characters.',
     'invalid_characters' => 'The :attribute contains invalid characters.',
     'success_quizz'=>'Quizz Are Added Successfully',
+     'name_ar_required' => 'The question name (Arabic) is required.',
+    'name_en_required' => 'The question name (English) is required.',
+    'answer_ar_required' => 'The answer (Arabic) is required.',
+    'answer_en_required' => 'The answer (English) is required.',
+    'right_answer_ar_required' => 'The correct answer (Arabic) is required.',
+    'right_answer_en_required' => 'The correct answer (English) is required.',
+    'degree_required' => 'The degree field is required.',
+    'degree_numeric' => 'The degree must be a number.',
+    'quiz_id_required' => 'The quiz selection is required.',
+    
    
 
 ];

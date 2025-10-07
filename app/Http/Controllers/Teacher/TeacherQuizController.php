@@ -21,8 +21,8 @@ class TeacherQuizController extends Controller
      */
     public function index()
     {
-        $quizzes = Quiz::where('teacher_id',Auth::guard('teacher')->user()->id)->get();
-        return view('Data.quizzes.index',compact('quizzes'));
+        $quizzes = Quiz::where('teacher_id', Auth::guard('teacher')->user()->id)->get();
+        return view('Data.quizzes.index', compact('quizzes'));
     }
 
     /**
@@ -31,7 +31,7 @@ class TeacherQuizController extends Controller
     public function create()
     {
         $teacher = Auth::guard('teacher')->user();
-        $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
+        $data['subject'] = Subject::where('teacher_id', $teacher->id)->firstOrFail();
         $sectionsIds = $teacher->Sections()->pluck('section_id');
         $data['grades'] = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
             $q->whereIn('id', $sectionsIds);
@@ -40,9 +40,9 @@ class TeacherQuizController extends Controller
                 $q->whereIn('id', $sectionsIds);
             }])
             ->get();
-        
 
-        return view('Data.quizzes.create',$data);
+
+        return view('Data.quizzes.create', $data);
     }
 
     /**
@@ -51,13 +51,13 @@ class TeacherQuizController extends Controller
     public function store(QuizTeacherRequest $request)
     {
         $quiz = Quiz::create([
-           'name'=>['ar'=>$request->name_ar,'en'=>$request->name_en],
-           'subject_id'=>$request->subject_id,
-           'teacher_id'=>Auth::guard('teacher')->user()->id,
-           'grade_id'=>$request->grade_id,
-           'classroom_id'=>$request->classroom_id,
-           'section_id'=>$request->section_id,
-           
+            'name' => ['ar' => $request->name_ar, 'en' => $request->name_en],
+            'subject_id' => $request->subject_id,
+            'teacher_id' => Auth::guard('teacher')->user()->id,
+            'grade_id' => $request->grade_id,
+            'classroom_id' => $request->classroom_id,
+            'section_id' => $request->section_id,
+
         ]);
 
         toastr()->success(trans('Students_trans.success_quizz'));
@@ -72,41 +72,59 @@ class TeacherQuizController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $sectionsIds = auth()->guard('teacher')->user()->Sections()->pluck('section_id');
+        $data['quizz'] = Quiz::where('teacher_id', auth()->guard('teacher')->user()->id)->findOrFail($id);
+        $data['subject'] = Subject::where('teacher_id', auth()->guard('teacher')->user()->id)->firstOrFail();
+        $data['grades'] =  Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
+            $q->whereIn('id', $sectionsIds);
+        })
+            ->with(['Sections' => function ($q) use ($sectionsIds) {
+                $q->whereIn('id', $sectionsIds);
+            }])
+            ->get();
+        return view('Data.quizzes.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(QuizTeacherRequest $request)
     {
-        //
+        $quiz = Quiz::findOrFail($request->id);
+        $quiz->name = ['ar' => $request->name_ar, 'en' => $request->name_en];
+        $quiz->subject_id = $request->subject_id;
+        $quiz->teacher_id = auth()->guard('teacher')->user()->id;
+        $quiz->grade_id = $request->grade_id;
+        $quiz->classroom_id = $request->classroom_id;
+        $quiz->section_id = $request->section_id;
+        $quiz->save();
+
+        toastr()->success(trans('Students_trans.Quiz Are updated Successfully'));
+        return redirect()->route('quizz.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $teacher = auth()->guard('teacher')->user();
+        Quiz::where('id', $request->id)->where('teacher_id', $teacher->id)->delete();
+        toastr()->success(trans('Students_trans.Quiz Are deleted Successfully'));
+        return redirect()->route('quizz.index');
     }
-public function get_classes_for_grade($grade_id)
-{
-    $teacher = Auth::guard('teacher')->user();
-    $sectionsIds = $teacher->Sections()->pluck('section_id');
 
-    $classes = Section::whereIn('id',$sectionsIds)->where('Grade_id',$grade_id)->pluck('Class_id');
-    // $class = $classes->Classes->name;
-    $classrooms = Classroom::whereIn('id', $classes)
-        ->pluck('name','id');
+    public function get_classes_for_grade($grade_id)
+    {
+        $teacher = Auth::guard('teacher')->user();
+        $sectionsIds = $teacher->Sections()->pluck('section_id');
 
-    return response()->json($classrooms);
-}
+        $classes = Section::whereIn('id', $sectionsIds)->where('Grade_id', $grade_id)->pluck('Class_id');
+        // $class = $classes->Classes->name;
+        $classrooms = Classroom::whereIn('id', $classes)
+            ->pluck('name', 'id');
+
+        return response()->json($classrooms);
+    }
 
     // $teacher = Auth::guard('teacher')->user();
     // $sectionIds = $teacher->Sections()->pluck('section_id')->toArray();
@@ -118,14 +136,13 @@ public function get_classes_for_grade($grade_id)
     // $classrooms = Classroom::whereIn('id', $classroomIds)
     //     ->pluck('name', 'id');
     // return response()->json($classrooms);
-   
-    
-// }
 
-public function get_sections_for_grade($classroom_id)
-{
-    $section = Section::where('Class_id',$classroom_id)->pluck('section_name','id');
-    return response()->json($section);
 
-}
+    // }
+
+    public function get_sections_for_grade($classroom_id)
+    {
+        $section = Section::where('Class_id', $classroom_id)->pluck('section_name', 'id');
+        return response()->json($section);
+    }
 }

@@ -330,6 +330,26 @@ return [
     'must_contain_arabic' => 'حقل :attribute يجب أن يحتوي على أحرف عربية.',
     'no_english_allowed' => 'حقل :attribute لا يجب أن يحتوي على أحرف إنجليزية.',
     'invalid_characters' => 'حقل :attribute يحتوي على رموز غير مسموحة.',
-    'success_quizz'=>'تم إضافة الامتحان بنجاح'
+    'success_quizz'=>'تم إضافة الامتحان بنجاح',
+    'name_ar_required' => 'اسم السؤال بالعربية مطلوب.',
+    'name_en_required' => 'اسم السؤال بالإنجليزية مطلوب.',
+    'answer_ar_required' => 'الإجابة بالعربية مطلوبة.',
+    'answer_en_required' => 'الإجابة بالإنجليزية مطلوبة.',
+    'right_answer_ar_required' => 'الإجابة الصحيحة بالعربية مطلوبة.',
+    'right_answer_en_required' => 'الإجابة الصحيحة بالإنجليزية مطلوبة.',
+    'degree_required' => 'الدرجة مطلوبة.',
+    'degree_numeric' => 'يجب أن تكون الدرجة رقمًا.',
+    'quiz_id_required' => 'يجب اختيار الاختبار.',
+    
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
+    'question_sections'=>'',
 
 ];

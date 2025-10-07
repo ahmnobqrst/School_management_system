@@ -27,6 +27,8 @@ use App\Interface\LiberaryInterface;
 use App\Repository\LiberaryRepository;
 use App\Interface\SettingInterface;
 use App\Repository\SettingRepository;
+use App\Interface\TeacherQuestionRepositoryInterface;
+use App\Repository\TeacherQuestionRepository;
 
 class FeesProvider extends ServiceProvider
 {
@@ -47,6 +49,7 @@ class FeesProvider extends ServiceProvider
         $this->app->bind(OnlineClasses::class, OnlineClassesRepository::class);
         $this->app->bind(LiberaryInterface::class, LiberaryRepository::class);
         $this->app->bind(SettingInterface::class, SettingRepository::class);
+        $this->app->bind(TeacherQuestionRepositoryInterface::class, TeacherQuestionRepository::class);
     }
 
     /**

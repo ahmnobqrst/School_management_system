@@ -1,5 +1,11 @@
 @extends('Dashboard.layouts.master')
 @section('css')
+<style>
+    .name_quiz{
+        color:blue;
+        font-size: 20px;
+    }
+</style>
 @toastr_css
 @section('title')
 {{trans('sidebar_trans.Exam_list')}}
@@ -85,7 +91,7 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p> {{trans('Students_trans.Deleted_quiz_tilte')}} {{$quizze->name}}</p>
+                                                                <p> {{trans('Students_trans.Deleted_quiz_tilte')}} <span class="name_quiz">{{$quizze->name}}<span></p>
                                                                 <input type="hidden" name="id" value="{{$quizze->id}}">
                                                             </div>
                                                             <div class="modal-footer">

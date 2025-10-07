@@ -176,9 +176,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="questions" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('questions.create')}}">{{trans('sidebar_trans.create_question')}}</a>
-                            </li>
-                            <li> <a href="{{route('questions.index')}}">{{trans('sidebar_trans.question')}}</a> </li>
+                            <li> <a href="{{route('question_section')}}">{{trans('sidebar_trans.question')}}</a> </li>
                         </ul>
                     </li>
                     <li>
