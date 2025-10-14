@@ -15,11 +15,13 @@ use App\Models\Section;
 use App\Models\Classroom;
 use App\Models\Attendence;
 use Illuminate\Http\Request;
+use App\Http\Requests\TeacherQuestionRequest;
 use Carbon\Carbon;
+use App\Traits\ZoomTraitIntegration;
 
 class TeacherController extends Controller
 {
-
+  use ZoomTraitIntegration;
     protected $Teacher;
     public function __construct(TeacherRepositoryInterface $Teacher)
     {
@@ -77,16 +79,14 @@ class TeacherController extends Controller
     }
     public function getteacherstds()
     {
-        $teacher         = Teacher::findOrFail(auth()->user()->id);
-        $section         = $teacher->Sections()->pluck('section_id');
+        $section = $this->getSections();
         $students   = Student::whereIn('section_id', $section)->get();
 
         return view('Data.allstudents', compact('students'));
     }
     public function getteacherclasses()
     {
-        $teacher         = Teacher::findOrFail(auth()->user()->id);
-        $section         = $teacher->Sections()->pluck('section_id');
+        $section = $this->getSections();
         $classrooms = Classroom::whereIn('id', $section)->get();
 
 
@@ -94,16 +94,7 @@ class TeacherController extends Controller
     }
     public function getgrade()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            // ->with(['Sections' => function ($q) use ($sectionsIds) {
-            //     $q->whereIn('id', $sectionsIds);
-            // }])
-            ->firstOrFail();
-
+        $grade = $this->getteachersection();
         return view('Data.grade', compact('grade'));
     }
     public function getsubject()
@@ -112,25 +103,15 @@ class TeacherController extends Controller
         $subject = Subject::where('teacher_id', $teacher->id)->firstOrFail();
         return view('Data.subject', compact('subject'));
     }
-    public function getteachersections()
+    public function sections()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grades = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
-
-        return view('Data.allsections', compact('grades'));
+       $grades = $this->getteachersections();
+       return view('Data.allsections', compact('grades'));
     }
 
     public function getalldatastudent($id)
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sections = $teacher->Sections()->pluck('section_id');
+        $sections = $this->getSections();
         $Student = Student::where('id', $id)
             ->whereIn('section_id', $sections)
             ->firstOrFail();
@@ -140,15 +121,7 @@ class TeacherController extends Controller
 
     public function attendence()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
+        $grade = $this->getteachersections();
         // $students = Student::whereIn('section_id', $sectionsIds)->get();
         return view('Data.attendence.index', compact('grade'));
     }
@@ -268,15 +241,7 @@ class TeacherController extends Controller
 
     public function attendence_report()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
+        $grade = $this->getteachersections();
 
         return view('Data.attendence.reports.attendence_report', compact('grade'));
     }
@@ -301,15 +266,7 @@ class TeacherController extends Controller
 
     public function question_section_report()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
+        $grade = $this->getteachersections();
 
         return view('Data.question.question_sections', compact('grade'));
     }
@@ -322,24 +279,64 @@ class TeacherController extends Controller
         if (!$section) {
             return view('Data.question.index', ['questions' => collect()]);
         }
+
         $quizsection = Quiz::where('section_id', $section->id)->first();
 
         if (!$quizsection) {
-            return view('Data.question.index', ['questions' => collect()]);
+            return view('Data.question.index', ['questions' => collect(),'sectionId'=>$sectionId]);
         }
 
         $questions = Question::where('quiz_id', $quizsection->id)->get();
 
-        return view('Data.question.index', compact('questions','section'));
+        return view('Data.question.index', compact('questions','sectionId'));
     }
 
     public function create_question_for_section($sectionId)
     {
-        if($sectionId)
-        {
-            dd($sectionId);
-        }else{
-            dd("jjjjjjjj");
-        }
+       $quizzes = Quiz::where('section_id',$sectionId)->get();
+       return view('Data.question.create', compact('quizzes','sectionId'));
+    }
+
+    public function store_question_for_section(TeacherQuestionRequest $request,$sectionId)
+    {
+        $question = Question::create([
+         'title'=>['ar'=>$request->name_ar,'en'=>$request->name_en],
+         'answer'=>['ar'=>$request->answer_ar,'en'=>$request->answer_en],
+         'right_answer'=>['ar'=>$request->right_answer_ar,'en'=>$request->right_answer_en],
+         'degree'=>$request->degree,
+         'quiz_id'=>$request->quiz_id
+      ]);
+
+      toastr()->success(trans('Students_trans.Question_stored'));
+      return redirect()->route('questions',compact('sectionId'));
+    }
+
+    public function edit_question($question)
+    {
+       $question = Question::findOrFail($question);
+    //    $quizzes = Quiz::all();
+       $quizzes = $question->quizz->get();
+       return view('Data.question.edit', compact('question','quizzes'));
+    }
+    public function update_question(TeacherQuestionRequest $request,$question)
+    {
+       $question = Question::findOrFail($question);
+    //    dd($question->quizz->id);
+        $question->title = ['ar'=>$request->name_ar,'en'=>$request->name_en];
+         $question->answer = ['ar'=>$request->answer_ar,'en'=>$request->answer_en];
+         $question->right_answer=['ar'=>$request->right_answer_ar,'en'=>$request->right_answer_en];
+         $question->degree=$request->degree;
+         $question->quiz_id=$request->quiz_id;
+         $question->save();
+
+       toastr()->success(trans('Students_trans.Question_updated'));
+       return redirect()->route('question_section');
+    }
+    public function delete_question(Request $request,$sectionId)
+    {
+        // dd($sectionId);
+       Question::where('id',$request->id)->delete();
+       toastr()->success(trans('Students_trans.Question_deleted'));
+       return redirect()->route('questions',compact('sectionId'));
     }
 }

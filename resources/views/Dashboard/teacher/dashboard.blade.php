@@ -108,7 +108,7 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-binoculars mr-1"></i>
-                                <a href="{{ route('getsections') }}" target="_blank"
+                                <a href="{{ route('getsectionss') }}" target="_blank"
                                     class="text-danger">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>

@@ -13,12 +13,11 @@ use App\Models\Classroom;
 use App\Http\Requests\QuizTeacherRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\ZoomTraitIntegration;
 
 class TeacherQuizController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use ZoomTraitIntegration;
     public function index()
     {
         $quizzes = Quiz::where('teacher_id', Auth::guard('teacher')->user()->id)->get();
@@ -32,16 +31,8 @@ class TeacherQuizController extends Controller
     {
         $teacher = Auth::guard('teacher')->user();
         $data['subject'] = Subject::where('teacher_id', $teacher->id)->firstOrFail();
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $data['grades'] = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
-
-
+        $data['grades'] = $this->getteachersections();
+    
         return view('Data.quizzes.create', $data);
     }
 
@@ -74,16 +65,10 @@ class TeacherQuizController extends Controller
 
     public function edit($id)
     {
-        $sectionsIds = auth()->guard('teacher')->user()->Sections()->pluck('section_id');
+        // $sectionsIds = auth()->guard('teacher')->user()->Sections()->pluck('section_id');
         $data['quizz'] = Quiz::where('teacher_id', auth()->guard('teacher')->user()->id)->findOrFail($id);
         $data['subject'] = Subject::where('teacher_id', auth()->guard('teacher')->user()->id)->firstOrFail();
-        $data['grades'] =  Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
+        $data['grades'] =  $this->getteachersections();
         return view('Data.quizzes.edit', $data);
     }
 
@@ -115,8 +100,10 @@ class TeacherQuizController extends Controller
 
     public function get_classes_for_grade($grade_id)
     {
-        $teacher = Auth::guard('teacher')->user();
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
+        // $teacher = Auth::guard('teacher')->user();
+        // $sectionsIds = $teacher->Sections()->pluck('section_id');
+
+        $sectionsIds = $this->getSections();
 
         $classes = Section::whereIn('id', $sectionsIds)->where('Grade_id', $grade_id)->pluck('Class_id');
         // $class = $classes->Classes->name;

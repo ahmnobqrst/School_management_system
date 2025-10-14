@@ -21,7 +21,7 @@
         </div>
         <div class="col-sm-12">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-                <li class="breadcrumb-item"><a href="{{route('teachers.index')}}"
+                <li class="breadcrumb-item"><a href="{{route('teacher.dashboard')}}"
                         class="default-color">{{trans('Students_trans.Home')}}</a></li>
                 <li class="breadcrumb-item active">{{trans('teacher_trans.teacher_list')}}</li>
             </ol>
@@ -91,7 +91,8 @@
                                                                 {{csrf_field()}}
                                                                 <h5 style="font-family: 'Cairo', sans-serif;"
                                                                     class="modal-title" id="exampleModalLabel">
-                                                                    {{ trans('teacher_trans.Delete_Teacher') }}</h5>
+                                                                    {{ trans('teacher_trans.Delete_Teacher') }}
+                                                                </h5>
                                                                 <div class="form-group">
                                                                     <p>{{trans('teacher_trans.sure delete')}}</p>
                                                                     @csrf
@@ -119,6 +120,9 @@
 
                                         @endforeach
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $teachers->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

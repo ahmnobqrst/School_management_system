@@ -33,8 +33,8 @@
             <div class="card-body">
                 <div class="col-xl-12 mb-30">
                     <div class="card card-statistics h-100">
-                        <div class="card-body">     
-                            <a href="{{route('questionsss.create',['sectionId'=>$section->id])}}" class="btn btn-success btn-sm" role="button"
+                        <div class="card-body">   
+                            <a href="{{route('questionsss.create',$sectionId)}}" class="btn btn-success btn-sm" role="button"
                                 aria-pressed="true">{{trans('sidebar_trans.create_question')}}</a><br><br>
                             <div class="table-responsive">
                                 @if($questions->count() > 0)
@@ -63,7 +63,7 @@
                                             <td>{{$question->quizz->name}}</td>
 
                                             <td>
-                                                <a href="{{route('questions.edit',$question->id)}}"
+                                                <a href="{{route('question.edit',$question->id)}}"
                                                     class="btn btn-info btn-sm" role="button" aria-pressed="true"><i
                                                         class="fa fa-edit"></i></a>
                                                 <button type="button" class="btn btn-danger btn-sm"
@@ -76,7 +76,7 @@
                                         <div class="modal fade" id="delete_exam{{$question->id}}" tabindex="-1"
                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
-                                                <form action="{{route('questions.destroy','test')}}" method="post">
+                                                <form action="{{route('question.destroy',$sectionId)}}" method="post">
                                                     {{method_field('delete')}}
                                                     {{csrf_field()}}
                                                     <div class="modal-content">
@@ -89,7 +89,7 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p> {{trans('Students_trans.Deleted_question_tilte')}} {{$question->title}}</p>
+                                                            <p> {{trans('Students_trans.Deleted_question_tilte')}} <span style="font-size:25px;color:blue">{{$question->title}}<span></p>
                                                             <input type="hidden" name="id" value="{{$question->id}}">
                                                         </div>
                                                         <div class="modal-footer">

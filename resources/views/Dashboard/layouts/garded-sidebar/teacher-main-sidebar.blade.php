@@ -6,7 +6,7 @@
                 <ul class="nav navbar-nav side-menu" id="sidebarnav">
                     <!-- menu item Elements-->
                     <li>
-                        <a href="{{ url('/dashboard') }}">
+                        <a href="{{ route('teacher.dashboard') }}">
                             <div class="pull-left"><i class="ti-home"></i><span
                                     class="right-nav-text">{{trans('Students_trans.Dashboard_teacher')}}</span>
                             </div>
@@ -46,7 +46,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="section-menu" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('getsections')}}">{{trans('sidebar_trans.Section')}}</a> </li>
+                            <li> <a href="{{route('getsectionss')}}">{{trans('sidebar_trans.Section')}}</a> </li>
                         </ul>
                     </li>
 
@@ -115,7 +115,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="font-icon" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('add_parent')}}">{{trans('sidebar_trans.Parent_list')}}</a> </li>
+                            <li> <a href="{{route('get_student_parent')}}">{{trans('sidebar_trans.Parent_list')}}</a> </li>
                         </ul>
                     </li>
 
@@ -186,7 +186,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error" class="collapse">
-                            <li> <a href="{{route('online_classes.index')}}">{{trans('sidebar_trans.lecture')}}</a>
+                            <li> <a href="{{route('classes.index')}}">{{trans('sidebar_trans.lecture')}}</a>
                             </li>
                         </ul>
                     </li>
@@ -198,7 +198,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="liberaries" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('liberary.index')}}">{{trans('sidebar_trans.Liberary_book')}}</a>
+                            <li> <a href="{{route('lib.index')}}">{{trans('sidebar_trans.Liberary_book')}}</a>
                             </li>
                             <!-- <li> <a href="{{route('questions.index')}}">{{trans('sidebar_trans.question')}}</a> </li> -->
                         </ul>

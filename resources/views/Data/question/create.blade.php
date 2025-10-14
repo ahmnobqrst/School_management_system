@@ -44,11 +44,10 @@
                 <div class="col-xs-12">
                     <div class="col-md-12">
                         <br>
-                        <form action="{{route('question.store')}}" method="post" autocomplete="off">
+                        <form action="{{route('questionsss.store',$sectionId)}}" method="post" autocomplete="off">
                             @csrf
 
                             <div class="form-row">
-
                                 <div class="col">
                                     <label for="title">{{__('Students_trans.question_name_ar')}}</label>
                                     <input type="text" name="name_ar" class="form-control">

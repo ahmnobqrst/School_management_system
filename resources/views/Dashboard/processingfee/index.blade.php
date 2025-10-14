@@ -101,6 +101,9 @@
 
                                         @endforeach
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $ProcessingFees->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

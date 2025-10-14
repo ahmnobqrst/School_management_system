@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use MacsiDigital\Zoom\Facades\Zoom;
 use Carbon\Carbon;
+use App\Models\{Teacher,Grade};
 
 trait ZoomTraitIntegration 
 {
@@ -53,5 +54,42 @@ trait ZoomTraitIntegration
             \Log::error('Stack trace: ' . $e->getTraceAsString());
             throw $e;
         }
+    }
+
+    public function getteachersections()
+    {
+        $teacher = Teacher::findOrFail(auth()->user()->id);
+        $sectionsIds = $teacher->Sections()->pluck('section_id');
+        $grades = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
+            $q->whereIn('id', $sectionsIds);
+        })
+            ->with(['Sections' => function ($q) use ($sectionsIds) {
+                $q->whereIn('id', $sectionsIds);
+            }])
+            ->get();
+
+        return $grades;
+    }
+    public function getteachersection()
+    {
+        $teacher = Teacher::findOrFail(auth()->user()->id);
+        $sectionsIds = $teacher->Sections()->pluck('section_id');
+        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
+            $q->whereIn('id', $sectionsIds);
+        })
+            ->with(['Sections' => function ($q) use ($sectionsIds) {
+                $q->whereIn('id', $sectionsIds);
+            }])
+            ->firstOrFail();
+
+        return $grade;
+    }
+
+    public function getSections()
+    {
+         $teacher = Teacher::findOrFail(auth()->user()->id);
+         $sections = $teacher->Sections()->pluck('section_id');
+
+         return $sections;
     }
 }

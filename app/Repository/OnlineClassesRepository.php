@@ -6,9 +6,9 @@ use App\Models\Online_Class;
 use App\Models\Grade;
 use App\Traits\ZoomTraitIntegration;
 use MacsiDigital\Zoom\Facades\Zoom;
-
 use Hash;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OnlineClassesRepository implements OnlineClasses
 {
@@ -29,7 +29,7 @@ public function store($request)
         $meetingPassword = str_pad(rand(100000, 999999), 6, '0', STR_PAD_LEFT);
         $request->merge(['password' => $meetingPassword]);
         
-        \Log::info('Creating Zoom meeting with data: ' . json_encode($request->all()));
+        Log::info('Creating Zoom meeting with data: ' . json_encode($request->all()));
         
         $meeting = $this->CreateMeeting($request);
 
@@ -37,7 +37,7 @@ public function store($request)
             throw new \Exception('Failed to create Zoom meeting - no meeting object returned');
         }
         
-        \Log::info('Meeting object: ' . json_encode($meeting));
+        Log::info('Meeting object: ' . json_encode($meeting));
         
         $onlineClass = Online_Class::create([
             'grade_id' => $request->grade_id,
@@ -62,8 +62,8 @@ public function store($request)
     } catch (\Exception $e) {
         DB::rollback();
         
-        \Log::error('Online class creation failed: ' . $e->getMessage());
-        \Log::error('Request data: ' . json_encode($request->all()));
+        Log::error('Online class creation failed: ' . $e->getMessage());
+        Log::error('Request data: ' . json_encode($request->all()));
         
         return redirect()->back()
                ->withInput()
@@ -99,8 +99,8 @@ public function Store_offline_class($request)
     } catch (\Exception $e) {
         DB::rollback();
         
-        \Log::error('Online class creation failed: ' . $e->getMessage());
-        \Log::error('Request data: ' . json_encode($request->all()));
+        Log::error('Online class creation failed: ' . $e->getMessage());
+        Log::error('Request data: ' . json_encode($request->all()));
         
         return redirect()->back()
                ->withInput()

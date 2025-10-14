@@ -1,5 +1,6 @@
+@if(!Auth('teacher')->check())
 <button class="btn btn-success btn-sm btn-lg pull-right" wire:click="formaddparent" type="button">{{ trans('Parent_trans.Add_parent') }}</button><br><br>
-
+@endif
 <div class="table-responsive">
 
 
@@ -36,6 +37,9 @@
         @endforeach
 </tbody>
 </table>
+<div class="mt-3 d-flex justify-content-center">
+                    {{ $my_parents->links() }}
+                </div>
 </div>
 
    

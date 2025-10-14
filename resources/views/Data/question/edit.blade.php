@@ -44,7 +44,7 @@
                 <div class="col-xs-12">
                     <div class="col-md-12">
                         <br>
-                        <form action="{{route('questions.update',$question->id)}}" method="Post" autocomplete="off">
+                        <form action="{{route('question.update',$question->id)}}" method="Post" autocomplete="off">
                             @csrf
                             @method('PUT')
                             <div class="form-row">

@@ -2,7 +2,8 @@
 @section('css')
 
 @section('title')
-{{trans('sidebar_trans.Add_Parent')}}
+
+{{trans('sidebar_trans.Parent_list')}}
 @stop
 @endsection
 @section('page-header')
@@ -10,12 +11,12 @@
 <div class="page-title">
     <div class="row">
         <div class="col-sm-6">
-            <h4 class="mb-0">{{trans('sidebar_trans.Add_Parent')}}</h4>
+            <h4 class="mb-0">{{trans('sidebar_trans.Parent_list')}}</h4>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
                 <li class="breadcrumb-item"><a href="#" class="default-color">Home</a></li>
-                 <li class="breadcrumb-item active">{{trans('sidebar_trans.Add_Parent')}}</li>
+                 <li class="breadcrumb-item active">{{trans('sidebar_trans.Parent_list')}}</li>
             </ol>
         </div>
     </div>
@@ -28,7 +29,7 @@
     <div class="col-md-12 mb-30">
         <div class="card card-statistics h-100">
             <div class="card-body">
-          @livewire('add_parent')
+          @livewire('get-parent')
             </div>
         </div>
     </div>

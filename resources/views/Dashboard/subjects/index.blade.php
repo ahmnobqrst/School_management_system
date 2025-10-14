@@ -79,7 +79,8 @@
                                                         <div class="modal-header">
                                                             <h5 style="font-family: 'Cairo', sans-serif;"
                                                                 class="modal-title" id="exampleModalLabel">
-                                                                {{trans('Students_trans.Delete_subject')}}</h5>
+                                                                {{trans('Students_trans.Delete_subject')}}
+                                                            </h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -106,6 +107,9 @@
                                         </div>
                                         @endforeach
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $subjects->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
