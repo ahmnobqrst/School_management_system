@@ -77,7 +77,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="grade_id">{{trans('Students_trans.Grade')}} : <span class="text-danger">*</span></label>
-                                        <select class="custom-select mr-sm-2" name="grade_id">
+                                        <select class="custom-select mr-sm-2" name="grad_id">
                                             @foreach($grades as $grade)
                                             <option value="{{ $grade->id }}" {{$grade->id == $quizz->grade_id ? "selected":""}}>{{ $grade->name }}</option>
                                             <option value="{{ $grade->id }}" {{$grade->id == $quizz->grade_id ? "selected":""}}>{{ $grade->name }}</option>
@@ -92,7 +92,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="classroom_id">{{trans('Students_trans.classrooms')}} : <span class="text-danger">*</span></label>
-                                        <select class="custom-select mr-sm-2" name="classroom_id">
+                                        <select class="custom-select mr-sm-2" name="class_id">
                                             <option value="{{$quizz->classroom_id}}">{{$quizz->classroom->name}}</option>
                                         </select>
                                     </div>
@@ -104,7 +104,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="section_id">{{trans('Students_trans.section')}} : </label>
-                                        <select class="custom-select mr-sm-2" name="section_id">
+                                        <select class="custom-select mr-sm-2" name="sect_id">
                                             <option value="{{$quizz->section_id}}">{{$quizz->section->section_name}}</option>
                                         </select>
                                     </div>
@@ -126,48 +126,5 @@
 @section('js')
 @toastr_js
 @toastr_render
-<script>
-    $(document).ready(function() {
-        $('select[name="grade_id"]').on('change', function() {
-            var Grade_id = $(this).val();
-            if (Grade_id) {
-                $.ajax({
-                    url: "{{ URL::to('teacher/dashboard/classes_for_grade') }}/" + Grade_id,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $('select[name="classroom_id"]').empty();
-                        $.each(data, function(key, value) {
-                            $('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
-                        });
-                    },
-                });
-            } else {
-                console.log('AJAX load did not work');
-            }
-        });
-    });
 
-    $('select[name="classroom_id"]').on('change', function() {
-        var Classroom_id = $(this).val();
-        if (Classroom_id) {
-            $.ajax({
-                url: "{{ URL::to('teacher/dashboard/sections_for_grade') }}/" + Classroom_id,
-                type: "GET",
-                dataType: "json",
-                success: function(data) {
-                    $('select[name="section_id"]').empty();
-                    // $('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
-                    $('select[name="section_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
-                    $.each(data, function(key, value) {
-                        $('select[name="section_id"]').append('<option value="' + key + '">' +
-                            value + '</option>');
-                    });
-                },
-            });
-        } else {
-            console.log('AJAX load did not work');
-        }
-    });
-</script>
 @endsection

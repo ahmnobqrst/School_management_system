@@ -1,5 +1,6 @@
 @extends('Dashboard.layouts.master')
 @section('css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
     .name_quiz{
         color:blue;
@@ -72,6 +73,8 @@
                                                             data-toggle="modal"
                                                             data-target="#delete_exam{{ $quizze->id }}"><i
                                                             class="fa fa-trash"></i></button>
+                                                    <a href="{{route('questions',$quizze->section->id)}}"
+                                                       class="btn btn-info btn-sm" role="button" aria-pressed="true"><i style="color: #ffc107" class="fa fa-eye"></i>&nbsp;{{trans('sidebar_trans.question_sections_show')}}</a>
                                                 </td>
                                             </tr>
 

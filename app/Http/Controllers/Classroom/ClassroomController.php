@@ -23,7 +23,7 @@ class ClassroomController extends Controller
   public function index()
   {
     $myclass = Classroom::all();
-    $grades = Grade::all();
+    $grades = Grade::paginate(10);
     return view('Dashboard.classroom.index',compact('myclass','grades'));
   }
 

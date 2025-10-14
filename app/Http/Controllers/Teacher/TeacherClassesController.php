@@ -49,9 +49,9 @@ class TeacherClassesController extends Controller
             }
 
             $onlineClass = Online_Class::create([
-                'grade_id' => $request->grade_id,
-                'classroom_id' => $request->classroom_id,
-                'section_id' => $request->section_id,
+                'grade_id' => $request->grad_id,
+                'classroom_id' => $request->class_id,
+                'section_id' => $request->sect_id,
                 'user_id' => auth()->guard('teacher')->user()->id,
                 'meeting_id' => $meeting->id,
                 'topic' => ['ar' => $request->topic_ar, 'en' => $request->topic_en],
@@ -82,9 +82,9 @@ class TeacherClassesController extends Controller
 
         try {
             $onlineClass = Online_Class::create([
-                'grade_id' => $request->grade_id,
-                'classroom_id' => $request->classroom_id,
-                'section_id' => $request->section_id,
+                'grade_id' => $request->grad_id,
+                'classroom_id' => $request->class_id,
+                'section_id' => $request->sect_id,
                 'user_id' => auth()->guard('teacher')->user()->id,
                 'meeting_id' => $request->meeting_id,
                 'topic' => ['ar' => $request->topic_ar, 'en' => $request->topic_en],

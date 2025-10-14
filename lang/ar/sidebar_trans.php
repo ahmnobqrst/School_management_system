@@ -76,7 +76,7 @@ return [
     'choose_end_data'=>'اختر تاريخ النهاية',
     'question_sections'=>'تقريرالامتحانات للفصول الدراسية',
     'question_sections_report'=>'تقرير الاسئلة',
-    'Liberary_book'=>'الكتب',
+    'question_sections_show'=>'عرض الاسئلة',
     'Liberary_book'=>'الكتب',
     'Liberary_book'=>'الكتب',
     'Liberary_book'=>'الكتب',

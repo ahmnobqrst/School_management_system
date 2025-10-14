@@ -99,6 +99,54 @@ $('select[name="Classroom_id_new"]').on('change', function () {
     }
 });
 
+$(document).ready(function() {
+    $('select[name="grad_id"]').on('change', function() {
+        var Grade_id = $(this).val();
+        if (Grade_id) {
+            $.ajax({
+                url: "{{ URL::to('teacher/dashboard/classes_for_grade') }}/" + Grade_id,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $('select[name="class_id"]').empty();
+                    $('select[name="class_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
+                    $.each(data, function(key, value) {
+                        $('select[name="class_id"]').append('<option value="' +
+                            key + '">' + value + '</option>');
+                            console.log("this is id For Classroom : ",key);
+                    });
+                },
+            });
+            
+        } else {
+            console.log('AJAX load did not work');
+        }
+    });
+});
+
+$('select[name="class_id"]').on('change', function() {
+    var Classroom_id = $(this).val();
+    if (Classroom_id) {
+        $.ajax({
+            url: "{{ URL::to('teacher/dashboard/sections_for_grade') }}/" + Classroom_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('select[name="sect_id"]').empty();
+                // $('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
+                $('select[name="sect_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
+                $.each(data, function(key, value) {
+                    $('select[name="sect_id"]').append('<option value="' + key + '">' +
+                        value + '</option>');
+                });
+            },
+        });
+    } else {
+        console.log('AJAX load did not work');
+    }
+});
+
+
 
 
 

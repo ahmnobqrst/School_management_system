@@ -77,7 +77,7 @@ return [
     'choose_end_data'=>'Choose End Date',
     'question_sections'=>'Questions For All Sections',
     'question_sections_report'=>'Questions',
-    'Liberary_book'=>'Books',
+    'question_sections_show'=>'Show Question',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',

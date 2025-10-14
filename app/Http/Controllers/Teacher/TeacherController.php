@@ -191,9 +191,9 @@ class TeacherController extends Controller
                         'attendence_date' => $attenddate,
                     ],
                     [
-                        'grade_id'          => $request->grade_id,
-                        'classroom_id'      => $request->classroom_id,
-                        'section_id'        => $request->section_id,
+                        'grade_id'          => $request->grad_id,
+                        'classroom_id'      => $request->class_id,
+                        'section_id'        => $request->sect_id,
                         'teacher_id'        => 1,
                         'attendence_status' => $attendence_status,
                     ]
@@ -201,7 +201,7 @@ class TeacherController extends Controller
             }
 
             toastr()->success(trans('Students_trans.success_attendence'));
-            return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
+            return redirect()->route('registerattendence.show', ['sectionId' => $request->sect_id]);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }

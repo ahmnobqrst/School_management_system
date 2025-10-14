@@ -26,9 +26,9 @@ class QuizTeacherRequest extends FormRequest
         return [
             'name_ar'=>['required','string', new PublicArabicName],
             'name_en'=>['required','string', new PublicEnglishName],
-            'grade_id'=>['required'],
-            'classroom_id'=>['required'],
-            'section_id'=>['required'],
+            'grad_id'=>['required'],
+            'class_id'=>['required'],
+            'sect_id'=>['required'],
         ];
     }
 }

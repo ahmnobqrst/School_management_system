@@ -5,7 +5,7 @@ namespace App\Http\Controllers\teacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Liberary;
-use App\Http\Requests\LiberaryRequest;
+use App\Http\Requests\LibTeacherRequest;
 use App\Traits\{ZoomTraitIntegration, studentimagetrait};
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +28,7 @@ class LiberaryTeacher extends Controller
         return view('Data.liberary.add', compact('grades'));
     }
 
-    public function store(LiberaryRequest $request)
+    public function store(LibTeacherRequest $request)
     {
         try {
 
@@ -43,9 +43,9 @@ class LiberaryTeacher extends Controller
                 Liberary::create([
                     'title' => ['ar' => $request->title_ar, 'en' => $request->title_en],
                     'file_name' => $this->uploadImageimage($file, 'Books'),
-                    'grade_id' => $request->grade_id,
-                    'classroom_id' => $request->classroom_id,
-                    'section_id' => $request->section_id,
+                    'grade_id' => $request->grad_id,
+                    'classroom_id' => $request->class_id,
+                    'section_id' => $request->sect_id,
                     'teacher_id' => auth()->user()->id,
                 ]);
             }
@@ -69,7 +69,7 @@ class LiberaryTeacher extends Controller
         return view('Data.liberary.edit', compact('book', 'grades'));
     }
 
-    public function update(LiberaryRequest $request)
+    public function update(LibTeacherRequest $request)
     {
         try {
             $liberary = Liberary::where('teacher_id', auth()->user()->id)->findOrFail($request->id);
@@ -87,9 +87,9 @@ class LiberaryTeacher extends Controller
                     $new_file = $this->uploadImageimage($file, 'Books');
                     $liberary->title = ['ar' => $request->title_ar, 'en' => $request->title_en];
                     $liberary->file_name =  $new_file;
-                    $liberary->grade_id = $request->grade_id;
-                    $liberary->classroom_id = $request->classroom_id;
-                    $liberary->section_id = $request->section_id;
+                    $liberary->grade_id = $request->grad_id;
+                    $liberary->classroom_id = $request->class_id;
+                    $liberary->section_id = $request->sect_id;
                     $liberary->teacher_id = auth()->user()->id;
 
                     $liberary->save();

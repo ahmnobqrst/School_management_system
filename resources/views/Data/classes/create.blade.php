@@ -40,14 +40,14 @@
                             <div class="form-group">
                                 <label for="Grade_id">{{ trans('Students_trans.Grade') }} : <span
                                         class="text-danger">*</span></label>
-                                <select class="custom-select mr-sm-2" name="grade_id">
+                                <select class="custom-select mr-sm-2" name="grad_id">
                                     <option selected disabled>{{ trans('Parent_trans.Choose') }}...</option>
                                     @foreach ($grades as $grade)
                                     <option value="{{ $grade->id }}">{{ $grade->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            @error('grade_id')
+                            @error('grad_id')
                               <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                             @enderror 
                         </div>
@@ -56,24 +56,24 @@
                             <div class="form-group">
                                 <label for="classroom_id">{{trans('Students_trans.classrooms')}} : <span
                                         class="text-danger">*</span></label>
-                                <select class="custom-select mr-sm-2" name="classroom_id">
+                                <select class="custom-select mr-sm-2" name="class_id">
 
                                 </select>
                             </div>
                         </div>
-                        @error('classroom_id')
+                        @error('class_id')
                              <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                         @enderror 
 
                         <div class="col">
                             <div class="form-group">
                                 <label for="section_id">{{trans('Students_trans.section')}} : </label>
-                                <select class="custom-select mr-sm-2" name="section_id">
+                                <select class="custom-select mr-sm-2" name="sect_id">
 
                                 </select>
                             </div>
                         </div>
-                        @error('section_id')
+                        @error('sect_id')
                              <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                         @enderror 
 
@@ -132,54 +132,7 @@
 <!-- row closed -->
 @endsection
 @section('js')
-<script>
-$(document).ready(function() {
-    $('select[name="grade_id"]').on('change', function() {
-        var Grade_id = $(this).val();
-        if (Grade_id) {
-            $.ajax({
-                url: "{{ URL::to('teacher/dashboard/classes_for_grade') }}/" + Grade_id,
-                type: "GET",
-                dataType: "json",
-                success: function(data) {
-                    $('select[name="classroom_id"]').empty();
-                    $('select[name="classroom_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
-                    $.each(data, function(key, value) {
-                        $('select[name="classroom_id"]').append('<option value="' +
-                            key + '">' + value + '</option>');
-                            console.log("this is id For Classroom : ",key);
-                    });
-                },
-            });
-            
-        } else {
-            console.log('AJAX load did not work');
-        }
-    });
-});
 
-$('select[name="classroom_id"]').on('change', function() {
-    var Classroom_id = $(this).val();
-    if (Classroom_id) {
-        $.ajax({
-            url: "{{ URL::to('teacher/dashboard/sections_for_grade') }}/" + Classroom_id,
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                $('select[name="section_id"]').empty();
-                // $('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
-                $('select[name="section_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
-                $.each(data, function(key, value) {
-                    $('select[name="section_id"]').append('<option value="' + key + '">' +
-                        value + '</option>');
-                });
-            },
-        });
-    } else {
-        console.log('AJAX load did not work');
-    }
-});
-</script>
 @toastr_js
 @toastr_render
 

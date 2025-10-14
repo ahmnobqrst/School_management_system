@@ -45,9 +45,9 @@ class TeacherQuizController extends Controller
             'name' => ['ar' => $request->name_ar, 'en' => $request->name_en],
             'subject_id' => $request->subject_id,
             'teacher_id' => Auth::guard('teacher')->user()->id,
-            'grade_id' => $request->grade_id,
-            'classroom_id' => $request->classroom_id,
-            'section_id' => $request->section_id,
+            'grade_id' => $request->grad_id,
+            'classroom_id' => $request->class_id,
+            'section_id' => $request->sect_id,
 
         ]);
 
@@ -78,9 +78,9 @@ class TeacherQuizController extends Controller
         $quiz->name = ['ar' => $request->name_ar, 'en' => $request->name_en];
         $quiz->subject_id = $request->subject_id;
         $quiz->teacher_id = auth()->guard('teacher')->user()->id;
-        $quiz->grade_id = $request->grade_id;
-        $quiz->classroom_id = $request->classroom_id;
-        $quiz->section_id = $request->section_id;
+        $quiz->grade_id = $request->grad_id;
+        $quiz->classroom_id = $request->class_id;
+        $quiz->section_id = $request->sect_id;
         $quiz->save();
 
         toastr()->success(trans('Students_trans.Quiz Are updated Successfully'));
