@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use App\Models\Grade;
 use App\Models\Classroom;
-use App\Models\Teacher;
+use App\Models\{Teacher,Quiz,Student};
 
 class Subject extends Model
 {
@@ -30,4 +30,12 @@ class Subject extends Model
     {
         return $this->belongsTo(Teacher::class,'teacher_id');
     }
+    public function Students(){
+        return $this->belongsToMany(Student::class,'student_subject');
+    }
+
+    // public function quizzes()
+    // {
+    //     return $this->hasMany(Quiz::class);
+    // }
 }

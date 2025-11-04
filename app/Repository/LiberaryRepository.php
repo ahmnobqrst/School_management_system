@@ -10,8 +10,7 @@ use App\Models\Teacher;
 use App\Models\Liberary;
 use App\Traits\studentimagetrait;
 use Illuminate\Support\Facades\Storage;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class LiberaryRepository implements LiberaryInterface
 {

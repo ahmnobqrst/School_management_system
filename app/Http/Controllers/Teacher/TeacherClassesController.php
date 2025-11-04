@@ -4,8 +4,8 @@ namespace App\Http\Controllers\teacher;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\{OnlineClassRequest,OfflineClassRequest};
-use App\Models\{Teacher, Grade, Online_Class};
+use App\Http\Requests\{OnlineClassTeacherRequest,OfflineClassteacherRequest};
+use App\Models\{Teacher, Grade, Online_Class,Section};
 use App\Traits\ZoomTraitIntegration;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,22 +17,22 @@ class TeacherClassesController extends Controller
 
     public function index()
     {
-        $online_classes = Online_Class::all();
+        $online_classes = Online_Class::where('created_by',auth()->user()->email)->get();
         return view('Data.classes.index', compact('online_classes'));
     }
 
     public function get_online_form()
     {
-        $grades = $this->getteachersections();
+        $grades = $this->getteachergrades();
         return view('Data.classes.create',compact('grades'));
     }
     public function get_offline_form()
     {
-        $grades = $this->getteachersections();
+        $grades = $this->getteachergrades();
        return view('Data.classes.create_offline',compact('grades'));
     }
 
-    public function online_create_class(OnlineClassRequest $request)
+    public function online_create_class(OnlineClassTeacherRequest $request)
     {
         DB::beginTransaction();
 
@@ -52,7 +52,7 @@ class TeacherClassesController extends Controller
                 'grade_id' => $request->grad_id,
                 'classroom_id' => $request->class_id,
                 'section_id' => $request->sect_id,
-                'user_id' => auth()->guard('teacher')->user()->id,
+                'created_by' => auth()->user()->email,
                 'meeting_id' => $meeting->id,
                 'topic' => ['ar' => $request->topic_ar, 'en' => $request->topic_en],
                 'start_at' => $request->start_time,
@@ -74,7 +74,7 @@ class TeacherClassesController extends Controller
                 ->withErrors(['error' => 'Failed to create online class: ' . $e->getMessage()]);
         }
     }
-    public function offline_create_class(OfflineClassRequest $request)
+    public function offline_create_class(OfflineClassteacherRequest $request)
     {
 
         
@@ -85,7 +85,7 @@ class TeacherClassesController extends Controller
                 'grade_id' => $request->grad_id,
                 'classroom_id' => $request->class_id,
                 'section_id' => $request->sect_id,
-                'user_id' => auth()->guard('teacher')->user()->id,
+                'created_by' => auth()->user()->email,
                 'meeting_id' => $request->meeting_id,
                 'topic' => ['ar' => $request->topic_ar, 'en' => $request->topic_en],
                 'start_at' => $request->start_time,
@@ -140,7 +140,9 @@ class TeacherClassesController extends Controller
 
     public function sections()
     {
-        $grades = $this->getteachersections();
-        return view('Data.allsections', compact('grades'));
+         $teacher = Teacher::with('grade')
+         ->findOrFail(auth()->user()->id);
+         $sections = $teacher->sections;
+         return view('Data.allsections', compact('teacher','sections'));
     }
 }

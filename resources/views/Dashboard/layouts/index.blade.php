@@ -10,11 +10,147 @@
     <meta name="author" content="potenzaglobalsolutions.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-
-
     @include('Dashboard.layouts.head')
     @livewireStyles
 </head>
+<style>
+    body {
+        background: #f8fafc;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    .page-title {
+        background: linear-gradient(135deg, #007bff22, #00c4ff22);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
+    }
+
+    .card {
+        border: none !important;
+        border-radius: 15px !important;
+        background: #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .highlight-icon {
+        font-size: 40px;
+        padding: 15px;
+        border-radius: 12px;
+        background: #eef6ff;
+    }
+
+    .text-success .highlight-icon {
+        background: #e7f9ee;
+        color: #28a745;
+    }
+
+    .text-warning .highlight-icon {
+        background: #fff6e0;
+        color: #f0ad4e;
+    }
+
+    .text-info .highlight-icon {
+        background: #e8f9ff;
+        color: #17a2b8;
+    }
+
+    .text-primary .highlight-icon {
+        background: #e8f0ff;
+        color: #007bff;
+    }
+
+    .table th {
+        background-color: #007bff !important;
+        color: white;
+        border: none !important;
+    }
+
+    .table td {
+        background-color: #fff !important;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f3f8ff;
+        transition: 0.3s;
+    }
+
+    h4.mb-0 {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .card-title {
+        font-weight: 600;
+        color: #222;
+    }
+
+    .text-danger {
+        color: #ff3c3c !important;
+    }
+
+    /* Animation */
+    [data-animate] {
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.6s ease;
+    }
+
+    [data-animate].visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Tabs */
+    .nav-tabs .nav-link.active {
+        background-color: #007bff !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 8px;
+    }
+
+    .nav-tabs .nav-link {
+        color: #007bff !important;
+        border-radius: 8px;
+        transition: 0.3s;
+    }
+
+    .nav-tabs .nav-link:hover {
+        background-color: #e9f3ff !important;
+    }
+
+    /* Table container */
+    .table-responsive {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    /* Animation reveal */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card[data-animate],
+    .table[data-animate] {
+        animation: fadeInUp 0.7s ease forwards;
+    }
+</style>
+
 
 <body>
 
@@ -187,6 +323,29 @@
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-binoculars mr-1" aria-hidden="true"></i>
                                 <a href="{{ route('section.index') }}" target="_blank">
+                                    <span class="text-danger">{{ __('Students_trans.Show_data') }}</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
+                    <div class="card card-statistics h-100">
+                        <div class="card-body">
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <span class="text-info">
+                                        <i class="fas fa-book highlight-icon"></i>
+                                    </span>
+                                </div>
+                                <div class="float-right text-right">
+                                    <p class="card-text text-dark">{{__('Students_trans.Subjects_count')}}</p>
+                                    <h4>{{ \App\Models\Subject::count() }}</h4>
+                                </div>
+                            </div>
+                            <p class="text-muted pt-3 mb-0 mt-2 border-top">
+                                <i class="fas fa-binoculars mr-1" aria-hidden="true"></i>
+                                <a href="{{ route('subjects.index') }}" target="_blank">
                                     <span class="text-danger">{{ __('Students_trans.Show_data') }}</span>
                                 </a>
                             </p>

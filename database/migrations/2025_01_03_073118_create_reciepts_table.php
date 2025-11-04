@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->date('date');
             $table->integer('student_id')->unsigned();
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            // $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
             $table->decimal('Debit',8,2)->nullable();
             $table->string('description');
             $table->timestamps();

@@ -86,6 +86,12 @@
                                     <td>{{ $Student->Section->section_name }}</td>
                                 </tr>
                                 <tr>
+                                    <th>{{ trans('Students_trans.subjects') }}</th>
+                                    @foreach($Student->Subjects as $subject)
+                                    <td>{{ $subject->name }}</td>
+                                    @endforeach
+                                </tr>
+                                <tr>
                                     <th>{{ trans('Students_trans.Date_of_Birth') }}</th>
                                     <td>{{ $Student->birth_of_date }}</td>
                                 </tr>

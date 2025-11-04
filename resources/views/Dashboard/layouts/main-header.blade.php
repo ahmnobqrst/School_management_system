@@ -136,7 +136,9 @@
                <li class="nav-item dropdown mr-30">
             <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button"
                 aria-haspopup="true" aria-expanded="false">
-                <img src="{{ URL::asset('assets/images/user.jpg') }}" alt="avatar">
+                <img src="{{ auth()->user()->image && file_exists(public_path('storage/'.auth()->user()->image)) 
+            ? asset('storage/'.auth()->user()->image) 
+            : asset('images/user.jpeg') }}">
 
 
             </a>
@@ -162,13 +164,15 @@
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"><i class="text-secondary ti-reload"></i>Activity</a>
-                <a class="dropdown-item" href="#"><i class="text-success ti-email"></i>Messages</a>
-                <a class="dropdown-item" href="#"><i class="text-warning ti-user"></i>Profile</a>
-                <a class="dropdown-item" href="#"><i class="text-dark ti-layers-alt"></i>Projects <span
-                        class="badge badge-info">6</span> </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#"><i class="text-info ti-settings"></i>Settings</a>
+                @if(Auth('web')->check())
+                          <a class="dropdown-item" href="{{route('admin.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                            @elseif(Auth('teacher')->check())
+                            <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                            @elseif(Auth('student')->check())
+                            <a class="dropdown-item" href="{{route('student.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                            @else
+                            <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                            @endif
                 @if(auth('student')->check())
                     <form method="GET" action="{{ route('logout','student') }}">
                         @elseif(auth('teacher')->check())

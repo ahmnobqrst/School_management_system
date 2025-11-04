@@ -4,7 +4,9 @@ namespace App\Traits;
 
 use MacsiDigital\Zoom\Facades\Zoom;
 use Carbon\Carbon;
-use App\Models\{Teacher,Grade};
+use App\Models\{Teacher,Grade,Section};
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 trait ZoomTraitIntegration 
 {
@@ -13,7 +15,7 @@ trait ZoomTraitIntegration
         try {
 
             $users = Zoom::user()->all();
-            \Log::info('Available Zoom users: ' . json_encode($users));
+            Log::info('Available Zoom users: ' . json_encode($users));
             
             $user = Zoom::user()->first();
             
@@ -45,51 +47,37 @@ trait ZoomTraitIntegration
 
             $createdMeeting = $user->meetings()->save($meeting);
             
-            \Log::info('Meeting created successfully: ' . json_encode($createdMeeting));
+            Log::info('Meeting created successfully: ' . json_encode($createdMeeting));
             
             return $createdMeeting;
             
         } catch (\Exception $e) {
-            \Log::error('Zoom meeting creation error: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Zoom meeting creation error: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
             throw $e;
         }
     }
 
-    public function getteachersections()
+    public function getteachergrades()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grades = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->get();
-
-        return $grades;
+        $teacher = Teacher::with('grade')
+        ->where('id', auth()->user()->id)
+        ->firstOrFail();
+        return collect([$teacher->grade]);
     }
-    public function getteachersection()
+    public function getteachergrade()
     {
-        $teacher = Teacher::findOrFail(auth()->user()->id);
-        $sectionsIds = $teacher->Sections()->pluck('section_id');
-        $grade = Grade::whereHas('Sections', function ($q) use ($sectionsIds) {
-            $q->whereIn('id', $sectionsIds);
-        })
-            ->with(['Sections' => function ($q) use ($sectionsIds) {
-                $q->whereIn('id', $sectionsIds);
-            }])
-            ->firstOrFail();
-
+        $grade = Teacher::with('grade')
+         ->findOrFail(auth()->user()->id);
         return $grade;
     }
 
     public function getSections()
     {
-         $teacher = Teacher::findOrFail(auth()->user()->id);
-         $sections = $teacher->Sections()->pluck('section_id');
+        $teacher = Teacher::with('Sections.Classes')
+        ->findOrFail(auth()->user()->id);
+        $sections = $teacher->sections;
 
-         return $sections;
+        return $sections;
     }
 }

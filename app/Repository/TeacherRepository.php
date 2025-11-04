@@ -6,14 +6,14 @@ use App\Models\BloodType;
 use App\Models\Gender;
 use App\Models\National;
 use App\Models\Specialist;
-use App\Models\Teacher;
-use Hash;
+use App\Models\{Teacher,Grade};
+use Illuminate\Support\Facades\Hash;
 
 class TeacherRepository implements TeacherRepositoryInterface
 {
     public function getTeachersData()
     {
-        return Teacher::all();
+        return Teacher::paginate(10);
     }
 
     public function getSpecializations()
@@ -33,6 +33,10 @@ class TeacherRepository implements TeacherRepositoryInterface
     {
         return BloodType::all();
     }
+    public function getGrades()
+    {
+        return Grade::all();
+    }
 
     public function StoreTeachers($request)
     {
@@ -51,6 +55,7 @@ class TeacherRepository implements TeacherRepositoryInterface
             $teachers->gender_id             = $request->gender_id;
             $teachers->blood_type_teacher_id = $request->blood_type_teacher_id;
             $teachers->national_teacher_id   = $request->national_teacher_id;
+            $teachers->grade_id = $request->grade_id;
             $teachers->save();
 
             toastr()->success(trans('teacher_trans.Added'));
@@ -84,6 +89,7 @@ class TeacherRepository implements TeacherRepositoryInterface
             $teachers->specialist_id         = $request->specialist_id;
             $teachers->blood_type_teacher_id = $request->blood_type_teacher_id;
             $teachers->national_teacher_id   = $request->national_teacher_id;
+            $teachers->grade_id = $request->grade_id;
 
             $teachers->save();
             toastr()->success(trans('teacher_trans.the data are update'));

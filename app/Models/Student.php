@@ -38,6 +38,9 @@ class Student extends Authenticatable
     public function Section(){
         return $this->belongsTo(Section::class,'section_id');
     }
+    public function Subjects(){
+        return $this->belongsToMany(Subject::class,'student_subject');
+    }
 
     public function Grade(){
         return $this->belongsTo(Grade::class,'grade_id');

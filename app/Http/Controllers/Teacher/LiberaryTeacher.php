@@ -17,14 +17,14 @@ class LiberaryTeacher extends Controller
     public function index()
     {
         $liberaries = Liberary::where('teacher_id', auth()->guard('teacher')->user()->id)->get();
-        $grades = $this->getteachersections();
+        $grades = $this->getteachergrades();
         return view('Data.liberary.index', compact('grades', 'liberaries'));
     }
 
 
     public function create()
     {
-        $grades = $this->getteachersections();
+        $grades = $this->getteachergrades();
         return view('Data.liberary.add', compact('grades'));
     }
 

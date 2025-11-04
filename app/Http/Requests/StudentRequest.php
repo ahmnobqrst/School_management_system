@@ -21,44 +21,53 @@ class StudentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name_ar'=>'required|string',
-            'name_en'=>'required|string',
-            'email'=>'required|unique:students,email,'.$this->id,
-            'password'=>'required|min:8',
-            'birth_of_date'=>'date|required',
-            'academic_year'=>'required',
-            'national_student_id'=>'required',
-            'blood_type_student_id'=>'required',
-            'gender_id'=>'required',
-            'grade_id'=>'required',
-            'parent_id'=>'required',
-            'classroom_id'=>'required',
-            'section_id'=>'required',
+        $rules =  [
+            'name_ar' => 'required|string',
+            'name_en' => 'required|string',
+            'email' => 'required|unique:students,email,' . $this->id,
+            'password' => 'required|min:6|max:12',
+            'birth_of_date' => 'date|required',
+            'academic_year' => 'required',
+            'national_student_id' => 'required',
+            'blood_type_student_id' => 'required',
+            'gender_id' => 'required',
+            'grade_id' => 'required',
+            'parent_id' => 'required',
+            'classroom_id' => 'required',
+            'section_id' => 'required',
+            'subject_id' => 'required|array',
+            'subject_id.*' => 'exists:subjects,id',
         ];
+
+        if ($this->method() == 'PUT') {
+            $rules['password'] = 'nullable|min:6|max:12';
+        }
+        return $rules;
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'email.required'=>__('Students_trans.email is required'),
-            'email.unique'=>trans('Students_trans.email_unique'),
-            'password.required'=>trans('Students_trans.password_required'),
-            'password.min'=>trans('Students_trans.length of password'),
-            'name_ar.required'=>__('Students_trans.name_ar is required'),
-            'name_ar.string'=>__('Students_trans.name_ar must be string'),
-            'name_en.required'=>__('Students_trans.name_en is required'),
-            'name_en.string'=>__('Students_trans.name_en must be string'),
-            'birth_of_date.date'=>__('Students_trans.birth_of_date must be string'),
-            'birth_of_date.required'=>__('Students_trans.birth_of_date required'),
-            'academic_year.required'=>__('Students_trans.academic_year required'),
-            'national_student_id.required'=>__('Students_trans.national_student_id is required'),
-            'blood_type_student_id.required'=>__('Students_trans.blood_type_student_id is required'),
-            'gender_id.required'=>__('Students_trans.gender_id is required'),
-            'grade_id.required'=>__('Students_trans.grade_id is required'),
-            'parent_id.required'=>__('Students_trans.parent_id is required'),
-            'classroom_id.required'=>__('Students_trans.classroom_id is required'),
-            'section_id.required'=>__('Students_trans.section_id is required'),
-            
+            'email.required' => __('Students_trans.email is required'),
+            'email.unique' => trans('Students_trans.email_unique'),
+            'password.required' => trans('Students_trans.password_required'),
+            'password.min' => trans('Students_trans.length of password'),
+            'name_ar.required' => __('Students_trans.name_ar is required'),
+            'name_ar.string' => __('Students_trans.name_ar must be string'),
+            'name_en.required' => __('Students_trans.name_en is required'),
+            'name_en.string' => __('Students_trans.name_en must be string'),
+            'birth_of_date.date' => __('Students_trans.birth_of_date must be string'),
+            'birth_of_date.required' => __('Students_trans.birth_of_date required'),
+            'academic_year.required' => __('Students_trans.academic_year required'),
+            'national_student_id.required' => __('Students_trans.national_student_id is required'),
+            'blood_type_student_id.required' => __('Students_trans.blood_type_student_id is required'),
+            'gender_id.required' => __('Students_trans.gender_id is required'),
+            'grade_id.required' => __('Students_trans.grade_id is required'),
+            'parent_id.required' => __('Students_trans.parent_id is required'),
+            'classroom_id.required' => __('Students_trans.classroom_id is required'),
+            'section_id.required' => __('Students_trans.section_id is required'),
+            'subject_id.required' => __('Students_trans.subject_id is required'),
+
         ];
     }
 }

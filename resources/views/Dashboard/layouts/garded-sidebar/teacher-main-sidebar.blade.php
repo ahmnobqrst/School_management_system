@@ -163,7 +163,6 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="authentication" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('quizz.create')}}">{{trans('sidebar_trans.create_quiz')}}</a> </li>
                             <li> <a href="{{route('quizz.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
                         </ul>
                     </li>

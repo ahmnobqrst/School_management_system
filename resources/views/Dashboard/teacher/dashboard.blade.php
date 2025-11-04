@@ -9,21 +9,117 @@
     <meta name="author" content="potenzaglobalsolutions.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     @include('Dashboard.layouts.head')
+
+    <style>
+        body {
+            background: #f7f9fc;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .page-title h4 {
+            font-weight: 700;
+            color: #34495e;
+        }
+
+        .card.card-statistics {
+            border: none;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card.card-statistics:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .highlight-icon {
+            font-size: 42px;
+            padding: 22px;
+            border-radius: 50%;
+            color: white;
+        }
+
+        .text-success .highlight-icon {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .text-primary .highlight-icon {
+            background: linear-gradient(135deg, #007bff, #17a2b8);
+        }
+
+        .text-info .highlight-icon {
+            background: linear-gradient(135deg, #36b9cc, #11cdef);
+        }
+
+        .card-body p.card-text {
+            font-size: 17px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-body a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #e74a3b;
+            transition: color 0.3s;
+        }
+
+        .card-body a:hover {
+            color: #c0392b;
+        }
+
+        .border-top {
+            border-top: 1px solid #eaeaea !important;
+        }
+
+        /* جدول العمليات الأخيرة */
+        .card-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: #e74a3b;
+            border-bottom: 3px solid #e74a3b;
+            background-color: transparent;
+        }
+
+        .table thead tr {
+            background: linear-gradient(135deg, #f8d7da, #f1a7a7);
+            color: #a71d2a;
+        }
+
+        .table tbody tr:hover {
+            background-color: #fdf3f3;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 
 <body>
     <div class="wrapper">
-
-        <!--================================= preloader -->
+        <!-- preloader -->
         <div id="pre-loader">
             <img src="assets/images/pre-loader/loader-01.svg" alt="">
         </div>
-        <!--================================= preloader -->
 
         @include('Dashboard.layouts.main-header')
         @include('Dashboard.layouts.main-sidebar')
 
-        <!--================================= Main content -->
+        <!-- Main content -->
         <div class="content-wrapper">
 
             <!-- Page title -->
@@ -31,12 +127,11 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h4 class="mb-0" style="font-family: 'Cairo', sans-serif">
-                            {{ __('Students_trans.Welcome') }}:{{auth()->user()->name}}
+                            {{ __('Students_trans.Welcome') }}: {{ auth()->user()->name }}
                         </h4>
                     </div>
                     <div class="col-sm-6">
-                        <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right">
-                        </ol>
+                        <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right"></ol>
                     </div>
                 </div>
             </div>
@@ -47,21 +142,18 @@
                 <div class="col-md-4 col-sm-12 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
-                            <div class="clearfix">
-                                <div class="float-left">
-                                    <span class="text-success">
-                                        <i class="fas fa-user-graduate highlight-icon" aria-hidden="true"></i>
-                                    </span>
+                            <div class="clearfix mb-3">
+                                <div class="float-left text-success">
+                                    <i class="fas fa-user-graduate highlight-icon"></i>
                                 </div>
                                 <div class="float-right text-right">
-                                    <p class="card-text text-dark">{{__('Students_trans.student_count')}}</p>
-                                    <h4>{{$student_count}}</h4>
+                                    <p class="card-text">{{ __('Students_trans.student_count') }}</p>
+                                    <h4>{{ $student_count }}</h4>
                                 </div>
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
-                                <i class="fas fa-binoculars mr-1"></i>
-                                <a href="{{route('getstds')}}" target="_blank"
-                                    class="text-danger">{{__('Students_trans.Show_data')}}</a>
+                                <i class="fas fa-eye mr-1"></i>
+                                <a href="{{ route('getstds') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -71,21 +163,18 @@
                 <div class="col-md-4 col-sm-12 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
-                            <div class="clearfix">
-                                <div class="float-left">
-                                    <span class="text-primary">
-                                        <i class="fas fa-chalkboard highlight-icon"></i>
-                                    </span>
+                            <div class="clearfix mb-3">
+                                <div class="float-left text-primary">
+                                    <i class="fas fa-chalkboard highlight-icon"></i>
                                 </div>
                                 <div class="float-right text-right">
-                                    <p class="card-text text-dark">{{ __('Students_trans.Classroom_count') }}</p>
+                                    <p class="card-text">{{ __('Students_trans.Classroom_count') }}</p>
                                     <h4>{{ $classroom_count }}</h4>
                                 </div>
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
-                                <i class="fas fa-binoculars mr-1"></i>
-                                <a href="{{route('getclasses')}}" target="_blank"
-                                    class="text-danger">{{ __('Students_trans.Show_data') }}</a>
+                                <i class="fas fa-eye mr-1"></i>
+                                <a href="{{ route('getclasses') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -95,29 +184,25 @@
                 <div class="col-md-4 col-sm-12 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
-                            <div class="clearfix">
-                                <div class="float-left">
-                                    <span class="text-info">
-                                        <i class="fas fa-stream highlight-icon"></i>
-                                    </span>
+                            <div class="clearfix mb-3">
+                                <div class="float-left text-info">
+                                    <i class="fas fa-stream highlight-icon"></i>
                                 </div>
                                 <div class="float-right text-right">
-                                    <p class="card-text text-dark">{{__('Students_trans.Sections_count')}}</p>
+                                    <p class="card-text">{{ __('Students_trans.Sections_count') }}</p>
                                     <h4>{{ $section_count }}</h4>
                                 </div>
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
-                                <i class="fas fa-binoculars mr-1"></i>
-                                <a href="{{ route('getsectionss') }}" target="_blank"
-                                    class="text-danger">{{ __('Students_trans.Show_data') }}</a>
+                                <i class="fas fa-eye mr-1"></i>
+                                <a href="{{ route('getsectionss') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <!-- Last operations -->
+            <!-- العمليات الأخيرة -->
             <div class="row">
                 <div class="col-xl-12 mb-30" style="height: 400px;">
                     <div class="card card-statistics h-100">
@@ -125,9 +210,7 @@
                             <div class="tab nav-border" style="position: relative;">
                                 <div class="d-block d-md-flex justify-content-between">
                                     <div class="d-block w-100">
-                                        <h5 style="font-family: 'Cairo', sans-serif" class="card-title">
-                                            {{ trans('Students_trans.Last_operation') }}
-                                        </h5>
+                                        <h5 class="card-title">{{ trans('Students_trans.Last_operation') }}</h5>
                                     </div>
                                     <div class="d-block d-md-flex nav-tabs-custom">
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -144,14 +227,13 @@
 
                                 <!-- Tab content -->
                                 <div class="tab-content" id="myTabContent">
-                                    {{-- Students Table --}}
                                     <div class="tab-pane fade active show" id="students" role="tabpanel"
                                         aria-labelledby="students-tab">
                                         <div class="table-responsive mt-15">
                                             <table style="text-align: center"
-                                                class="table center-aligned-table table-hover mb-0">
+                                                class="table table-hover table-bordered mb-0">
                                                 <thead>
-                                                    <tr class="table-info text-danger">
+                                                    <tr>
                                                         <th>#</th>
                                                         <th>{{ trans('Students_trans.student_name') }}</th>
                                                         <th>{{ trans('Students_trans.email') }}</th>
@@ -164,22 +246,22 @@
                                                 </thead>
                                                 <tbody>
                                                     @forelse(\App\Models\Student::latest()->take(5)->get() as $student)
-                                                    <tr>
-                                                        <td>{{ $loop->index + 1 }}</td>
-                                                        <td>{{ $student->name }}</td>
-                                                        <td>{{ $student->email }}</td>
-                                                        <td>{{ $student->Gender->name }}</td>
-                                                        <td>{{ $student->Grade->name }}</td>
-                                                        <td>{{ $student->Classroom->name }}</td>
-                                                        <td>{{ $student->Section->section_name }}</td>
-                                                        <td class="text-success">{{ $student->created_at }}</td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td>{{ $loop->index + 1 }}</td>
+                                                            <td>{{ $student->name }}</td>
+                                                            <td>{{ $student->email }}</td>
+                                                            <td>{{ $student->Gender->name }}</td>
+                                                            <td>{{ $student->Grade->name }}</td>
+                                                            <td>{{ $student->Classroom->name }}</td>
+                                                            <td>{{ $student->Section->section_name }}</td>
+                                                            <td class="text-success">{{ $student->created_at }}</td>
+                                                        </tr>
                                                     @empty
-                                                    <tr>
-                                                        <td class="alert-danger" colspan="8">
-                                                            {{ __('Students_trans.no_data') }}
-                                                        </td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td class="alert-danger text-center" colspan="8">
+                                                                {{ __('Students_trans.no_data') }}
+                                                            </td>
+                                                        </tr>
                                                     @endforelse
                                                 </tbody>
                                             </table>
@@ -195,12 +277,9 @@
             </div>
 
         </div>
-        <!-- End Main content -->
 
-        <!-- Footer -->
         @include('Dashboard.layouts.footer')
     </div>
-    <!-- End wrapper -->
 
     @include('Dashboard.layouts.footer-scripts')
     @stack('scripts')

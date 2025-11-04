@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Specialist;
-use App\Models\Gender;
+use App\Models\{Classroom, Gender,Grade,Subject};
 use App\Models\Section;
 use App\Models\BloodType;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,4 +40,14 @@ class Teacher extends Authenticatable
     public function BloodType(){
         return $this->belongsTo(BloodType::class,'blood_type_teacher_id');
     }
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class,'grade_id');
+    }
+    public function Classrooms()
+    {
+        return $this->hasMany(Classroom::class);
+    }
+    
 }

@@ -24,9 +24,10 @@ class SubjectRequest extends FormRequest
         return [
             'name_ar'=>'required|string',
             'name_en'=>'required|string',
-            'grade_id'=>'required',
-            'classroom_id'=>'required',
-            'teacher_id'=>'required',
+            'Grade_id'=>'required',
+            'Class_id'=>'required',
+            'teacher_id' => 'required|array|min:1',
+            'teacher_id.*' => 'exists:teachers,id',
         ];
     }
 

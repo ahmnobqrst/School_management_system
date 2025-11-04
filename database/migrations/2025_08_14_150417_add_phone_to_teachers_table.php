@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::table('teachers', function (Blueprint $table) {
             $table->string('phone')->nullable();
-            $table->foreignId('national_teacher_id')->constraint('nationals')->nullable()->onDelete('cascade');
-            $table->foreignId('blood_type_teacher_id')->constraint('blood_type')->nullable()->onDelete('cascade');
+            $table->unsignedInteger('national_teacher_id');
+            $table->unsignedInteger('blood_type_teacher_id');
+            // $table->foreignId('national_teacher_id')->constrained('nationals')->nullable()->onDelete('cascade');
+            // $table->foreignId('blood_type_teacher_id')->constrained('blood_type')->nullable()->onDelete('cascade');
         });
     }
 

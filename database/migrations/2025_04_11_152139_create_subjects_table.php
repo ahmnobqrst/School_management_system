@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->foreignId('grade_id')->constraints('grades')->onCascadeDelete();
-            $table->foreignId('classroom_id')->constraints('classrooms')->onCascadeDelete();
-            $table->foreignId('teacher_id')->constraints('teachers')->onCascadeDelete();
+            $table->unsignedInteger('grade_id');
+            $table->unsignedInteger('classroom_id');
+            $table->unsignedInteger('teacher_id');
+            // $table->foreignId('grade_id')->constrained('grades')->onCascadeDelete();
+            // $table->foreignId('classroom_id')->constrained('classrooms')->onCascadeDelete();
+            // $table->foreignId('teacher_id')->constrained('teachers')->onCascadeDelete();
             $table->timestamps();
             $table->softDeletes();
         });

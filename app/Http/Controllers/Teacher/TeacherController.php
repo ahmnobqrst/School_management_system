@@ -18,10 +18,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TeacherQuestionRequest;
 use Carbon\Carbon;
 use App\Traits\ZoomTraitIntegration;
+use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-  use ZoomTraitIntegration;
+    use ZoomTraitIntegration;
     protected $Teacher;
     public function __construct(TeacherRepositoryInterface $Teacher)
     {
@@ -40,6 +41,7 @@ class TeacherController extends Controller
         $data['genders']     = $this->Teacher->getGenders();
         $data['nationals']   = $this->Teacher->getNationality();
         $data['bloods']      = $this->Teacher->getBloodType();
+        $data['grades'] = $this->Teacher->getGrades();
         return view('Dashboard.teacher.create', $data);
     }
 
@@ -61,6 +63,7 @@ class TeacherController extends Controller
         $data['genders']     = $this->Teacher->getGenders();
         $data['nationals']   = $this->Teacher->getNationality();
         $data['bloods']      = $this->Teacher->getBloodType();
+        $data['grades']      = $this->Teacher->getGrades();
 
         $data['teacher'] = $this->Teacher->EditTeacher($id);
 
@@ -79,39 +82,52 @@ class TeacherController extends Controller
     }
     public function getteacherstds()
     {
-        $section = $this->getSections();
-        $students   = Student::whereIn('section_id', $section)->get();
+        // $section = $this->getSections();
+        // if($section->students)
+        // {
+        //     $students   = Student::whereIn('section_id', $section)->get();
+        // }
+        // else
+        // {
+        //     $students = ['students' => collect()];
+        // }
 
+        // return view('Data.allstudents', compact('students'));
+
+        $section = $this->getSections();
+        $sectionIds = $section->pluck('id')->toArray();
+        $students = Student::whereIn('section_id', $sectionIds)->get();
         return view('Data.allstudents', compact('students'));
     }
     public function getteacherclasses()
     {
-        $section = $this->getSections();
-        $classrooms = Classroom::whereIn('id', $section)->get();
-
-
+        $classrooms = $this->getSections()->pluck('Classes')->flatten()->unique('id');
         return view('Data.allclassrooms', compact('classrooms'));
     }
     public function getgrade()
     {
-        $grade = $this->getteachersection();
+        $grade = Teacher::with('grade')->findOrFail(auth()->user()->id);
         return view('Data.grade', compact('grade'));
     }
     public function getsubject()
     {
         $teacher = Teacher::findOrFail(auth()->user()->id);
-        $subject = Subject::where('teacher_id', $teacher->id)->firstOrFail();
+        $subject = Subject::where('teacher_id', $teacher->id)->first();
         return view('Data.subject', compact('subject'));
     }
-    public function sections()
-    {
-       $grades = $this->getteachersections();
-       return view('Data.allsections', compact('grades'));
-    }
+    // public function sections()
+    // {
+    // //    $grades = $this->getteachersections();
+    //     $grades = DB::table('teacher_section')->where('teacher_id',auth()->user()->id)->get();
+    //     dd($grades);
+    //    return view('Data.allsections', compact('grades'));
+    // }
 
     public function getalldatastudent($id)
     {
-        $sections = $this->getSections();
+        $teacher = Teacher::with('Sections.Classes')
+        ->findOrFail(auth()->user()->id);
+        $sections = $teacher->sections()->pluck('section_id');
         $Student = Student::where('id', $id)
             ->whereIn('section_id', $sections)
             ->firstOrFail();
@@ -121,63 +137,18 @@ class TeacherController extends Controller
 
     public function attendence()
     {
-        $grade = $this->getteachersections();
-        // $students = Student::whereIn('section_id', $sectionsIds)->get();
-        return view('Data.attendence.index', compact('grade'));
+        $teacher = $this->getteachergrade();
+        return view('Data.attendence.index', compact('teacher'));
     }
     public function registerattendence($sectionId)
     {
         $section = Section::findOrFail($sectionId);
-        // dd(Student::where('section_id',$sectionId->id)->get());
-        // $teacher = Teacher::findOrFail(auth()->user()->id);
-        // $section = $teacher->Sections()->pluck('section_id');
         $students   = Student::where('section_id', $section->id)->get();
         return view('Data.attendence.attendence', compact('students', 'section'));
     }
 
-    // public function registerattendencestore(Request $request)
-    // {
-    //     try {
-    //         $attenddate = date('Y-m-d');
-    //         foreach ($request->attendences as $studentid => $attendence) {
 
-    //             if ($attendence == 'presence') {
-    //                 $attendence_status = true;
-    //             } else if ($attendence == 'absent') {
-    //                 $attendence_status = false;
-    //             }
-
-    //             if(!date('Y-m-d'))
-    //             {
-    //                 Attendence::create([
-    //                 'student_id' => $studentid,
-    //                 'grade_id' => $request->grade_id,
-    //                 'classroom_id' => $request->classroom_id,
-    //                 'section_id' => $request->section_id,
-    //                 'teacher_id' => 1,
-    //                 'attendence_date' => $attenddate,
-    //                 'attendence_status' => $attendence_status
-    //                ]);
-    //             }else{
-    //                 Attendence::updateOrCreate(['student_id' => $studentid], [
-    //                     'student_id' => $studentid,
-    //                     'grade_id' => $request->grade_id,
-    //                     'classroom_id' => $request->classroom_id,
-    //                     'section_id' => $request->section_id,
-    //                     'teacher_id' => 1,
-    //                     'attendence_date' => $attenddate,
-    //                     'attendence_status' => $attendence_status
-    //                 ]);
-    //             }
-    //         }
-    //         toastr()->success(trans('Students_trans.success_attendence'));
-    //         return redirect()->route('registerattendence.show', ['sectionId' => $request->section_id]);
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // }
-
-    public function registerattendencestore(Request $request)
+    public function registerattendencestore(Request $request,$sectionId)
     {
         try {
             $attenddate = date('Y-m-d');
@@ -191,59 +162,26 @@ class TeacherController extends Controller
                         'attendence_date' => $attenddate,
                     ],
                     [
-                        'grade_id'          => $request->grad_id,
-                        'classroom_id'      => $request->class_id,
-                        'section_id'        => $request->sect_id,
-                        'teacher_id'        => 1,
+                        'grade_id'          => $request->grade_id,
+                        'classroom_id'      => $request->classroom_id,
+                        'section_id'        => $sectionId,
+                        'teacher_id'        => auth()->user()->id,
                         'attendence_status' => $attendence_status,
                     ]
                 );
             }
 
             toastr()->success(trans('Students_trans.success_attendence'));
-            return redirect()->route('registerattendence.show', ['sectionId' => $request->sect_id]);
+            return redirect()->route('registerattendence.show', ['sectionId' => $sectionId]);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
-
-
-    //     public function updateattendencestore(Request $request, $sectionId)
-    // {
-    //     try {
-    //         // التحقق من وجود ID
-    //         if (!$request->has('id')) {
-    //             return redirect()->back()->withErrors(['error' => 'Attendance ID is required']);
-    //         }
-
-    //         $attendance = Attendence::find($request->id);
-
-    //         if (!$attendance) {
-    //             return redirect()->back()->withErrors(['error' => 'Attendance record not found']);
-    //         }
-
-    //         // التحقق من وجود attendence_status في الطلب
-    //         if (!$request->has('attendence_status')) {
-    //             return redirect()->back()->withErrors(['error' => 'Attendance status is required']);
-    //         }
-
-    //         $attendance->update([
-    //             'attendence_status' => $request->attendence_status == 1 ? true : false,
-    //         ]);
-
-    //         toastr()->success(trans('Students_trans.success'));
-    //         return redirect()->back();
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // }
-
     public function attendence_report()
     {
-        $grade = $this->getteachersections();
-
-        return view('Data.attendence.reports.attendence_report', compact('grade'));
+        $teacher = $this->getteachergrade();
+        return view('Data.attendence.reports.attendence_report', compact('teacher'));
     }
     public function get_report_attendence($sectionId)
     {
@@ -266,9 +204,9 @@ class TeacherController extends Controller
 
     public function question_section_report()
     {
-        $grade = $this->getteachersections();
+        $teacher = $this->getteachergrade();
 
-        return view('Data.question.question_sections', compact('grade'));
+        return view('Data.question.question_sections', compact('teacher'));
     }
 
     public function get_questions($sectionId)
@@ -283,60 +221,60 @@ class TeacherController extends Controller
         $quizsection = Quiz::where('section_id', $section->id)->first();
 
         if (!$quizsection) {
-            return view('Data.question.index', ['questions' => collect(),'sectionId'=>$sectionId]);
+            return view('Data.question.index', ['questions' => collect(), 'sectionId' => $sectionId]);
         }
 
         $questions = Question::where('quiz_id', $quizsection->id)->get();
 
-        return view('Data.question.index', compact('questions','sectionId'));
+        return view('Data.question.index', compact('questions', 'sectionId'));
     }
 
     public function create_question_for_section($sectionId)
     {
-       $quizzes = Quiz::where('section_id',$sectionId)->get();
-       return view('Data.question.create', compact('quizzes','sectionId'));
+        $quizzes = Quiz::where('section_id', $sectionId)->get();
+        return view('Data.question.create', compact('quizzes', 'sectionId'));
     }
 
-    public function store_question_for_section(TeacherQuestionRequest $request,$sectionId)
+    public function store_question_for_section(TeacherQuestionRequest $request, $sectionId)
     {
         $question = Question::create([
-         'title'=>['ar'=>$request->name_ar,'en'=>$request->name_en],
-         'answer'=>['ar'=>$request->answer_ar,'en'=>$request->answer_en],
-         'right_answer'=>['ar'=>$request->right_answer_ar,'en'=>$request->right_answer_en],
-         'degree'=>$request->degree,
-         'quiz_id'=>$request->quiz_id
-      ]);
+            'title' => ['ar' => $request->name_ar, 'en' => $request->name_en],
+            'answer' => ['ar' => $request->answer_ar, 'en' => $request->answer_en],
+            'right_answer' => ['ar' => $request->right_answer_ar, 'en' => $request->right_answer_en],
+            'degree' => $request->degree,
+            'quiz_id' => $request->quiz_id
+        ]);
 
-      toastr()->success(trans('Students_trans.Question_stored'));
-      return redirect()->route('questions',compact('sectionId'));
+        toastr()->success(trans('Students_trans.Question_stored'));
+        return redirect()->route('questions', compact('sectionId'));
     }
 
     public function edit_question($question)
     {
-       $question = Question::findOrFail($question);
-    //    $quizzes = Quiz::all();
-       $quizzes = $question->quizz->get();
-       return view('Data.question.edit', compact('question','quizzes'));
+        $question = Question::findOrFail($question);
+        //    $quizzes = Quiz::all();
+        $quizzes = $question->quizz->get();
+        return view('Data.question.edit', compact('question', 'quizzes'));
     }
-    public function update_question(TeacherQuestionRequest $request,$question)
+    public function update_question(TeacherQuestionRequest $request, $question)
     {
-       $question = Question::findOrFail($question);
-    //    dd($question->quizz->id);
-        $question->title = ['ar'=>$request->name_ar,'en'=>$request->name_en];
-         $question->answer = ['ar'=>$request->answer_ar,'en'=>$request->answer_en];
-         $question->right_answer=['ar'=>$request->right_answer_ar,'en'=>$request->right_answer_en];
-         $question->degree=$request->degree;
-         $question->quiz_id=$request->quiz_id;
-         $question->save();
+        $question = Question::findOrFail($question);
+        //    dd($question->quizz->id);
+        $question->title = ['ar' => $request->name_ar, 'en' => $request->name_en];
+        $question->answer = ['ar' => $request->answer_ar, 'en' => $request->answer_en];
+        $question->right_answer = ['ar' => $request->right_answer_ar, 'en' => $request->right_answer_en];
+        $question->degree = $request->degree;
+        $question->quiz_id = $request->quiz_id;
+        $question->save();
 
-       toastr()->success(trans('Students_trans.Question_updated'));
-       return redirect()->route('question_section');
+        toastr()->success(trans('Students_trans.Question_updated'));
+        return redirect()->route('question_section');
     }
-    public function delete_question(Request $request,$sectionId)
+    public function delete_question(Request $request, $sectionId)
     {
         // dd($sectionId);
-       Question::where('id',$request->id)->delete();
-       toastr()->success(trans('Students_trans.Question_deleted'));
-       return redirect()->route('questions',compact('sectionId'));
+        Question::where('id', $request->id)->delete();
+        toastr()->success(trans('Students_trans.Question_deleted'));
+        return redirect()->route('questions', compact('sectionId'));
     }
 }

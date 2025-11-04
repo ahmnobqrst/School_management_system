@@ -6,15 +6,15 @@ use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\Subject;
 use App\Interface\SubjectRepositoryInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class SubjectRepository implements SubjectRepositoryInterface
 {
 
     public function index()
     {
-        $subjects = Subject::all();
+        $subjects = Subject::paginate(10);
         return view('dashboard.subjects.index',compact('subjects'));
     }
 
@@ -42,9 +42,11 @@ class SubjectRepository implements SubjectRepositoryInterface
     {
        $subject = new Subject();
        $subject->name = ['ar'=>$request->name_ar,'en'=>$request->name_en];
-       $subject->grade_id = $request->grade_id;
-       $subject->classroom_id = $request->classroom_id;
-       $subject->teacher_id = $request->teacher_id;
+       $subject->grade_id = $request->Grade_id;
+       $subject->classroom_id = $request->Class_id;
+        $subject->teacher_id = is_array($request->teacher_id)
+            ? $request->teacher_id[0]
+            : $request->teacher_id; 
 
        $subject->save();
 

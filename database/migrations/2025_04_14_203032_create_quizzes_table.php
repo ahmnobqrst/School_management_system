@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('quizzes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->foreignId('subject_id')->constraints('subjects')->onDelete('cascade');
-            $table->foreignId('teacher_id')->constraints('teachers')->onDelete('cascade');
-            $table->foreignId('grade_id')->constraints('grades')->onDelete('cascade');
-            $table->foreignId('classroom_id')->constraints('classrooms')->onDelete('cascade');
-            $table->foreignId('section_id')->constraints('sections')->onDelete('cascade');
+            $table->unsignedInteger('grade_id');
+            $table->unsignedInteger('classroom_id');
+            $table->unsignedInteger('teacher_id');
+            $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('section_id');
+            // $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
+            // $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            // $table->foreignId('grade_id')->constrained('grades')->onDelete('cascade');
+            // $table->foreignId('classroom_id')->constrained('classrooms')->onDelete('cascade');
+            // $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -42,9 +42,9 @@
             <div class="card card-statistics h-100">
                 <div class="card-body">
                     <div class="accordion gray plus-icon round">
-                        @foreach ($grade as $grades)
+
                         <div class="acd-group">
-                            <a href="#" class="acd-heading">{{$grades->name}}</a>
+                            <a href="#" class="acd-heading">{{$teacher->grade->name}}</a>
                             <div class="acd-des">
                                 <div class="row">
                                     <div class="col-xl-12 mb-30">
@@ -68,7 +68,7 @@
                                                         <tbody>
 
                                                             <?php $i = 0; ?>
-                                                            @foreach ($grades->Sections as $list_Sections)
+                                                            @foreach ($teacher->Sections as $list_Sections)
 
                                                             <tr>
                                                                 <?php $i++; ?>
@@ -110,7 +110,7 @@
 
 
                             </div>
-                            @endforeach
+                           
 
                         </div>
 

@@ -8,8 +8,8 @@ use App\Models\National;
 use App\Models\BloodType;
 use App\Models\Religions;
 use App\Models\MyParent;
-use DB;
-use Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PerentSeeder extends Seeder
 {

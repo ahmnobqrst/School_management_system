@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use App\Models\Classroom;
-use App\Models\Teacher;
+use App\Models\{Teacher,Student};
 
 class Section extends Model
 {
@@ -26,7 +26,14 @@ class Section extends Model
     public function Teachers(){
         return $this->belongsToMany(Teacher::class,'teacher_section');
     }
+    public function students()
+    {
+        return $this->hasMany(Student::class,'section_id');
+    }
 
+
+
+   
 
     
 

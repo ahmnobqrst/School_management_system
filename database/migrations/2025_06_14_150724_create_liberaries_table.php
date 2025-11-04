@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('file_name');
-            $table->foreignId('grade_id')->constraints('grades')->onDeleteCascade();
-            $table->foreignId('classroom_id')->constraints('classrooms')->onDeleteCascade();
-            $table->foreignId('section_id')->constraints('sections')->onDeleteCascade();
-            $table->foreignId('teacher_id')->constraints('teachers')->onDeleteCascade();
+             $table->unsignedInteger('classroom_id');
+            $table->unsignedInteger('section_id');
+            $table->unsignedInteger('grade_id');
+            $table->unsignedInteger('teacher_id');
+            // $table->foreignId('grade_id')->constrained('grades')->onDeleteCascade();
+            // $table->foreignId('classroom_id')->constrained('classrooms')->onDeleteCascade();
+            // $table->foreignId('section_id')->constrained('sections')->onDeleteCascade();
+            // $table->foreignId('teacher_id')->constrained('teachers')->onDeleteCascade();
             $table->timestamps();
             $table->softDeletes();
         });

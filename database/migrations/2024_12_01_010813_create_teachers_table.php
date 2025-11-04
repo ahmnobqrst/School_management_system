@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('name');
             $table->integer('specialist_id')->unsigned();
-            $table->foreign('specialist_id')->references('id')->on('specialists')->onDelete('cascade');
+            // $table->foreign('specialist_id')->references('id')->on('specialists')->onDelete('cascade');
             $table->integer('gender_id')->unsigned();
-            $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
+            // $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
             $table->string('address');
             $table->string('age');
             $table->date('date_of_job');

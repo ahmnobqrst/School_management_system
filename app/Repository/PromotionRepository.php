@@ -7,8 +7,8 @@ use App\Models\Grade;
 use App\Models\Section;
 use App\Models\Classroom;
 use App\Interface\PromotionRepositoeyInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class PromotionRepository implements PromotionRepositoeyInterface
 {

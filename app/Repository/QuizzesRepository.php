@@ -6,8 +6,8 @@ use App\Models\Grade;
 use App\Models\Teacher;
 use App\Models\Subject;
 use App\Models\Quiz;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class QuizzesRepository implements QuizzesInterface
 {

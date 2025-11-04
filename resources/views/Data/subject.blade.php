@@ -47,6 +47,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if(isset($subject))
 
                                         <tr>
                                             <td>{{1}}</td>
@@ -54,6 +55,12 @@
                                             <td>{{$subject->grades->name}}</td>
                                             <td>{{$subject->classrooms->name}}</td>
                                         </tr>
+                                        @else
+
+                                        <div class="alert alert-warning text-center mt-3">
+                                            {{ __('Students_trans.no_data') }}
+                                        </div>
+                                        @endif
 
                                     </tbody>
                                 </table>

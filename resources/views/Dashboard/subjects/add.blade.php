@@ -68,33 +68,29 @@
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('grades_trans.grade_name')}}</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="grade_id">
+                                        <select class="custom-select my-1 mr-sm-2" name="Grade_id">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($grades as $grade)
                                                 <option value="{{$grade->id}}">{{$grade->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('grade_id')
+                                    @error('Grade_id')
                                        <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                                     @enderror 
 
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('class_trans.class_name')}}</label>
-                                        <select name="classroom_id" class="custom-select"></select>
+                                        <select name="Class_id" class="custom-select"></select>
                                     </div>
-                                    @error('classroom_id')
+                                    @error('Class_id')
                                        <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                                     @enderror 
 
 
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('section_trans.Teacher_name')}}</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="teacher_id">
-                                            <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
-                                            @foreach($teachers as $teacher)
-                                                <option value="{{$teacher->id}}">{{$teacher->name}}</option>
-                                            @endforeach
+                                        <select class="custom-select my-1 mr-sm-2" name="teacher_id[]">
                                         </select>
                                     </div>
                                     @error('teacher_id')
@@ -114,26 +110,5 @@
 @section('js')
     @toastr_js
     @toastr_render
-    <script>
-        $(document).ready(function () {
-            $('select[name="Grade_id"]').on('change', function () {
-                var Grade_id = $(this).val();
-                if (Grade_id) {
-                    $.ajax({
-                        url: "{{ URL::to('classes') }}/" + Grade_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
-                            $('select[name="Class_id"]').empty();
-                            $.each(data, function (key, value) {
-                                $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
-                            });
-                        },
-                    });
-                } else {
-                    console.log('AJAX load did not work');
-                }
-            });
-        });
-    </script>
+    
 @endsection

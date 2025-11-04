@@ -3,7 +3,7 @@
 namespace app\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Grade;
+use App\Models\{Grade,Section};
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
@@ -23,6 +23,11 @@ class Classroom extends Model
     public function grades()
     {
         return $this->belongsTo('App\Models\Grade', 'Grade_id');
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
     }
 
 }

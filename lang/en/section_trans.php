@@ -49,6 +49,12 @@ return [
     'Delete_section'=>'section are deleted successfully',
     'Teacher_name'=>'Teacher Name',
     'fees_fees'=>'Invoices',
+    'Teacher Name is required'=>'Teacher Name is required',
+    'Classroom Name is required'=>'Classroom Name is required',
+    'Grade Name is required'=>'Grade Name is required',
+    'the section already exists'=>'the section already exists',
+    'the Classroon already exists'=>'the Classroon already exists',
+    'teacher_already_assigned'=>'This Section For This Teacher are Already Exists',
 
     
 ];

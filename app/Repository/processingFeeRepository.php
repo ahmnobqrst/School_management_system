@@ -7,8 +7,8 @@ use App\Models\ProceesingFee;
 use App\Models\StudentAccount;
 use App\Models\Student;
 use App\Interface\processingFeeRepositoryInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class processingFeeRepository implements processingFeeRepositoryInterface
 {

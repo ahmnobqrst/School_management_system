@@ -73,7 +73,7 @@
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('grades_trans.grade_name')}}</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="grade_id">
+                                        <select class="custom-select my-1 mr-sm-2" name="Grade_id">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
                                             @foreach($grades as $grade)
                                                 <option
@@ -81,13 +81,13 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('grade_id')
+                                    @error('Grade_id')
                                        <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                                     @enderror 
 
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('class_trans.class_name')}}</label>
-                                        <select name="classroom_id" class="custom-select">
+                                        <select name="Class_id" class="custom-select">
                                             <option
                                                 value="{{ $subject->classrooms->id }}">{{ $subject->classrooms->name }}
                                             </option>
@@ -99,12 +99,11 @@
 
                                     <div class="form-group col">
                                         <label for="inputState">{{trans('section_trans.Teacher_name')}}</label>
-                                        <select class="custom-select my-1 mr-sm-2" name="teacher_id">
+                                        <select class="custom-select my-1 mr-sm-2" name="teacher_id[]">
                                             <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
-                                            @foreach($teachers as $teacher)
-                                                <option
-                                                    value="{{$teacher->id}}" {{$teacher->id == $subject->teacher_id ?'selected':''}}>{{$teacher->name}}</option>
-                                            @endforeach
+                                            <option
+                                                    value="{{$teacher->id}}" {{$teacher->id == $subject->teacher_id ?'selected':''}}>{{$teacher->name}}
+                                            </option>
                                         </select>
                                     </div>
                                     @error('teacher_id')

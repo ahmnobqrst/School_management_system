@@ -16,7 +16,8 @@ return new class extends Migration
             $table->date('date');
             $table->string('description');
             $table->decimal('amont',8,2)->nullable();
-            $table->foreignId('student_id')->constraints('students')->onDelete('cascade');
+            $table->unsignedInteger('student_id');
+            // $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

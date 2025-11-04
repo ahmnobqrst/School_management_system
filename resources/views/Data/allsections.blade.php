@@ -43,9 +43,8 @@
             <div class="card-body">
                 <div class="accordion gray plus-icon round">
 
-                    @foreach ($grades as $grade)
                         <div class="acd-group">
-                            <a href="#" class="acd-heading">{{$grade->name}}</a>
+                            <a href="#" class="acd-heading">{{$teacher->grade->name}}</a>
                             <div class="acd-des">
                                 <div class="row">
                                     <div class="col-xl-12 mb-30">
@@ -63,15 +62,14 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i = 0; ?>
-                                                            @foreach ($grade->Sections as $list_Sections)
-                                                                @foreach($list_Sections->Teachers as $teacher)
+                                                                @foreach($sections as $section)
                                                                     <tr>
                                                                         <?php $i++; ?>
                                                                         <td>{{ $i }}</td>
-                                                                        <td>{{ $list_Sections->section_name }}</td>
-                                                                        <td>{{ $list_Sections->Classes->name }}</td>
+                                                                        <td>{{ $section->section_name }}</td>
+                                                                        <td>{{ $section->Classes->name }}</td>
                                                                         <td>
-                                                                            @if ($list_Sections->status === 1)
+                                                                            @if ($section->status === 1)
                                                                                 <label class="badge badge-success">{{ trans('section_trans.Status_Section_AC') }}</label>
                                                                             @else
                                                                                 <label class="badge badge-danger">{{ trans('section_trans.Status_Section_No') }}</label>
@@ -79,7 +77,7 @@
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach
-                                                            @endforeach
+                                                          
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -89,7 +87,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                  
 
                 </div>
             </div>

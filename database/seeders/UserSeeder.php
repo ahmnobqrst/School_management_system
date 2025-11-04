@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -15,19 +14,36 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('users')->delete();
 
-    DB::table('users')->delete();
-       $user = User::create([
-        'name'=>'ahmed gaber',
-        'email'=>'ahmed799@gmail.com',
-        'password'=>Hash::make('12344321'),
-       ]);
+        // Super Admin 1
+        User::create([
+            'name' => [
+                'ar' => 'أحمد جابر',
+                'en' => 'Ahmed Gaber',
+            ],
+            'email' => 'ahmedazoz799@gmail.com',
+            'password' => Hash::make('12344321'),
+        ]);
 
-       $user = User::create([
-        'name'=>'abo azoz',
-        'email'=>'a@a.com',
-        'password'=>Hash::make('12344321'),
-       ]);
+        // Super Admin 2
+        User::create([
+            'name' => [
+                'ar' => 'محمود جابر',
+                'en' => 'Mahmoud Gaber',
+            ],
+            'email' => 'mahmoudgaber123@gmail.com',
+            'password' => Hash::make('12344321'),
+        ]);
 
+        // Super Admin 3
+        User::create([
+            'name' => [
+                'ar' => 'علاء جمال',
+                'en' => 'alaa gamal',
+            ],
+            'email' => 'alaagamal123@gmail.com',
+            'password' => Hash::make('12344321'),
+        ]);
     }
 }

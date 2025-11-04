@@ -29,9 +29,19 @@ class TeacherQuizController extends Controller
      */
     public function create()
     {
+
         $teacher = Auth::guard('teacher')->user();
-        $data['subject'] = Subject::where('teacher_id', $teacher->id)->firstOrFail();
-        $data['grades'] = $this->getteachersections();
+        $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
+        // if($teacher->subject)
+        // {
+        //     $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
+        // }
+        // else
+        // {
+        //    toastr()->error(trans('Students_trans.subject_teacher'));
+        //    return redirect()->back();
+        // }
+        $data['grades'] = $this->getteachergrades();
     
         return view('Data.quizzes.create', $data);
     }
@@ -68,7 +78,7 @@ class TeacherQuizController extends Controller
         // $sectionsIds = auth()->guard('teacher')->user()->Sections()->pluck('section_id');
         $data['quizz'] = Quiz::where('teacher_id', auth()->guard('teacher')->user()->id)->findOrFail($id);
         $data['subject'] = Subject::where('teacher_id', auth()->guard('teacher')->user()->id)->firstOrFail();
-        $data['grades'] =  $this->getteachersections();
+        $data['grades'] =  $this->getteachergrades();
         return view('Data.quizzes.edit', $data);
     }
 
@@ -100,32 +110,12 @@ class TeacherQuizController extends Controller
 
     public function get_classes_for_grade($grade_id)
     {
-        // $teacher = Auth::guard('teacher')->user();
-        // $sectionsIds = $teacher->Sections()->pluck('section_id');
-
-        $sectionsIds = $this->getSections();
-
-        $classes = Section::whereIn('id', $sectionsIds)->where('Grade_id', $grade_id)->pluck('Class_id');
-        // $class = $classes->Classes->name;
-        $classrooms = Classroom::whereIn('id', $classes)
-            ->pluck('name', 'id');
-
+        $teacher = Teacher::with('Sections.Classes')->where('Grade_id',$grade_id)
+        ->findOrFail(auth()->user()->id);
+        $sections = $teacher->sections;
+        $classrooms = $sections->pluck('Classes')->pluck('name','id');
         return response()->json($classrooms);
     }
-
-    // $teacher = Auth::guard('teacher')->user();
-    // $sectionIds = $teacher->Sections()->pluck('section_id')->toArray();
-    // $classroomIds = Section::whereIn('id', $sectionIds)
-    //     ->where('Grade_id', $grade_id)
-    //     ->pluck('Class_id')
-    //     ->unique()
-    //     ->toArray();
-    // $classrooms = Classroom::whereIn('id', $classroomIds)
-    //     ->pluck('name', 'id');
-    // return response()->json($classrooms);
-
-
-    // }
 
     public function get_sections_for_grade($classroom_id)
     {

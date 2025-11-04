@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Teacher\Profile\ProfileController;
 use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\Section;
@@ -36,7 +37,7 @@ Route::group(
                 Route::get('/get_grade', [TeacherController::class, 'getgrade'])->name('getgrade');
                 Route::get('/get_subject', [TeacherController::class, 'getsubject'])->name('getsubject');
                 Route::get('/allclassrooms', [TeacherController::class, 'getteacherclasses'])->name('getclasses');
-                Route::get('/allsections', [TeacherController::class, 'sections'])->name('getsections');
+                // Route::get('/allsections', [TeacherController::class, 'sections'])->name('getsections');
                 // Route::get('/allsections', [TeacherController::class, 'getteachersections'])->name('getsections');
                 Route::get('/alldatastudent/{id}', [TeacherController::class, 'getalldatastudent'])->name('getstudentsdata');
 
@@ -95,6 +96,10 @@ Route::group(
                     ->name('download.book');
 
                 ////////////////////////// Liverwire ////////////////
+
+
+                Route::get('profile',[ProfileController::class,'get_profile_data'])->name('getprofile');
+                Route::post('profile/{teacherId}',[ProfileController::class,'update_profile'])->name('update.profile');
 
                
 

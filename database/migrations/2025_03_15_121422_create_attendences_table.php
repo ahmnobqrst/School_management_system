@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('attendences', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignId('student_id')->constraints('students')->onDelete('cascade');
-            $table->foreignId('classroom_id')->constraints('classrooms')->onDelete('cascade');
-            $table->foreignId('section_id')->constraints('sections')->onDelete('cascade');
-            $table->foreignId('teacher_id')->constraints('teachers')->onDelete('cascade');
+            $table->unsignedInteger('student_id');
+            $table->unsignedInteger('classroom_id');
+            $table->unsignedInteger('section_id');
+            $table->unsignedInteger('teacher_id');
+            // $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            // $table->foreignId('classroom_id')->constrained('classrooms')->onDelete('cascade');
+            // $table->foreignId('section_id')->constrained('sections')->onDelete('cascade');
+            // $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->date('attendence_date');
             $table->enum('attendence_status',[1,0]);
             $table->timestamps();

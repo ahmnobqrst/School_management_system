@@ -7,8 +7,7 @@ use App\Models\Student;
 use App\Models\foundAccount;
 use App\Models\StudentAccount;
 use App\Interface\PaymentRepositoryInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class PaymentRespository implements PaymentRepositoryInterface
 {

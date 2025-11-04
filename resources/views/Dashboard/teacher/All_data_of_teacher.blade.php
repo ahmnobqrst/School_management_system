@@ -78,6 +78,10 @@
                             <td>{{ $teacher->BloodType->name ?? ''}}</td>
                         </tr>
                         <tr>
+                            <th>{{ trans('Students_trans.Grade') }}</th>
+                            <td>{{ $teacher->grade->name ?? ''}}</td>
+                        </tr>
+                        <tr>
                             <th>{{ trans('Students_trans.Sections') }}</th>
                             <td>
                                 @foreach($teacher->Sections as $section)

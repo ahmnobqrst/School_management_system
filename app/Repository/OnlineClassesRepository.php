@@ -6,7 +6,6 @@ use App\Models\Online_Class;
 use App\Models\Grade;
 use App\Traits\ZoomTraitIntegration;
 use MacsiDigital\Zoom\Facades\Zoom;
-use Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -17,7 +16,7 @@ class OnlineClassesRepository implements OnlineClasses
 
     public function index()
     {
-        $online_classes = Online_Class::all();
+        $online_classes = Online_Class::where('created_by',auth()->user()->email)->get();
         return view('Dashboard.online_classes.index',compact('online_classes'));
     }
 
@@ -43,7 +42,7 @@ public function store($request)
             'grade_id' => $request->grade_id,
             'classroom_id' => $request->classroom_id,
             'section_id' => $request->section_id,
-            'user_id' => auth()->user()->id,
+            'created_by' => auth()->user()->email,
             'meeting_id' => $meeting->id, 
             'topic' => ['ar' => $request->topic_ar, 'en' => $request->topic_en],
             'start_at' => $request->start_time,
@@ -80,7 +79,7 @@ public function Store_offline_class($request)
             'grade_id' => $request->grade_id,
             'classroom_id' => $request->classroom_id,
             'section_id' => $request->section_id,
-            'user_id' => auth()->user()->id,
+            'created_by' => auth()->user()->email,
             'meeting_id' => $request->meeting_id, 
             'topic' => ['ar' => $request->topic_ar, 'en' => $request->topic_en],
             'start_at' => $request->start_time,

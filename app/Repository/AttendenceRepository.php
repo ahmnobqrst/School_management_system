@@ -8,8 +8,7 @@ use App\Models\Grade;
 use App\Models\Section;
 use App\Models\Teacher;
 use App\Models\Attendence;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class AttendenceRepository implements AttendenceRepositoryInterface
 {

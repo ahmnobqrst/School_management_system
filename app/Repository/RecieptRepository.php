@@ -10,8 +10,8 @@ use App\Models\Reciept;
 use App\Models\foundAccount;
 use App\Models\StudentAccount;
 use App\Interface\RecieptRepositoryInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class RecieptRepository implements RecieptRepositoryInterface
 {

@@ -275,21 +275,26 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                             @error('Grade_id')
+                                            <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
+                                            @enderror
                                             <div class="form-group col-md-12">
                                                 <label>{{trans('section_trans.Class_id')}}</label>
                                                 <select name="Class_id" id="Class_id" class="form-control">
                                                 </select>
                                             </div>
+                                             @error('Class_id')
+                                            <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
+                                            @enderror
                                             <div class="form-group col-md-12">
                                                 <label>{{trans('section_trans.Teacher_name')}}</label>
-                                                <select name="teacher_id[]" id="teacher_id[]" class="form-control" multiple>
-                                                    <option value="" selected disabled>{{trans('section_trans.Teacher_name')}}</option>
-                                                    @foreach($teachers as $teacher){
-                                                    <option value="{{$teacher->id}}">{{$teacher->name}} </option>
-                                                    }
-                                                    @endforeach
+                                                <select name="teacher_id[]" id="teacher_id" class="form-control" multiple>
+                                                   
                                                 </select>
                                             </div>
+                                             @error('teacher_id')
+                                            <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
+                                            @enderror
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">{{trans('section_trans.Add Section')}}</button>
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('section_trans.Close')}}</button>
@@ -315,32 +320,5 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-
-            <!-- Js for add Section -->
-
-
-            @toastr_js
-            @toastr_render
-            <script>
-                $('select[name="Grade_id"]').on('change', function() {
-                    var Grade_id = $(this).val();
-                    if (Grade_id) {
-                        $.ajax({
-                            url: "{{ URL::to('classes') }}/" + Grade_id,
-                            type: "GET",
-                            dataType: "json",
-                            success: function(data) {
-                                $('select[name="Class_id"]').empty();
-                                //$('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
-                                $.each(data, function(key, value) {
-                                    $('select[name="Class_id"]').append('<option value="' + key + '">' + value + '</option>');
-                                });
-                            },
-                        });
-                    } else {
-                        console.log('AJAX load did not work');
-                    }
-                });
-            </script>
 
             @endsection

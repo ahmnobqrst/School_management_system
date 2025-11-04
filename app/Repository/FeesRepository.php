@@ -4,8 +4,7 @@ namespace App\Repository;
 use App\Models\Fee;
 use App\Models\Grade;
 use App\Interface\FeesRepositoryInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class FeesRepository implements FeesRepositoryInterface
 {

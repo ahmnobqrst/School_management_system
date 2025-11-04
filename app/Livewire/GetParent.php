@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\{MyParent,Student};
+use App\Models\{MyParent,Student,Teacher};
 use App\Models\National;
 use App\Models\Religions;
 use App\Models\BloodType;
@@ -16,13 +16,15 @@ class GetParent extends Component
     public function render()
     {
 
-        $section = $this->getSections();
-        
+         $teacher = Teacher::with('Sections.Classes')
+        ->findOrFail(auth()->user()->id);
+        $sections = $teacher->sections()->pluck('section_id');
+
         return view('livewire.get-parent', [
             'Nationalities' => National::all(),
             'Type_Bloods' => BloodType::all(),
             'Religions' => Religions::all(),
-            'students' => Student::whereHas('Parents')->whereIn('section_id', $section)->paginate(10),
+            'students' => Student::whereHas('Parents')->whereIn('section_id', $sections)->paginate(10),
         ]);
     }
 }

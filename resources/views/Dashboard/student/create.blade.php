@@ -196,6 +196,21 @@
                                 @enderror 
                             </div>
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="bg_id">{{trans('Students_trans.subjects')}} : </label>
+                                    <select class="custom-select mr-sm-2" name="subject_id[]" id="subject_id" multiple>
+                                        <option selected disabled>{{trans('Parent_trans.Choose')}}...</option>
+                                        @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('subject_id')
+                                <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
+                                @enderror 
+                            </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="academic_year">{{trans('Students_trans.academic_year')}} : <span class="text-danger">*</span></label>

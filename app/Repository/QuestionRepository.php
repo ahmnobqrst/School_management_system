@@ -4,8 +4,8 @@ namespace App\Repository;
 use App\Interface\QuestionsInterface;
 use App\Models\Quiz;
 use App\Models\Question;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class QuestionRepository implements QuestionsInterface
 {

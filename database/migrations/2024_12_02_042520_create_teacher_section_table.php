@@ -15,8 +15,8 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('teacher_id')->unsigned();
             $table->integer('section_id')->unsigned();
-            $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            // $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
+            // $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

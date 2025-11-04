@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
-use App\Models\Section;
+use App\Models\{Section,Teacher};
 
 
 class Grade extends Model 
@@ -24,6 +24,10 @@ public function Sections(){
     return $this->hasMany(Section::class,'Grade_id');
 }
     
+public function teachers()
+{
+    return $this->hasMany(Teacher::class, 'grade_id');
+}
 
     
 

@@ -17,7 +17,8 @@ use App\Traits\studentimagetrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Interface\StudentRepositoryInterface;
-use Hash;
+use App\Models\Subject;
+use Illuminate\Support\Facades\Hash;
 
 class StudentRepository implements StudentRepositoryInterface
 {
@@ -32,7 +33,7 @@ class StudentRepository implements StudentRepositoryInterface
     $data['parents'] = MyParent::all();
     $data['sections'] = Section::all();
     $data['grades'] = Grade::all();
-    $data['students'] = Student::all();
+    $data['students'] = Student::paginate(10);
 
     return view('Dashboard.student.index',$data);
 
@@ -46,6 +47,7 @@ class StudentRepository implements StudentRepositoryInterface
     $data['bloods'] = BloodType::all();
     $data['parents'] = MyParent::all();
     $data['grades'] = Grade::all();
+    $data['subjects'] = Subject::all();
 
 
     return view('Dashboard.student.create',$data);
@@ -87,9 +89,9 @@ class StudentRepository implements StudentRepositoryInterface
          $students->blood_type_student_id = $request->blood_type_student_id;
          $students->national_student_id = $request->national_student_id;
          $students->gender_id = $request->gender_id;
-
-
          $students->save();
+
+         $students->Subjects()->attach($request->subject_id);
 
          if($request->hasfile('photos')) {
             foreach($request->file('photos') as $file) {
@@ -124,8 +126,9 @@ class StudentRepository implements StudentRepositoryInterface
       $data['bloods'] = BloodType::all();
       $data['parents'] = MyParent::all();
       $data['grades'] = Grade::all();
+      $data['subjects'] = Subject::all();
 
-      $students = Student::findOrFail($id);
+      $students = Student::with('Subjects')->findOrFail($id);
 
       return view('Dashboard.student.edit',$data,compact('students'));
 
@@ -133,11 +136,21 @@ class StudentRepository implements StudentRepositoryInterface
 
    public function UpdateStudentData($request)
    {
+      
       try {
          $students = Student::findOrFail($request->id);
+         if(!empty($request->password))
+         {
+            $new_password = Hash::make($request->password);
+         }
+         else
+         {
+            $new_password = $students->password;
+         }
+
          $students->name = ['en'=>$request->name_en,'ar'=>$request->name_ar];
          $students->email = $request->email;
-         $students->password = Hash::make($request->password);
+         $students->password = $new_password;
          $students->birth_of_date = $request->birth_of_date;
          $students->academic_year = $request->academic_year;
          $students->grade_id = $request->grade_id;
@@ -150,6 +163,8 @@ class StudentRepository implements StudentRepositoryInterface
          $students->gender_id = $request->gender_id;
 
          $students->save();
+         $students->Subjects()->sync($request->subject_id);
+         
          toastr()->success(trans('Students_trans.the student are updated'));
          return redirect()->route('students.index');
      }

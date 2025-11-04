@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('answer');
             $table->string('right_answer');
             $table->tinyInteger('degree');
-            $table->foreignId('quiz_id')->constraints('quizzes')->onCascadeDelete();
+             $table->unsignedInteger('quiz_id');
+            // $table->foreignId('quiz_id')->constrained('quizzes')->onCascadeDelete();
             $table->timestamps();
             $table->SoftDeletes();
         });

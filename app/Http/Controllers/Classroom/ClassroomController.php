@@ -1,6 +1,7 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\Classroom;
+
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\Grade;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\softDeletes;
 
 use Illuminate\Http\Request;
 
-class ClassroomController extends Controller 
+class ClassroomController extends Controller
 {
 
 
@@ -22,9 +23,9 @@ class ClassroomController extends Controller
    */
   public function index()
   {
-    $myclass = Classroom::all();
+    $myclass = Classroom::paginate(10);
     $grades = Grade::paginate(10);
-    return view('Dashboard.classroom.index',compact('myclass','grades'));
+    return view('Dashboard.classroom.index', compact('myclass', 'grades'));
   }
 
   /**
@@ -36,7 +37,7 @@ class ClassroomController extends Controller
   {
     $myclass = Classroom::all();
     $grades = Grade::all();
-    return view('Dashboard.classroom.create',compact('myclass','grades'));
+    return view('Dashboard.classroom.create', compact('myclass', 'grades'));
   }
 
   /**
@@ -47,42 +48,86 @@ class ClassroomController extends Controller
   public function store(ClassRequest $request)
   {
 
-    $list_classes = $request->class_list;
-  
-    try
-    {
+    // $list_classes = $request->class_list;
+
+    // try
+    // {
+
+    //   $validated = $request->validated();
+
+    //   foreach($list_classes as $list_class){
+    //     // $myclass = new Classroom();
+    //     // $myclass->name = ['ar'=>$list_class['name_ar'],'en'=>$list_class['name_en']];
+    //     // $myclass->desc = ['ar'=>$list_class['desc_ar'],'en'=>$list_class['desc_en']];
+    //     // $myclass->Grade_id = $list_class['grade_id'];
+    //     // $myclass->save();
+    //     $myclass = Classroom::updateOrCreate(['Grade_id',$list_class['grade_id']],[
+    //        'name' => ['ar'=>$list_class['name_ar'],'en'=>$list_class['name_en']],
+    //        'desc' => ['ar'=>$list_class['desc_ar'],'en'=>$list_class['desc_en']],
+    //     ]);
+
+    //   }
+    //   toastr()->success(trans('class_trans.the data are saved'));
+    //   return redirect()->route('classrooms.index');
+
+    // }
+    // catch(\Exception $e){
+    //   toastr()->error(trans('class_trans.the data are not saved'));
+    //   return redirect()->route('classrooms.index');
+
+    // }
+
+    try {
+
+      $list_classes = $request->class_list;
 
       $validated = $request->validated();
 
-      foreach($list_classes as $list_class){
-        $myclass = new Classroom();
-        $myclass->name = ['ar'=>$list_class['name_ar'],'en'=>$list_class['name_en']];
-        $myclass->desc = ['ar'=>$list_class['desc_ar'],'en'=>$list_class['desc_en']];
-        $myclass->Grade_id = $list_class['grade_id'];
-        $myclass->save();
+      $duplicates = [];
 
-      
+      foreach ($list_classes as $list_class) {
+        $exists = Classroom::where('Grade_id', $list_class['grade_id'])
+          ->where(function ($query) use ($list_class) {
+            $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.ar')) = ?", [$list_class['name_ar']])
+              ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) = ?", [$list_class['name_en']]);
+          })
+          ->exists();
+
+        if ($exists) {
+          $duplicates[] = $list_class['name_ar'];
+          continue;
+        }
+
+        Classroom::create([
+          'name' => ['ar' => $list_class['name_ar'], 'en' => $list_class['name_en']],
+          'desc' => ['ar' => $list_class['desc_ar'], 'en' => $list_class['desc_en']],
+          'Grade_id' => $list_class['grade_id'],
+        ]);
       }
-      toastr()->success(trans('class_trans.the data are saved'));
+
+      if (count($duplicates) > 0) {
+        toastr()->warning(trans('section_trans.the Classroon already exists')." ".implode(',', $duplicates));
+      } else {
+        toastr()->success(trans('class_trans.the data are saved'));
+      }
       return redirect()->route('classrooms.index');
 
-    }
-    catch(\Exception $e){
+    } catch (\Exception $e) {
       toastr()->error(trans('class_trans.the data are not saved'));
       return redirect()->route('classrooms.index');
-
     }
-    
+
+
 
     //return redirect()->back()->with(['exists'=>trans('class_trans.the class are saved')]);
-    
+
   }
 
-  public function filteration_class(Request $request){
-   
+  public function filteration_class(Request $request)
+  {
     $grades = Grade::all();
-    $search = Classroom::select('*')->where('Grade_id','*',$request->Grade_id)->get();
-    return view('Dashboard.classroom.index',compact('grades'))->withDetails('search');
+    $search = Classroom::select('*')->where('Grade_id', '*', $request->Grade_id)->get();
+    return view('Dashboard.classroom.index', compact('grades'))->withDetails('search');
   }
 
   /**
@@ -91,10 +136,7 @@ class ClassroomController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function show($id)
-  {
-    
-  }
+  public function show($id) {}
 
   /**
    * Show the form for editing the specified resource.
@@ -107,8 +149,7 @@ class ClassroomController extends Controller
 
     $grades = Grade::all();
 
-    return view('Dashboard.classroom.edit',compact('Classroom','grades'));
-    
+    return view('Dashboard.classroom.edit', compact('Classroom', 'grades'));
   }
 
   /**
@@ -117,70 +158,58 @@ class ClassroomController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update(Request $request,Classroom $Classroom)
+  public function update(Request $request, Classroom $Classroom)
   {
     $Classrooms = Classroom::findOrFail($Classroom->id);
     $Classrooms->update([
-        
-         $Classrooms->name = ['ar'=>$request->name_ar,'en'=>$request->name_en],
-         $Classrooms->desc = ['ar'=>$request->desc_ar,'en'=>$request->desc_en],
-         $Classrooms->Grade_id = $request->grade_id,
-      ]);
-      toastr()->success(trans('class_trans.the data are update'));
-      return redirect()->route('classrooms.index');
-    
+
+      $Classrooms->name = ['ar' => $request->name_ar, 'en' => $request->name_en],
+      $Classrooms->desc = ['ar' => $request->desc_ar, 'en' => $request->desc_en],
+      $Classrooms->Grade_id = $request->grade_id,
+    ]);
+    toastr()->success(trans('class_trans.the data are update'));
+    return redirect()->route('classrooms.index');
   }
 
-  
+
   /**
    * Remove the specified resource from storage.
    *
    * @param  int  $id
    * @return Response
    */
-   
-   public function Delete($myclasses_id){
+
+  public function Delete($myclasses_id)
+  {
     $classrooms = Classroom::find($myclasses_id); // equal offer::where('id','$offer_id')->first();
-     if(!$classrooms)
-        toastr()->error(trans('class_trans.error'));
-        //return redirect()->back()->with(['error'=>__('class_trans.error')]);
-     
-     $classrooms->delete();
-     toastr()->success(trans('class_trans.the item classroom are deleted successfully'));
-     return redirect()->route('classrooms.index');
-   }
+    if (!$classrooms)
+      toastr()->error(trans('class_trans.error'));
+    //return redirect()->back()->with(['error'=>__('class_trans.error')]);
 
-   public function Delete_all(Request $request){
-    
-
-    $items = explode(',',$request->delete_all_id);
-
-    if(!empty($items)){
-      Classroom::whereIn('id',$items)->delete();
-  
-        toastr()->success(trans('class_trans.the item classroom are deleted successfully'));
-        return redirect()->route('classrooms.index');
-      }
-      else{
-        toastr()->error(trans('class_trans.no classes selected to detection'));
-        return redirect()->route('classrooms.index');
-      }
-   
-
+    $classrooms->delete();
+    toastr()->success(trans('class_trans.the item classroom are deleted successfully'));
+    return redirect()->route('classrooms.index');
   }
-  
 
-
- 
-  public function destroy($id)
+  public function Delete_all(Request $request)
   {
 
-   
-    
+
+    $items = explode(',', $request->delete_all_id);
+
+    if (!empty($items)) {
+      Classroom::whereIn('id', $items)->delete();
+
+      toastr()->success(trans('class_trans.the item classroom are deleted successfully'));
+      return redirect()->route('classrooms.index');
+    } else {
+      toastr()->error(trans('class_trans.no classes selected to detection'));
+      return redirect()->route('classrooms.index');
+    }
   }
-  
+
+
+
+
+  public function destroy($id) {}
 }
-
-?>
-
-

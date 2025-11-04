@@ -8,8 +8,7 @@ use App\Models\Classroom;
 use App\Models\Fee_inovice;
 use App\Models\StudentAccount;
 use App\Interface\FeeinvoiceRepositoryInterface;
-use Hash;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class FeeinvoiceRepository implements FeeinvoiceRepositoryInterface
 {

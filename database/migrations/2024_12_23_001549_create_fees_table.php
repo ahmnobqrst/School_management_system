@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('desc');
             $table->string('year');
             $table->integer('grade_id')->unsigned();
-            $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade');
+            // $table->foreign('grade_id')->references('id')->on('grades')->onDelete('cascade');
             $table->integer('classroom_id')->unsigned();
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
+            // $table->foreign('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

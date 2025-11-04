@@ -155,6 +155,19 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>{{ trans('Students_trans.Grade') }}</label>
+                            <select name="grade_id" class="form-control" style="height:55px;">
+                                <option disabled selected>{{ trans('Parent_trans.Choose') }}...</option>
+                                @foreach($grades as $grade)
+                                <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('grade_id') <span class="text-danger small">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
 
                     <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary">{{ trans('teacher_trans.add_Teacher') }}</button>

@@ -47,7 +47,13 @@ return [
     'unique_section_en'=>'اسم القسم بالانجليزي موجود مسبقا',
     'the section are updated'=>'تم تحديث القسم بنجاح',
     'Delete_section'=>'تم حذف القسم بنجاح',
-    'Teacher_name'=>'اسم المدرس'
+    'Teacher_name'=>'اسم المدرس',
+    'Teacher Name is required'=>'يجب اختيار مدرس',
+    'Classroom Name is required'=>'اسم الفصل مطلوب',
+    'Grade Name is required'=>'اسم المرحلة مطلوبة',
+    'the section already exists'=>'هذا القسم موجود مسبقا',
+    'the Classroon already exists'=>'هذا الفصل موجود مسبقا',
+    'teacher_already_assigned'=>'هذا القسم مسجل لهذا المدرس بالفعل',
 
 
     

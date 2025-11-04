@@ -49,8 +49,8 @@
                                     <tbody>
                                         <tr>
                                             <th scope="row">{{1}}</th>
-                                            <td>{{$grade->name}}</td>
-                                            <td>{{$grade->desc}}</td>
+                                            <td>{{$grade->grade->name}}</td>
+                                            <td>{{$grade->grade->desc}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
