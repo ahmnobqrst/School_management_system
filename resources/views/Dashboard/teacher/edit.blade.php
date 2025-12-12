@@ -52,11 +52,23 @@
                             <input type="email" name="email" value="{{ $teacher->email }}" class="form-control">
                             @error('email') <span class="text-danger small">{{ $message }}</span> @enderror
                         </div>
-                        <div class="form-group col-md-6">
-                            <label>{{ __('teacher_trans.password') }}</label>
-                            <input type="password" name="password" value="{{ $teacher->password }}"
-                                class="form-control">
-                            @error('password') <span class="text-danger small">{{ $message }}</span> @enderror
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>{{ __('Students_trans.password') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="password" id="password" class="form-control" name="password">
+                                <div class="form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" onclick="togglePassword()" id="showPassword">
+
+                                    <label class="form-check-label" for="showPassword">
+                                        {{ __('Students_trans.show_password') }}
+                                    </label>
+
+                                </div>
+                                @error('password') <span class="text-danger small">{{ $message }}</span> @enderror
+                            </div>
+
                         </div>
                     </div>
                     <div class="form-row">
@@ -183,6 +195,13 @@
 @endsection
 
 @section('js')
+
+<script>
+    function togglePassword() {
+        const x = document.getElementById("password");
+        x.type = x.type === "password" ? "text" : "password";
+    }
+</script>
 @toastr_js
 @toastr_render
 @endsection

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Interface\TeacherRepositoryInterface;
@@ -6,7 +7,7 @@ use App\Models\BloodType;
 use App\Models\Gender;
 use App\Models\National;
 use App\Models\Specialist;
-use App\Models\{Teacher,Grade};
+use App\Models\{Teacher, Grade};
 use Illuminate\Support\Facades\Hash;
 
 class TeacherRepository implements TeacherRepositoryInterface
@@ -61,9 +62,8 @@ class TeacherRepository implements TeacherRepositoryInterface
             toastr()->success(trans('teacher_trans.Added'));
 
             return redirect()->route('teachers.index');
-
         } catch (\Exception $e) {
-            $this->catchError = $e->getMessage();
+           return $e->getMessage();
         }
     }
 
@@ -76,12 +76,16 @@ class TeacherRepository implements TeacherRepositoryInterface
     {
 
         try {
-
             $teachers                        = Teacher::findOrFail($request->id);
+            if ($request->filled('password')) {
+                $newPassword = Hash::make($request->password);
+            } else {
+                $newPassword = $teachers->password;
+            }
             $teachers->name                  = ['ar' => $request->name_ar, 'en' => $request->name_en];
             $teachers->address               = ['ar' => $request->address_ar, 'en' => $request->address_en];
             $teachers->email                 = $request->email;
-            $teachers->password              = Hash::make($request->password);
+            $teachers->password              = $newPassword;
             $teachers->age                   = $request->age;
             $teachers->phone                 = $request->phone;
             $teachers->date_of_job           = $request->date_of_job;
@@ -95,9 +99,8 @@ class TeacherRepository implements TeacherRepositoryInterface
             toastr()->success(trans('teacher_trans.the data are update'));
 
             return redirect()->route('teachers.index');
-
         } catch (\Exception $e) {
-            $this->catchError = $e->getMessage();
+             return $e->getMessage();
         }
     }
 

@@ -1,0 +1,154 @@
+@extends('Dashboard.layouts.master')
+@section('css')
+<style>
+    .quiz-card {
+        border-radius: 14px;
+        background: linear-gradient(145deg, #ffffff, #f3f4f7);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease-in-out;
+        border: none;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .quiz-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .quiz-header {
+        background: #3b82f6;
+        color: #fff;
+        padding: 12px;
+        font-size: 17px;
+        font-weight: bold;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .quiz-body {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .quiz-body p {
+        margin: 10px 0;
+        color: #555;
+        font-size: 15px;
+    }
+
+    .quiz-btn {
+        background: #10b981 !important;
+        border: none;
+        padding: 8px 18px;
+        border-radius: 8px;
+        color: #fff;
+        transition: 0.3s;
+        font-weight: 600;
+    }
+
+    .quiz-btn:hover {
+        background: #059669 !important;
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    .quiz-icon {
+        font-size: 40px;
+        color: #3b82f6;
+        margin-bottom: 10px;
+    }
+</style>
+@toastr_css
+@section('title')
+{{trans('sidebar_trans.Exam_list')}}
+@stop
+@endsection
+@section('page-header')
+<!-- breadcrumb -->
+@section('PageTitle')
+{{trans('sidebar_trans.Exam_list')}}
+@stop
+<!-- breadcrumb -->
+@endsection
+@section('content')
+<!-- row -->
+<div class="row">
+    <div class="col-md-12 mb-30">
+        <div class="card card-statistics h-100">
+            <div class="card-body">
+                <div class="col-xl-12 mb-30">
+                    <div class="card card-statistics h-100">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div class="row mt-4">
+
+                                    @if(count($quizzes) > 0)
+
+                                    @foreach($quizzes as $quizze)
+                                    <div class="col-md-4 mb-4">
+                                        <div class="quiz-card">
+                                            <div class="quiz-header">
+                                                {{ $quizze->name }}
+                                            </div>
+                                            <div class="quiz-body">
+
+                                                <i class="fas fa-book-open quiz-icon"></i>
+
+                                                <p>
+                                                    <strong>{{ trans('Students_trans.subject_name') }}:</strong>
+                                                    {{ $quizze->subject->name }}
+                                                </p><br><br>
+
+                                                <a href="{{ route('student_exams.show', $quizze->id) }}"
+                                                    onclick="alertAbuse()" class="quiz-btn">
+                                                    <i class="fas fa-edit"></i>
+                                                    {{ trans('Students_trans.enterordegree') }}
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    @else
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <div style="
+                                                     padding: 30px;
+                                                     background: linear-gradient(145deg, #ffffff, #f3f4f7);
+                                                     border-radius: 16px;
+                                                     box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+                                                     text-align: center;
+                                                     width: 50%;
+                                         ">
+                                            <i class="fas fa-exclamation-circle"
+                                                style="font-size: 45px; color: #3b82f6; margin-bottom: 15px;"></i>
+
+                                            <h4 style="color: #334155; font-weight: 700; margin-bottom: 10px;">
+                                                {{ __('Students_trans.no_data') }}
+                                            </h4>
+
+                                            <p style="color: #64748b; font-size: 15px;">
+                                                {{ __('Students_trans.no_exam') }}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    @endif
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- row closed -->
+@endsection
+@section('js')
+@toastr_js
+@toastr_render
+
+@endsection

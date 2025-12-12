@@ -14,7 +14,7 @@ class QuizzesRepository implements QuizzesInterface
 
     public function index()
     {
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::paginate(10);
         return view('Dashboard.quizzes.index',compact('quizzes'));
        
     }

@@ -27,7 +27,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#subject">
                             <div class="pull-left"><i class="ti-file"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Subject')}}</span></div>
@@ -35,9 +35,9 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="subject" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('subjects.index')}}">{{trans('sidebar_trans.subject_list')}}</a> </li>
+                            <li> <a href="{{route('getstudentsubjects')}}">{{trans('sidebar_trans.subject_list')}}</a> </li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#authentication">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
@@ -46,7 +46,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="authentication" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('quizzes.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
+                            <li> <a href="{{route('student_exams.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
                         </ul>
                     </li>
 
@@ -58,7 +58,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="questions" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('questions.index')}}">{{trans('sidebar_trans.question')}}</a> </li>
+                            <li> <a href="{{route('student_exams.index')}}">{{trans('sidebar_trans.question')}}</a> </li>
                         </ul>
                     </li>
                     <li>

@@ -354,6 +354,8 @@ return [
     'Subjects_count'=>'Subjects Count',
      'student_name_ar'=>'Student Arabic Name',
     'student_name_en'=>'Student English NAme',
+    'enterordegree'=>'Enter / Degree Exam',
+    'no_exam'=>'There are Not Found Exams Yet'
     
    
 

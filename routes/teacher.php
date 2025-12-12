@@ -24,8 +24,10 @@ Route::group(
                 $teacher         = Teacher::findOrFail(auth()->user()->id);
                 $section         = $teacher->Sections()->pluck('section_id');
                 $data['section_count']   = $section->count();
+                // dd($data['section_count']);
                 $data['student_count']   = Student::whereIn('section_id', $section)->count();
                 $data['classroom_count'] = Classroom::whereIn('id', $section)->count();
+                // dd($data['classroom_count']);
 
                 return view('dashboard.teacher.dashboard', $data);
             })->name('teacher.dashboard');

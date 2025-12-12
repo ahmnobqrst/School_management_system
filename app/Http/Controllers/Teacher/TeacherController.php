@@ -53,7 +53,6 @@ class TeacherController extends Controller
     public function show($id)
     {
         $teacher = Teacher::findOrFail($id);
-
         return view('Dashboard.teacher.All_data_of_teacher', compact('teacher'));
     }
 

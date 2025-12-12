@@ -46,8 +46,8 @@
 
     </div> -->
 
-    
-    <!-- <div class="nav navbar-nav ml-auto">
+
+            <!-- <div class="nav navbar-nav ml-auto">
         @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
         
         <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
@@ -56,29 +56,34 @@
         
         @endforeach
     </div> -->
-    
-    <!-- top bar right -->
-    <ul class="nav navbar-nav ml-auto">
-        <li class="dropdown">
-            <div class="dropdown language-dropdown">
-    @php $currentLocale = app()->getLocale(); @endphp
 
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{{ asset('assets/images/flags/' . $currentLocale . '.png') }}" width="20" height="14">
-        <span class="lang">{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
-    </button>
+            <!-- top bar right -->
+            <ul class="nav navbar-nav ml-auto">
+                <li class="dropdown">
+                    <div class="dropdown language-dropdown">
+                        @php $currentLocale = app()->getLocale(); @endphp
 
-    <ul class="dropdown-menu">
-        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-            <li>
-                <a class="dropdown-item" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                    <img src="{{ asset('assets/images/flags/' . $localeCode . '.png') }}" width="20" height="14">
-                    {{ $properties['native'] }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
-</div>
+                        <button class="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img src="{{ asset('assets/images/flags/' . $currentLocale . '.png') }}" width="20" height="14">
+                            <span class="lang">{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <li>
+                                <a class="dropdown-item"
+                                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                    <img src="{{ asset('assets/images/flags/' . $localeCode . '.png') }}" width="20" height="14">
+                                    {{ $properties['native'] }}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
                 </li>
                 <li class="nav-item fullscreen">
                     <a id="btnFullscreen" href="#" class="nav-link"><i class="ti-fullscreen"></i></a>
@@ -133,62 +138,62 @@
                         </div>
                     </div>
                 </li>
-               <li class="nav-item dropdown mr-30">
-            <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button"
-                aria-haspopup="true" aria-expanded="false">
-                <img src="{{ auth()->user()->image && file_exists(public_path('storage/'.auth()->user()->image)) 
+                <li class="nav-item dropdown mr-30">
+                    <a class="nav-link nav-pill user-avatar" data-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ auth()->user()->image && file_exists(public_path('storage/'.auth()->user()->image)) 
             ? asset('storage/'.auth()->user()->image) 
             : asset('images/user.jpeg') }}">
 
 
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-header">
-                    <div class="media">
-                        <div class="media-body">
-                            @if(Auth('web')->check())
-                            <h5 class="mt-0 mb-0">{{ Auth::user()->name }}</h5>
-                            <span>{{ Auth::user()->email }}</span>
-                            @elseif(Auth('teacher')->check())
-                            <h5 class="mt-0 mb-0">{{ Auth::guard('teacher')->user()->name }}</h5>
-                            <span>{{ Auth::guard('teacher')->user()->email }}</span>
-                            @elseif(Auth('student')->check())
-                            <h5 class="mt-0 mb-0">{{ Auth::guard('student')->user()->name }}</h5>
-                            <span>{{ Auth::guard('student')->user()->email }}</span>
-                            @else
-                            <h5 class="mt-0 mb-0">{{ Auth::guard('parent')->user()->name }}</h5>
-                            <span>{{ Auth::guard('parent')->user()->email }}</span>
-                            @endif
-                            
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header">
+                            <div class="media">
+                                <div class="media-body">
+                                    @if(Auth('web')->check())
+                                    <h5 class="mt-0 mb-0">{{ Auth::user()->name }}</h5>
+                                    <span>{{ Auth::user()->email }}</span>
+                                    @elseif(Auth('teacher')->check())
+                                    <h5 class="mt-0 mb-0">{{ Auth::guard('teacher')->user()->name }}</h5>
+                                    <span>{{ Auth::guard('teacher')->user()->email }}</span>
+                                    @elseif(Auth('student')->check())
+                                    <h5 class="mt-0 mb-0">{{ Auth::guard('student')->user()->name }}</h5>
+                                    <span>{{ Auth::guard('student')->user()->email }}</span>
+                                    @else
+                                    <h5 class="mt-0 mb-0">{{ Auth::guard('parent')->user()->name }}</h5>
+                                    <span>{{ Auth::guard('parent')->user()->email }}</span>
+                                    @endif
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="dropdown-divider"></div>
-                @if(Auth('web')->check())
-                          <a class="dropdown-item" href="{{route('admin.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
-                            @elseif(Auth('teacher')->check())
-                            <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
-                            @elseif(Auth('student')->check())
-                            <a class="dropdown-item" href="{{route('student.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
-                            @else
-                            <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
-                            @endif
-                @if(auth('student')->check())
-                    <form method="GET" action="{{ route('logout','student') }}">
-                        @elseif(auth('teacher')->check())
+                        <div class="dropdown-divider"></div>
+                        @if(Auth('web')->check())
+                        <a class="dropdown-item" href="{{route('admin.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                        @elseif(Auth('teacher')->check())
+                        <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                        @elseif(Auth('student')->check())
+                        <a class="dropdown-item" href="{{route('student.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                        @else
+                        <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                        @endif
+                        @if(auth('student')->check())
+                        <form method="GET" action="{{ route('logout','student') }}">
+                            @elseif(auth('teacher')->check())
                             <form method="GET" action="{{ route('logout','teacher') }}">
                                 @elseif(auth('parent')->check())
-                                    <form method="GET" action="{{ route('logout','parent') }}">
-                                        @else
-                                            <form method="GET" action="{{ route('logout','web') }}">
-                                                @endif
+                                <form method="GET" action="{{ route('logout','parent') }}">
+                                    @else
+                                    <form method="GET" action="{{ route('logout','web') }}">
+                                        @endif
 
-                                                @csrf
-                                                <a class="dropdown-item" href="#" onclick="event.preventDefault();this.closest('form').submit();"><i class="bx bx-log-out"></i>{{trans('Students_trans.logout')}}</a>
-                                            </form>
+                                        @csrf
+                                        <a class="dropdown-item" href="#" onclick="event.preventDefault();this.closest('form').submit();"><i class="bx bx-log-out"></i>{{trans('Students_trans.logout')}}</a>
+                                    </form>
 
-            </div>
-        </li>
+                    </div>
+                </li>
             </ul>
         </nav>
 

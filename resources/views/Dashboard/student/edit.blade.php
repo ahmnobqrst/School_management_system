@@ -75,14 +75,23 @@
                         </div>
 
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>{{trans('Students_trans.password')}} :</label>
-                                <input type="password" name="password" class="form-control" value="" autocomplete="new-password">
+                       <div class="row mb-4">
+                            <div class="col-md-4">
+                                <label>{{ __('Students_trans.password') }}</label>
                             </div>
-                            @error('password')
-                            <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                            @enderror
+                            <div class="col-md-8">
+                                <input type="password" id="password" class="form-control" name="password">
+                                <div class="form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" onclick="togglePassword()" id="showPassword">
+
+                                    <label class="form-check-label" for="showPassword">
+                                        {{ __('Students_trans.show_password') }}
+                                    </label>
+
+                                </div>
+                                @error('password') <span class="text-danger small">{{ $message }}</span> @enderror
+                            </div>
+
                         </div>
 
                         <div class="col-md-3">
@@ -287,6 +296,13 @@
             console.log('AJAX load did not work');
         }
     });
+</script>
+
+<script>
+    function togglePassword() {
+        const x = document.getElementById("password");
+        x.type = x.type === "password" ? "text" : "password";
+    }
 </script>
 
 

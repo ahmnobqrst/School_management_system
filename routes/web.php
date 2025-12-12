@@ -99,7 +99,7 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
         route::Post('/filter_classes', [ClassroomController::class, 'filteration_class'])->name('filter_grade');
 
         route::get('/classes/{id}', [SectionController::class, 'getclasses']);
-        route::get('/teachers/{id}', [SectionController::class, 'getteacher']);
+        route::get('/teachers-section/{id}', [SectionController::class, 'getteacher']);
 
         route::get('/classes/{id}', [StudentController::class, 'get_classes']);
         route::get('/sections/{id}', [StudentController::class, 'get_sections']);

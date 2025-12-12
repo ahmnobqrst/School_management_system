@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Student\StudentDashboardController;
+use App\Http\Controllers\Student\StudentExamsController;
 use App\Http\Controllers\Teacher\Profile\ProfileController;
 use App\Models\Student;
 use Illuminate\Support\Facades\Route;
@@ -58,5 +59,7 @@ Route::group(
 
          Route::get('student-profile', [ProfileController::class, 'get_profile_data_for_student'])->name('student.getprofile');
         Route::post('student-profile/{studentId}', [ProfileController::class, 'update_profile_for_student'])->name('student.update.profile');
+
+        Route::resource('student_exams',StudentExamsController::class);
     }
 );
