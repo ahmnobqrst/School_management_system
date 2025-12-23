@@ -354,9 +354,13 @@ return [
     'Subjects_count'=>'Subjects Count',
      'student_name_ar'=>'Student Arabic Name',
     'student_name_en'=>'Student English NAme',
-    'enterordegree'=>'Enter / Degree Exam',
-    'no_exam'=>'There are Not Found Exams Yet'
-    
+    'enter_exam'=>'Enter Exam',
+    'no_exam'=>'There are Not Found Exams Yet',
+    'answer_note'=>'Answer Must Be In this Shape',
+    'question_count'=>'Questions Count',
+    'finished_of_Exam'=>'Exam Finished Successfully',
+    'show_result'=>'Result Of Exam',
+    'show_result_incomming'=>'Result Will Comming Soon!'
    
 
 ];

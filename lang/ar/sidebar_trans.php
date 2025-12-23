@@ -77,7 +77,7 @@ return [
     'question_sections'=>'تقريرالامتحانات للفصول الدراسية',
     'question_sections_report'=>'تقرير الاسئلة',
     'question_sections_show'=>'عرض الاسئلة',
-    'Liberary_book'=>'الكتب',
+    'questions_student'=>'الاسئلة',
     'Liberary_book'=>'الكتب',
     'Liberary_book'=>'الكتب',
     'Liberary_book'=>'الكتب',

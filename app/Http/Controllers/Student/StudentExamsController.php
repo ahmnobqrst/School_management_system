@@ -41,7 +41,8 @@ class StudentExamsController extends Controller
      */
     public function show($quiz_id)
     {
-        return $quiz_id;
+       $student_id = auth()->user()->id;
+       return view('Data.Student.exams.enter',compact('quiz_id','student_id'));
     }
 
     /**
@@ -66,5 +67,10 @@ class StudentExamsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function show_exam_result($quiz_id)
+    {
+        dd($quiz_id);
     }
 }

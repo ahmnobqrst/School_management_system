@@ -12,7 +12,7 @@ class QuestionRepository implements QuestionsInterface
 
     public function index()
     {
-       $questions = Question::all();
+       $questions = Question::paginate(10);
        return view('Dashboard.questions.index',compact('questions'));
     }
 

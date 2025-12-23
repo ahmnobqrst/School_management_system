@@ -24,5 +24,10 @@ class Question extends Model
         return $this->belongsTo(Quiz::class,'quiz_id');
     }
 
+    public function response()
+    {
+        return $this->belongsTo(StudentResponse::class);
+    }
+
 
 }

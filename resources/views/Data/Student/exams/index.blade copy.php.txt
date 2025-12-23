@@ -98,30 +98,23 @@
                                                     <strong>{{ trans('Students_trans.subject_name') }}:</strong>
                                                     {{ $quizze->subject->name }}
                                                 </p><br><br>
-                                                @php
-                                                $result = $quizze->results->where('quiz_id', $quizze->id)
-                                                ->where('student_id', auth()->id())
-                                                ->first();
-                                                @endphp
-
-                                                @if($result)
-                                                @if($result->check)
-                                                <a href="{{ route('show_exam_result', $quizze->id) }}"
+                                                @if($quizze->results)
+                                                @foreach($quizze->results as $result)
+                                                @if($result && $result->status == null )
+                                                <a href="{{ route('student_exams.show', $quizze->id) }}"
                                                     onclick="alertAbuse()" class="quiz-btn">
-                                                    {{ trans('Students_trans.show_result') }}
+                                                    <i class="fas fa-edit"></i>
+                                                    {{ trans('Students_trans.enterordegree') }}
                                                 </a>
-                                                @else
-                                                <button class="quiz-btn" disabled>
-                                                    {{ trans('Students_trans.show_result_incomming') }}
-                                                </button>
                                                 @endif
+                                                @endforeach
                                                 @else
                                                 <a href="{{ route('student_exams.show', $quizze->id) }}"
                                                     onclick="alertAbuse()" class="quiz-btn">
-                                                    {{ trans('Students_trans.enter_exam') }}
+                                                    <i class="fas fa-edit"></i>
+                                                    {{ trans('عرض النتيجة') }}
                                                 </a>
                                                 @endif
-
 
                                             </div>
 

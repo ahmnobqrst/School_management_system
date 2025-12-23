@@ -78,7 +78,7 @@ return [
     'question_sections'=>'Questions For All Sections',
     'question_sections_report'=>'Questions',
     'question_sections_show'=>'Show Question',
-    'Liberary_book'=>'Books',
+    'questions_student'=>'Questions',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',

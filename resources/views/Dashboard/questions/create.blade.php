@@ -1,129 +1,155 @@
 @extends('Dashboard.layouts.master')
+
 @section('css')
 @toastr_css
+<style>
+    .hint-box {
+        background: #f8f9fa;
+        border-left: 4px solid #17a2b8;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+</style>
+@endsection
+
 @section('title')
-{{trans('sidebar_trans.create_question')}}
-@stop
+{{ trans('sidebar_trans.create_question') }}
 @endsection
+
 @section('page-header')
-<!-- breadcrumb -->
 @section('PageTitle')
-{{trans('sidebar_trans.create_question')}}
-@stop
-<!-- breadcrumb -->
+{{ trans('sidebar_trans.create_question') }}
 @endsection
+@endsection
+
 @section('content')
-<div class="page-title">
-    <div class="row">
-        <div class="col-sm-12">
-            <h4 class="mb-0">{{trans('sidebar_trans.create_question')}}</h4>
-        </div>
-        <div class="col-sm-12">
-            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-                <li class="breadcrumb-item"><a href="#" class="default-color">Home</a></li>
-                <li class="breadcrumb-item active">{{trans('sidebar_trans.create_question')}}</li>
-            </ol>
-        </div>
-    </div>
+
+<div class="page-title mb-3">
+    <h4>{{ trans('sidebar_trans.create_question') }}</h4>
 </div>
 
-<!-- row -->
 <div class="row">
-    <div class="col-md-12 mb-30">
-        <div class="card card-statistics h-100">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
             <div class="card-body">
 
-                @if(session()->has('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session()->get('error') }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                {{-- تنبيه عام --}}
+                <div class="hint-box mb-4">
+                    <i class="fa fa-info-circle text-info"></i>
+                    <strong>تنبيه مهم:</strong>
+                    لازم تفصل بين الإجابات باستخدام علامة
+                    <span class="badge badge-dark">-</span>
+                    <br>
+                    <small>مثال: إجابة1 - إجابة2 - إجابة3</small>
                 </div>
-                @endif
-                <div class="col-xs-12">
-                    <div class="col-md-12">
-                        <br>
-                        <form action="{{route('questions.store')}}" method="post" autocomplete="off">
-                            @csrf
 
-                            <div class="form-row">
+                <form action="{{ route('questions.store') }}" method="POST" autocomplete="off">
+                    @csrf
 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_name_ar')}}</label>
-                                    <input type="text" name="name_ar" class="form-control">
-                                </div>
-                                @error('name_ar')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror 
+                    <div class="row">
 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_name_en')}}</label>
-                                    <input type="text" name="name_en" class="form-control">
-                                </div>
-                                @error('name_en')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_answer_ar')}}</label>
-                                    <input type="text" name="answer_ar" class="form-control">
-                                </div>
-                                @error('answer_ar')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_answer_en')}}</label>
-                                    <input type="text" name="answer_en" class="form-control">
-                                </div>
-                                @error('answer_en')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_right_answer_ar')}}</label>
-                                    <input type="text" name="right_answer_ar" class="form-control">
-                                </div>
-                                @error('right_answer_ar')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_right_answer_en')}}</label>
-                                    <input type="text" name="right_answer_en" class="form-control">
-                                </div>
-                                @error('right_answer_en')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror 
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.question_degree')}}</label>
-                                    <input type="text" name="degree" class="form-control">
-                                </div>
-                                @error('degree')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror
-                                <div class="col">
-                                    <label for="title">{{__('Students_trans.quiz_name')}}</label>
-                                    <select class="custom-select mr-sm-2" name="quiz_id">
-                                        <option selected disabled>{{trans('parent_trans.Choose')}}...</option>
-                                        @foreach($quizzes as $quiz)
-                                        <option value="{{ $quiz->id }}">{{ $quiz->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('quiz_id')
-                                    <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <br>
-                            <button class="btn btn-success btn-sm nextBtn btn-lg pull-right"
-                                type="submit">{{trans('Students_trans.submit')}}</button>
-                        </form>
+                        {{-- اسم السؤال عربي --}}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('Students_trans.question_name_ar') }}</label>
+                            <input type="text" name="name_ar" class="form-control">
+                            @error('name_ar')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- اسم السؤال إنجليزي --}}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('Students_trans.question_name_en') }}</label>
+                            <input type="text" name="name_en" class="form-control">
+                            @error('name_en')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- الإجابات عربي --}}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('Students_trans.question_answer_ar') }}</label>
+                            <input type="text"
+                                   name="answer_ar"
+                                   class="form-control"
+                                   placeholder="إجابة1 - إجابة2 - إجابة3">
+                            @error('answer_ar')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- الإجابات إنجليزي --}}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('Students_trans.question_answer_en') }}</label>
+                            <input type="text"
+                                   name="answer_en"
+                                   class="form-control"
+                                   placeholder="Answer1 - Answer2 - Answer3">
+                            @error('answer_en')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- الإجابة الصحيحة عربي --}}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('Students_trans.question_right_answer_ar') }}</label>
+                            <input type="text" name="right_answer_ar" class="form-control">
+                            @error('right_answer_ar')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- الإجابة الصحيحة إنجليزي --}}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ __('Students_trans.question_right_answer_en') }}</label>
+                            <input type="text" name="right_answer_en" class="form-control">
+                            @error('right_answer_en')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- الدرجة --}}
+                        <div class="col-md-4 mb-3">
+                            <label>{{ __('Students_trans.question_degree') }}</label>
+                            <input type="number" name="degree" class="form-control">
+                            @error('degree')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        {{-- الكويز --}}
+                        <div class="col-md-8 mb-3">
+                            <label>{{ __('Students_trans.quiz_name') }}</label>
+                            <select name="quiz_id" class="form-control">
+                                <option selected disabled>{{ trans('parent_trans.Choose') }}...</option>
+                                @foreach($quizzes as $quiz)
+                                    <option value="{{ $quiz->id }}">{{ $quiz->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('quiz_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                     </div>
-                </div>
+
+                    <div class="text-right mt-4">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="fa fa-save"></i>
+                            {{ trans('Students_trans.submit') }}
+                        </button>
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
 </div>
-<!-- row closed -->
+
 @endsection
+
 @section('js')
 @toastr_js
 @toastr_render

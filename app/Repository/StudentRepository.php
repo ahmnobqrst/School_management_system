@@ -213,11 +213,7 @@ class StudentRepository implements StudentRepositoryInterface
 
    public function Delete_attachment($request)
    {
-
-      //for delete image from the server
     Storage::disk('upload_attachments')->delete('attachments/students/'.$request->student_name.'/'.$request->filename);
-
-    //delete image from database
     $image = Image::where('id',$request->id)->where('filename',$request->filename)->delete();
     toastr()->error(trans('Students_trans.the attachment of student are deleted'));
    return redirect()->route('students.show',$request->student_id);

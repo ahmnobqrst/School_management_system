@@ -60,6 +60,8 @@ Route::group(
          Route::get('student-profile', [ProfileController::class, 'get_profile_data_for_student'])->name('student.getprofile');
         Route::post('student-profile/{studentId}', [ProfileController::class, 'update_profile_for_student'])->name('student.update.profile');
 
+        Route::get('result_of_exam/{quiz_id}',[StudentExamsController::class,'show_exam_result'])->name('show_exam_result');
+
         Route::resource('student_exams',StudentExamsController::class);
     }
 );

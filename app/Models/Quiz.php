@@ -23,24 +23,43 @@ class Quiz extends Model
 
     public function grade()
     {
-        return $this->belongsTo(Grade::class,'grade_id');
+        return $this->belongsTo(Grade::class, 'grade_id');
     }
     public function classroom()
     {
-        return $this->belongsTo(Classroom::class,'classroom_id');
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
     public function section()
     {
-        return $this->belongsTo(Section::class,'section_id');
+        return $this->belongsTo(Section::class, 'section_id');
     }
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class,'teacher_id');
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
     public function subject()
     {
-        return $this->belongsTo(Subject::class,'subject_id');
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 
+    public function responses()
+    {
+        return $this->hasMany(StudentResponse::class);
+    }
+
+    public function results()
+    {
+        return $this->hasMany(StudentQuizResult::class);
+    }
+
+    // public function studentResult()
+    // {
+    //     return $this->hasOne(StudentQuizResult::class)
+    //         ->where('student_id', auth()->id());
+    // }
 }
