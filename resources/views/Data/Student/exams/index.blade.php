@@ -121,8 +121,6 @@
                                                     {{ trans('Students_trans.enter_exam') }}
                                                 </a>
                                                 @endif
-
-
                                             </div>
 
                                         </div>

@@ -360,7 +360,17 @@ return [
     'question_count'=>'Questions Count',
     'finished_of_Exam'=>'Exam Finished Successfully',
     'show_result'=>'Result Of Exam',
-    'show_result_incomming'=>'Result Will Comming Soon!'
+    'show_result_incomming'=>'Result Will Comming Soon!',
+    'show_student_share'=>'Show students',
+    'no_student'=>'there is no students',
+    'students_in_exam'=>'Students participate in Exam',
+    'score'=>'Score',
+    'students_answers'=>'Students Answers in Exam',
+    'show_answers'=>'Show Student Answers',
+    'confirm_answers'=>'Confirm Degree',
+    'correct'=>'Correct',
+    'wrong'=>'Wrong',
+    'total_score'=>'Student Total Score'
    
 
 ];

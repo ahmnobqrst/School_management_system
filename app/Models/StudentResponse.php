@@ -12,4 +12,9 @@ class StudentResponse extends Model
     use HasFactory , SoftDeletes ,HasTranslations;
 
     public $guarded = [];
+
+    public function response()
+    {
+        return $this->belongsTo(StudentQuizResult::class);
+    }
 }

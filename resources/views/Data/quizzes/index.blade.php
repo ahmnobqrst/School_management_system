@@ -6,6 +6,17 @@
         color: blue;
         font-size: 20px;
     }
+    /* تحسين ترتيب الأزرار داخل الـ table cell */
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 5px; /* مسافة صغيرة بين الأزرار */
+        flex-wrap: wrap; /* لو الأزرار كتيرة تتحرك للسطر الجديد */
+    }
+    .action-buttons a,
+    .action-buttons button {
+        margin-bottom: 3px; /* مسافة صغيرة من تحت */
+    }
 </style>
 @toastr_css
 @section('title')
@@ -41,11 +52,11 @@
                 <div class="col-xl-12 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
-                            <a href="{{route('quizz.create')}}" class="btn btn-success btn-sm" role="button"
-                                aria-pressed="true">{{trans('sidebar_trans.create_quiz')}}</a><br><br>
+                            <a href="{{route('quizz.create')}}" class="btn btn-success btn-sm mb-2" role="button"
+                                aria-pressed="true">{{trans('sidebar_trans.create_quiz')}}</a>
                             <div class="table-responsive">
                                 @if($quizzes)
-                                <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
+                                <table id="datatable" class="table table-hover table-sm table-bordered p-0"
                                     data-page-length="50"
                                     style="text-align: center">
                                     <thead>
@@ -68,18 +79,29 @@
                                             <td>{{$quizze->classroom->name}}</td>
                                             <td>{{$quizze->section->section_name}}</td>
                                             <td>
-                                                <a href="{{route('quizz.edit',$quizze->id)}}"
-                                                    class="btn btn-info btn-sm" role="button" aria-pressed="true"><i
-                                                        class="fa fa-edit"></i></a>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    data-toggle="modal"
-                                                    data-target="#delete_exam{{ $quizze->id }}"><i
-                                                        class="fa fa-trash"></i></button>
-                                                <a href="{{route('questions',$quizze->section->id)}}"
-                                                    class="btn btn-info btn-sm" role="button" aria-pressed="true"><i style="color: #ffc107" class="fa fa-eye"></i>&nbsp;{{trans('sidebar_trans.question_sections_show')}}</a>
+                                                <div class="action-buttons">
+                                                    <a href="{{route('quizz.edit',$quizze->id)}}"
+                                                        class="btn btn-info btn-sm" role="button" aria-pressed="true">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#delete_exam{{ $quizze->id }}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                    <a href="{{route('questions',$quizze->section->id)}}"
+                                                        class="btn btn-info btn-sm" role="button" aria-pressed="true">
+                                                        <i style="color: #ffc107" class="fa fa-eye"></i>
+                                                        &nbsp;{{trans('sidebar_trans.question_sections_show')}}
+                                                    </a>
+                                                    <a href="{{route('quiz.with.student',$quizze->id)}}"
+                                                        class="btn btn-info btn-sm" role="button" aria-pressed="true">
+                                                        <i style="color: #ffc107" class="fa fa-eye"></i>
+                                                        &nbsp;{{ trans('Students_trans.show_student_share') }}
+                                                    </a>
+                                                </div>
                                             </td>
                                         </tr>
-
 
                                         <div class="modal fade" id="delete_exam{{$quizze->id}}" tabindex="-1"
                                             role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -101,12 +123,10 @@
                                                             <input type="hidden" name="id" value="{{$quizze->id}}">
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">{{trans('Students_trans.Close')}}</button>
-                                                                <button type="submit"
-                                                                    class="btn btn-danger">{{trans('Students_trans.Delete')}}</button>
-                                                            </div>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">{{trans('Students_trans.Close')}}</button>
+                                                            <button type="submit"
+                                                                class="btn btn-danger">{{trans('Students_trans.Delete')}}</button>
                                                         </div>
                                                     </div>
                                                 </form>

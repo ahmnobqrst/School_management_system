@@ -11,6 +11,8 @@ use App\Models\Quiz;
 use App\Models\Teacher;
 use App\Models\Classroom;
 use App\Http\Requests\QuizTeacherRequest;
+use App\Models\Question;
+use App\Models\StudentQuizResult;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\ZoomTraitIntegration;
@@ -31,7 +33,7 @@ class TeacherQuizController extends Controller
     {
 
         $teacher = Auth::guard('teacher')->user();
-        $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
+        $data['subject'] = Subject::where('teacher_id', $teacher->id)->firstOrFail();
         // if($teacher->subject)
         // {
         //     $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
@@ -42,7 +44,7 @@ class TeacherQuizController extends Controller
         //    return redirect()->back();
         // }
         $data['grades'] = $this->getteachergrades();
-    
+
         return view('Data.quizzes.create', $data);
     }
 
@@ -110,10 +112,10 @@ class TeacherQuizController extends Controller
 
     public function get_classes_for_grade($grade_id)
     {
-        $teacher = Teacher::with('Sections.Classes')->where('Grade_id',$grade_id)
-        ->findOrFail(auth()->user()->id);
+        $teacher = Teacher::with('Sections.Classes')->where('Grade_id', $grade_id)
+            ->findOrFail(auth()->user()->id);
         $sections = $teacher->sections;
-        $classrooms = $sections->pluck('Classes')->pluck('name','id');
+        $classrooms = $sections->pluck('Classes')->pluck('name', 'id');
         return response()->json($classrooms);
     }
 
@@ -121,5 +123,23 @@ class TeacherQuizController extends Controller
     {
         $section = Section::where('Class_id', $classroom_id)->pluck('section_name', 'id');
         return response()->json($section);
+    }
+
+    public function get_student_in_quiz($quizId)
+    {
+        $students = StudentQuizResult::with('student')->where('quiz_id', $quizId)->get();
+        return view('Dashboard.teacher.quiz.student_exam', compact('students'));
+    }
+
+    public function get_student_answers($quizId, $studentId)
+    {
+        $questions = Question::with(['responses' => function ($q) use ($studentId) {
+            $q->where('student_id', $studentId);
+        }])
+            ->where('quiz_id', $quizId)
+            ->get();
+        
+        $totalScore = StudentQuizResult::where('quiz_id',$quizId)->where('student_id',$studentId)->first()->score;
+        return view('Dashboard.teacher.quiz.student_answers',compact('questions', 'studentId','totalScore'));
     }
 }

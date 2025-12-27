@@ -12,7 +12,7 @@ class Question extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
 
-    public $translatable = ['title','answer','right_answer'];
+    public $translatable = ['title', 'answer', 'right_answer'];
 
     protected $guarded = [];
 
@@ -21,13 +21,11 @@ class Question extends Model
 
     public function quizz()
     {
-        return $this->belongsTo(Quiz::class,'quiz_id');
+        return $this->belongsTo(Quiz::class, 'quiz_id');
     }
 
-    public function response()
+    public function responses()
     {
-        return $this->belongsTo(StudentResponse::class);
+        return $this->hasMany(StudentResponse::class, 'question_id');
     }
-
-
 }

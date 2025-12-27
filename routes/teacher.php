@@ -63,6 +63,9 @@ Route::group(
 
                 route::get('/sections_for_grade/{classroom_id}', [TeacherQuizController::class, 'get_sections_for_grade'])
                     ->name('teacher.sections_for_grade');
+
+                Route::get('students_in_quiz/{quiz_id}',[TeacherQuizController::class, 'get_student_in_quiz'])->name('quiz.with.student');
+                Route::get('students_answers/{quizId}/{studentId}',[TeacherQuizController::class, 'get_student_answers'])->name('student.answers');
                 // theses End Routes For Teacher 
 
 

@@ -16,11 +16,11 @@ class StudentQuizResult extends Model
 
     public function quiz()
     {
-        return $this->hasMany(Quiz::class);
+        return $this->belongsTo(Quiz::class);
     }
 
     public function student()
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsTo(Student::class);
     }
 }
