@@ -113,4 +113,36 @@ class ProfileController extends Controller
 
         return redirect()->back()->with(['success' => __('Students_trans.profile_updated')]);
     }
+
+
+    public function get_profile_data_for_parent()
+    {
+        $parent =  MyParent::findOrFail(auth()->user()->id);
+        return view('Dashboard.parents.profile', compact('parent'));
+    }
+
+    public function update_profile_for_parent(Request $request, $parentId)
+    {
+        $parent = MyParent::findOrFail($parentId);
+        if ($request->filled('password')) {
+            $newPassword = Hash::make($request->password);
+        } else {
+            $newPassword = $parent->password;
+        }
+
+        if ($request->hasFile('image')) {
+            $this->delete_file($parent->image);
+            $image = $this->uploadImageimage($request->image, 'Parents/images');
+        } else {
+            $image = $parent->image;
+        }
+
+        $parent->update([
+            'name'     => ['ar' => $request->name_of_father_ar, 'en' => $request->name_of_father_en],
+            'image'    => $image,
+            'password' => $newPassword,
+        ]);
+
+        return redirect()->back()->with(['success' => __('Students_trans.profile_updated')]);
+    }
 }

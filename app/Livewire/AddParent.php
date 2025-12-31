@@ -108,7 +108,7 @@ class AddParent extends Component
 
         $great = new MyParent();
         $great->email = $this->email;
-        $great->password = $this->password;
+        $great->password = Hash::make($this->password);
         $great->name_of_father = ['en'=>$this->name_of_father_en,'ar'=>$this->name_of_father_ar];
         $great->father_job = ['en'=>$this->father_job_en,'ar'=>$this->father_job_ar];
         $great->father_address = ['en'=>$this->father_address_en,'ar'=>$this->father_address_ar];
@@ -205,7 +205,7 @@ class AddParent extends Component
         $parents->update([
 
          'email'  => $this->email,
-         'password'  => $this->password,
+         'password'  => Hash::make($this->password),
          'name_of_father'  => ['ar'=>$this->name_of_father_ar,'en'=>$this->name_of_father_en],
          'father_job'  => ['ar'=>$this->father_job_ar,'en'=>$this->father_job_en],
          'father_ID'  =>$this->father_ID,

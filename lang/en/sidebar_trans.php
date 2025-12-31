@@ -80,7 +80,7 @@ return [
     'question_sections_show'=>'Show Question',
     'questions_student'=>'Questions',
     'Liberary_book'=>'Books',
-    'Liberary_book'=>'Books',
+    'childerns'=>'childerns',
     'Liberary_book'=>'Books',
     'Liberary_book'=>'Books',
 ];

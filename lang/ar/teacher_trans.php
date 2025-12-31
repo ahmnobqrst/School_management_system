@@ -57,6 +57,19 @@ return [
     'phone Already Exists'              => 'التليفون موجود مسبقا',
     'national_teacher_id is required'   => 'الجنسية مطلوبة',
     'blood_type_teacher_id is required' => 'فصيلة الدم مطلوبة',
+     'name_of_father_ar' => 'اسم الأب باللغة العربية',
+    'name_of_father_en' => 'اسم الأب باللغة الإنجليزية',
+
+    'name_of_father_ar_required' => 'اسم الأب باللغة العربية مطلوب',
+    'name_of_father_ar_string'   => 'اسم الأب باللغة العربية يجب أن يكون نصًا',
+
+    'name_of_father_en_required' => 'اسم الأب باللغة الإنجليزية مطلوب',
+    'name_of_father_en_string'   => 'اسم الأب باللغة الإنجليزية يجب أن يكون نصًا',
+
+    'password_min' => 'كلمة المرور يجب ألا تقل عن 6 أحرف',
+    'password_max' => 'كلمة المرور يجب ألا تزيد عن 14 حرفًا',
+
+    'image' => 'يجب أن يكون الملف صورة صالحة',
     ''                                  => '',
     ''                                  => '',
     ''                                  => '',

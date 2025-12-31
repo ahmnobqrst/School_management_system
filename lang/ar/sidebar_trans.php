@@ -79,7 +79,7 @@ return [
     'question_sections_show'=>'عرض الاسئلة',
     'questions_student'=>'الاسئلة',
     'Liberary_book'=>'الكتب',
-    'Liberary_book'=>'الكتب',
+    'childerns'=>'الابناء',
     'Liberary_book'=>'الكتب',
     'Liberary_book'=>'الكتب',
     'Liberary_book'=>'الكتب',

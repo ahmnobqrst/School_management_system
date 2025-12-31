@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Google\GoogleController;
 use App\Http\Controllers\Teacher\Profile\ProfileController;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -32,7 +33,7 @@ Route::group(
                 return view('dashboard.teacher.dashboard', $data);
             })->name('teacher.dashboard');
 
-             route::view('get-parent','livewire.get_student_parent')->name('get_student_parent');
+            route::view('get-parent', 'livewire.get_student_parent')->name('get_student_parent');
 
             Route::group(['prefix' => 'teacher/dashboard'], function () {
                 Route::get('/allstudents', [TeacherController::class, 'getteacherstds'])->name('getstds');
@@ -64,8 +65,10 @@ Route::group(
                 route::get('/sections_for_grade/{classroom_id}', [TeacherQuizController::class, 'get_sections_for_grade'])
                     ->name('teacher.sections_for_grade');
 
-                Route::get('students_in_quiz/{quiz_id}',[TeacherQuizController::class, 'get_student_in_quiz'])->name('quiz.with.student');
-                Route::get('students_answers/{quizId}/{studentId}',[TeacherQuizController::class, 'get_student_answers'])->name('student.answers');
+                Route::get('students_in_quiz/{quiz_id}', [TeacherQuizController::class, 'get_student_in_quiz'])->name('quiz.with.student');
+                Route::get('students_answers/{quizId}/{studentId}', [TeacherQuizController::class, 'get_student_answers'])->name('student.answers');
+                Route::post('confirm_student_degree/{quizId}/{studentId}',[TeacherQuizController::class, 'confirm_student_degree'])
+                ->name('confirmation.degree');
                 // theses End Routes For Teacher 
 
 
@@ -103,10 +106,15 @@ Route::group(
                 ////////////////////////// Liverwire ////////////////
 
 
-                Route::get('profile',[ProfileController::class,'get_profile_data'])->name('getprofile');
-                Route::post('profile/{teacherId}',[ProfileController::class,'update_profile'])->name('update.profile');
+                Route::get('profile', [ProfileController::class, 'get_profile_data'])->name('getprofile');
+                Route::post('profile/{teacherId}', [ProfileController::class, 'update_profile'])->name('update.profile');
 
-               
+
+                //=================================== Google Login ===================================================//
+                // Route::get('teacher/auth/google', [GoogleController::class, 'redirectToGoogle']);
+                // Route::get('teacher/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+
 
 
                 Route::resources([

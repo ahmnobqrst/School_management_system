@@ -175,6 +175,7 @@ return [
         App\Providers\PromotionProvidersService::class,
         App\Providers\GraduatedProvider::class,
         App\Providers\FeesProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         
     ])->toArray(),
 
@@ -192,6 +193,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
        'DataTables'=> Yajra\DataTables\Facades\DataTables::class,
+       'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ])->toArray(),
 
 ];

@@ -4,7 +4,7 @@ namespace App\Traits;
 
 use MacsiDigital\Zoom\Facades\Zoom;
 use Carbon\Carbon;
-use App\Models\{Teacher,Grade,Section};
+use App\Models\{Teacher,Grade,Section, Student};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -79,5 +79,19 @@ trait ZoomTraitIntegration
         $sections = $teacher->sections;
 
         return $sections;
+    }
+    public function get_childerns_data()
+    {
+        $students = Student::where('parent_id', auth()->user()->id)
+        ->select('id','name','email','grade_id','classroom_id','section_id')
+        ->get();
+
+        return $students;
+    }
+    
+    public function get_childern_data($studentId)
+    {
+        $student = Student::findOrFail($studentId);
+        return $student;
     }
 }

@@ -54,7 +54,7 @@
 
                 @if($questions->count() > 0)
 
-                <form method="POST" action="#">
+                <form method="POST" action="{{route('confirmation.degree',['quizId'=>$quizId,'studentId'=>$studentId])}}">
                     @csrf
 
                     <div class="table-responsive">
@@ -107,17 +107,20 @@
                         <div class="col-md-6">
                             <div class="alert alert-info text-center">
                                 <strong>{{ __('Students_trans.total_score') }} :</strong>
-                                {{$totalScore}}
+                                {{$totalScore->score}}
                             </div>
                         </div>
                     </div>
-
+                    
+                    @if($totalScore->check == false)
                     <div class="text-right mt-4">
                         <button type="submit" class="btn btn-success">
                             <i class="fa fa-check"></i>
                             {{ __('Students_trans.confirm_answers') }}
                         </button>
                     </div>
+                    @else
+                    @endif
                 </form>
 
                 @else

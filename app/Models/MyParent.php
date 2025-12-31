@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use App\Models\Student;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class MyParent extends Model
+class MyParent extends Authenticatable
 {
     use HasFactory , HasTranslations , SoftDeletes;
 
@@ -16,7 +17,7 @@ class MyParent extends Model
     public $translatable = ['name_of_father','father_job','name_of_mother','mother_job','father_address','mother_address'];
     protected $fillable = ['id', 'email', 'password', 'name_of_father', 'father_phone', 
     'father_job', 'father_ID', 'father_address', 'national_father_id', 'blood_type_father_id', 'religion_father_id', 'name_of_mother', 'mother_phone', 'mother_job', 'mother_ID', 'mother_address',
-     'national_mother_id', 'blood_type_mother_id', 'created_at', 'updated_at', 'deleted_at'];
+     'national_mother_id', 'blood_type_mother_id', 'created_at', 'updated_at', 'deleted_at','image'];
     public $timestamps = true;
 
 

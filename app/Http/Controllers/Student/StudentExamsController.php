@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\StudentQuizResult;
 use Illuminate\Http\Request;
 
 class StudentExamsController extends Controller
@@ -71,6 +73,8 @@ class StudentExamsController extends Controller
 
     public function show_exam_result($quiz_id)
     {
-        dd($quiz_id);
+        $questions = Question::where('quiz_id',$quiz_id)->get();
+        $totalScore = StudentQuizResult::where('quiz_id',$quiz_id)->where('student_id',auth()->user()->id)->first();
+        return view('Data.student.exams.exam_result_report',compact('questions','totalScore'));
     }
 }

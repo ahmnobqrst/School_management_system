@@ -3,21 +3,34 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
     .name_quiz {
-        color: blue;
-        font-size: 20px;
+        color: #2563eb;
+        font-size: 18px;
+        font-weight: 600;
     }
-    /* تحسين ترتيب الأزرار داخل الـ table cell */
+
     .action-buttons {
         display: flex;
         justify-content: center;
-        gap: 5px; /* مسافة صغيرة بين الأزرار */
-        flex-wrap: wrap; /* لو الأزرار كتيرة تتحرك للسطر الجديد */
+        gap: 6px;
+        flex-wrap: wrap;
     }
+
     .action-buttons a,
     .action-buttons button {
-        margin-bottom: 3px; /* مسافة صغيرة من تحت */
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .action-buttons i {
+        font-size: 15px;
     }
 </style>
+
 @toastr_css
 @section('title')
 {{trans('sidebar_trans.Exam_list')}}
@@ -80,27 +93,40 @@
                                             <td>{{$quizze->section->section_name}}</td>
                                             <td>
                                                 <div class="action-buttons">
+
                                                     <a href="{{route('quizz.edit',$quizze->id)}}"
-                                                        class="btn btn-info btn-sm" role="button" aria-pressed="true">
+                                                        class="btn btn-info btn-sm"
+                                                        data-toggle="tooltip"
+                                                        title="{{ __('Students_trans.edit') }}">
                                                         <i class="fa fa-edit"></i>
                                                     </a>
-                                                    <button type="button" class="btn btn-danger btn-sm"
+
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm"
                                                         data-toggle="modal"
-                                                        data-target="#delete_exam{{ $quizze->id }}">
+                                                        data-target="#delete_exam{{ $quizze->id }}"
+                                                        data-toggle="tooltip"
+                                                        title="{{ __('Students_trans.delete') }}">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
+
                                                     <a href="{{route('questions',$quizze->section->id)}}"
-                                                        class="btn btn-info btn-sm" role="button" aria-pressed="true">
-                                                        <i style="color: #ffc107" class="fa fa-eye"></i>
-                                                        &nbsp;{{trans('sidebar_trans.question_sections_show')}}
+                                                        class="btn btn-warning btn-sm"
+                                                        data-toggle="tooltip"
+                                                        title="{{ trans('sidebar_trans.question_sections_show') }}">
+                                                        <i class="fa fa-eye"></i>
                                                     </a>
+
                                                     <a href="{{route('quiz.with.student',$quizze->id)}}"
-                                                        class="btn btn-info btn-sm" role="button" aria-pressed="true">
-                                                        <i style="color: #ffc107" class="fa fa-eye"></i>
-                                                        &nbsp;{{ trans('Students_trans.show_student_share') }}
+                                                        class="btn btn-primary btn-sm"
+                                                        data-toggle="tooltip"
+                                                        title="{{ trans('Students_trans.show_student_share') }}">
+                                                        <i class="fa fa-users"></i>
                                                     </a>
+
                                                 </div>
                                             </td>
+
                                         </tr>
 
                                         <div class="modal fade" id="delete_exam{{$quizze->id}}" tabindex="-1"
@@ -151,6 +177,7 @@
 <!-- row closed -->
 @endsection
 @section('js')
+
 @toastr_js
 @toastr_render
 @endsection

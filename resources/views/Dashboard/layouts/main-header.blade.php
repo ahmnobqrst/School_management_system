@@ -161,7 +161,7 @@
                                     <h5 class="mt-0 mb-0">{{ Auth::guard('student')->user()->name }}</h5>
                                     <span>{{ Auth::guard('student')->user()->email }}</span>
                                     @else
-                                    <h5 class="mt-0 mb-0">{{ Auth::guard('parent')->user()->name }}</h5>
+                                    <h5 class="mt-0 mb-0">{{ Auth::guard('parent')->user()->name_of_father }}</h5>
                                     <span>{{ Auth::guard('parent')->user()->email }}</span>
                                     @endif
 
@@ -176,7 +176,7 @@
                         @elseif(Auth('student')->check())
                         <a class="dropdown-item" href="{{route('student.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
                         @else
-                        <a class="dropdown-item" href="{{route('getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
+                        <a class="dropdown-item" href="{{route('parent.getprofile')}}"><i class="text-warning ti-user"></i>Profile</a>
                         @endif
                         @if(auth('student')->check())
                         <form method="GET" action="{{ route('logout','student') }}">

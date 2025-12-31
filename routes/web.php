@@ -17,6 +17,7 @@ use App\Http\Controllers\reciept\RecieptController;
 use App\Http\Controllers\process\ProcessingFee;
 use App\Http\Controllers\payment\PaymentController;
 use App\Http\Controllers\attendence\AttendenceController;
+use App\Http\Controllers\Google\GoogleController;
 use App\Http\Controllers\subject\SubjectController;
 use App\Http\Controllers\quiz\QuizzesController;
 use App\Http\Controllers\question\QuestionController;
@@ -118,10 +119,12 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
         Route::get('admin-profile', [ProfileController::class, 'get_profile_data_for_admin'])->name('admin.getprofile');
         Route::post('admin-profile/{adminId}', [ProfileController::class, 'update_profile_for_admin'])->name('admin.update.profile');
 
-    
 
+        //======================================= Login With Google =======================================================//
+        Route::get('auth/google/{type}', [GoogleController::class, 'redirect'])
+            ->whereIn('type', ['teacher', 'student', 'parent']);
 
-
+        Route::get('auth/google/callback', [GoogleController::class, 'callback']);
 
 
 

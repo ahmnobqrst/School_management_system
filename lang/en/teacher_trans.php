@@ -57,6 +57,19 @@ return [
     'phone Already Exists'              => 'Phone Already Exists',
     'national_teacher_id is required'   => 'National Is Required',
     'blood_type_teacher_id is required' => 'Blood Type Is Required',
+     'name_of_father_ar' => 'Father name in Arabic',
+    'name_of_father_en' => 'Father name in English',
+
+    'name_of_father_ar_required' => 'Father name in Arabic is required',
+    'name_of_father_ar_string'   => 'Father name in Arabic must be a string',
+
+    'name_of_father_en_required' => 'Father name in English is required',
+    'name_of_father_en_string'   => 'Father name in English must be a string',
+
+    'password_min' => 'Password must be at least 6 characters',
+    'password_max' => 'Password must not exceed 14 characters',
+
+    'image' => 'The file must be a valid image',
     ''                                  => '',
     ''                                  => '',
     ''                                  => '',

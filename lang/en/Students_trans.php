@@ -370,7 +370,27 @@ return [
     'confirm_answers'=>'Confirm Degree',
     'correct'=>'Correct',
     'wrong'=>'Wrong',
-    'total_score'=>'Student Total Score'
+    'total_score'=>'Student Total Score',
+    'passed'=>'Passed',
+    'failed'=>'Failed',
+    'student_status'=>'Result',
+    'Exam_list_childern'=>'Exam Of Childerns',
+    'parent'=>'parent',
+    'parent_name_ar'=>'Name In Arabic',
+    'parent_name_en'=>'Name In English',
+     'children_list' => 'Children List',
+    'students'      => 'Students',
+
+    'name'       => 'Student Name',
+    'email'      => 'Email',
+    'grade'      => 'Grade',
+    'classroom'  => 'Classroom',
+    'section'    => 'Section',
+
+    'no_students' => 'No students found',
+    'student_details' => 'Student Details',
+    'student_note' => 'This page shows the basic information of the student',
+    'back' => 'Back',
    
 
 ];

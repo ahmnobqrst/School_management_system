@@ -77,6 +77,7 @@ class Student extends Authenticatable
     public function BloodType(){
         return $this->belongsTo(BloodType::class,'blood_type_student_id');
     }
+    
 
     // public function quiz()
     // {

@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = '/dashboard';
     public const TEACHER = '/teacher/dashboard';
     public const STUDENT = '/student/dashboard';
-    public const PARENT = '/dashboard';
+    public const PARENT = '/parent/dashboard';
 
     
     public function boot(): void
@@ -34,6 +34,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/student.php'));
             Route::middleware('web')
                ->group(base_path('routes/teacher.php'));
+            Route::middleware('web')
+               ->group(base_path('routes/parent.php'));
             });
+            
     }
 }

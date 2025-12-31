@@ -139,7 +139,22 @@ class TeacherQuizController extends Controller
             ->where('quiz_id', $quizId)
             ->get();
         
-        $totalScore = StudentQuizResult::where('quiz_id',$quizId)->where('student_id',$studentId)->first()->score;
-        return view('Dashboard.teacher.quiz.student_answers',compact('questions', 'studentId','totalScore'));
+        $totalScore = StudentQuizResult::where('quiz_id',$quizId)->where('student_id',$studentId)->firstOrFail();
+        return view('Dashboard.teacher.quiz.student_answers',compact('questions', 'studentId','totalScore','quizId'));
+    }
+
+    public function confirm_student_degree($quizId,$studentId)
+    {
+        $student_degree = StudentQuizResult::where('quiz_id',$quizId)->where('student_id',$studentId)->firstOrFail();
+        $student_degree->updateOrCreate(
+        [
+            'quiz_id'=>$quizId,
+            'student_id'=>$studentId,
+        ],
+        [
+           'check'=>true,
+        ]);
+
+        return redirect()->back();
     }
 }
