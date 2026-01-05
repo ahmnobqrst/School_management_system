@@ -79,10 +79,10 @@ class Student extends Authenticatable
     }
     
 
-    // public function quiz()
-    // {
-    //     return $this->hasMany(Quiz::class);
-    // }
+    public function Quizzes()
+    {
+        return $this->belongsToMany(Quiz::class,'student_quiz_results');
+    }
 
     
 }

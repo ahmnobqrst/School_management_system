@@ -67,6 +67,19 @@ Route::group(
         Route::get('result_of_exam/{quiz_id}', [StudentExamsController::class, 'show_exam_result'])->name('show_exam_result');
         //========================================= End Student Exam ============================================================//
 
+        //======================================== Student Appearnce =================================================================//
+        Route::get('MyAppearnce', [StudentExamsController::class, 'student_appearnce'])->name('student.appearnce');
+        //========================================= End Student Appearnce ============================================================//
+
+        //======================================== Student Leactures =================================================================//
+        Route::get('MyLeactures', [StudentExamsController::class, 'student_leacture'])->name('student.leactures');
+        //========================================= End Student Leactures ============================================================//
+
+        //======================================== Student Books =================================================================//
+        Route::get('MyBooks', [StudentExamsController::class, 'student_books'])->name('student.books');
+         Route::get('/Download/{path}', [StudentExamsController::class, 'Download_Books'])->where('path', '.*')->name('student.download.book');
+        //========================================= End Student Books ============================================================//
+
         //=================================== Google Login ===================================================//
         // Route::get('student/auth/google', [GoogleController::class, 'redirectToGoogle']);
         // Route::get('student/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

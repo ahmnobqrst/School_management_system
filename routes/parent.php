@@ -23,7 +23,6 @@ Route::group(
         Route::middleware(['auth:parent'])->group(function () {
             Route::get('/parent/dashboard', function () {
                 return view('Dashboard.parents.dashboard');
-
             })->name('parent.dashboard');
 
             //================================================= Parent Profile =====================================================//
@@ -35,6 +34,11 @@ Route::group(
             Route::get('get_all_students',[ParentController::class,'get_all_students'])->name('get.all.childern');
             Route::get('get_student_date/{studentId}',[ParentController::class,'show'])->name('parent.show');
             //================================================= End Get Childerns For Parent ===================================================//
+
+            //================================================= Get Childerns Quizzess For Parent ===================================================//
+            Route::get('get_all_student_quizzes',[ParentController::class,'get_all_student_quizzes'])->name('get.all.childern_quizzes');
+            Route::get('get_all_student_quizze/{studentId}',[ParentController::class,'show_quiz'])->name('parent.show.quize');
+            //================================================= End Get Childerns Quizzess For Parent ===================================================//
         });
     }
 );

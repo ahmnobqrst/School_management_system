@@ -83,8 +83,7 @@ trait ZoomTraitIntegration
     public function get_childerns_data()
     {
         $students = Student::where('parent_id', auth()->user()->id)
-        ->select('id','name','email','grade_id','classroom_id','section_id')
-        ->get();
+        ->get(['id','name','email','grade_id','classroom_id','section_id']);
 
         return $students;
     }

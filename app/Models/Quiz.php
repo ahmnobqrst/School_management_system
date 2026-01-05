@@ -62,4 +62,8 @@ class Quiz extends Model
     //     return $this->hasOne(StudentQuizResult::class)
     //         ->where('student_id', auth()->id());
     // }
+    public function Students()
+    {
+        return $this->belongsToMany(Student::class,'student_quiz_results');
+    }
 }

@@ -391,6 +391,13 @@ return [
     'student_details' => 'Student Details',
     'student_note' => 'This page shows the basic information of the student',
     'back' => 'Back',
+    'no_leacture'=>'ther is no Leactures For This Month',
+    'show_student_quiz'=>'Show Student Quiz',
+'show_student_result'=>'Show Student Results',
+'academic_info'=>'Academic Informations',
+'view_manage_details'=>'Student Details',
+'sorry_cant_access'=>'Sorry , Cannot Access This !?',
+
    
 
 ];

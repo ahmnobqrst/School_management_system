@@ -393,6 +393,12 @@ return [
     'student_note' => 'هذه الصفحة تعرض البيانات الأساسية الخاصة بالطالب',
     'student_details' => 'تفاصيل الطالب',
     'back' => 'رجوع',
+    'no_leacture'=>'لا توجد محاضرات لهذا الشهر',
+    'show_student_quiz'=>'عرض امتحانات الطالب',
+'show_student_result'=>'عرض نتائج الطالب',
+'academic_info'=>'المعلومات المدرسية',
+'view_manage_details'=>'تفاصيل الطالب',
+'sorry_cant_access'=>'لا يمكن زيارة هذا العنوان'
   
 
 ];

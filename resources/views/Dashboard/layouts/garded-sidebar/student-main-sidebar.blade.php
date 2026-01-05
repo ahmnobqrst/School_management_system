@@ -23,7 +23,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="custom-page" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="#">{{trans('sidebar_trans.Apperance_list')}}</a>
+                            <li> <a href="{{route('student.appearnce')}}">{{trans('sidebar_trans.Apperance_list')}}</a>
                             </li>
                         </ul>
                     </li>
@@ -68,7 +68,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error" class="collapse">
-                            <li> <a href="{{route('online_classes.index')}}">{{trans('sidebar_trans.lecture')}}</a>
+                            <li> <a href="{{route('student.leactures')}}">{{trans('sidebar_trans.lecture')}}</a>
                             </li>
                         </ul>
                     </li>
@@ -80,7 +80,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="liberaries" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('liberary.index')}}">{{trans('sidebar_trans.Liberary_book')}}</a>
+                            <li> <a href="{{route('student.books')}}">{{trans('sidebar_trans.Liberary_book')}}</a>
                             </li>
                             <!-- <li> <a href="{{route('questions.index')}}">{{trans('sidebar_trans.question')}}</a> </li> -->
                         </ul>
