@@ -68,7 +68,7 @@ class FeeinvoiceRepository implements FeeinvoiceRepositoryInterface
 
     public function index()
     {
-        $fees = Fee_inovice::all();
+        $fees = Fee_inovice::paginate(10);
         $grades = Grade::all();
         return view('Dashboard.fee_invoice.index',compact('fees','grades'));
     }

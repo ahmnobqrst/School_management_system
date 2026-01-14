@@ -11,8 +11,8 @@ class FeesRepository implements FeesRepositoryInterface
 
     public function index()
     {
-        $fees = Fee::all();
-        $grades = Grade::all();
+        $fees = Fee::paginate(10);
+        $grades = Grade::paginate(8);
         return view('Dashboard.fee.index',compact('fees','grades'));
     }
 

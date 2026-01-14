@@ -4,40 +4,35 @@
 
 @section('content')
 <style>
-    /* تصميم الصفحة الأنيق */
+
     .page-header-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
-
     .badge-count {
         font-size: 1.1rem;
         padding: 0.5em 1em;
         border-radius: 50px;
-        background: rgba(255, 255, 255, 0.25);
+        background: rgba(255,255,255,0.25);
     }
 
-    /* إصلاح حاوية الجدول للسماح بظهور القوائم */
     .students-table-card {
         border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         border: none;
-        overflow: visible !important;
-        /* مهم جداً */
+        overflow: visible !important; /* مهم جداً */
     }
 
     .table-responsive {
-        overflow: visible !important;
-        /* لمنع قص الدروب داون */
+        overflow: visible !important; /* لمنع قص الدروب داون */
     }
 
     .modern-table {
         margin-bottom: 0;
         font-size: 0.95rem;
     }
-
     .modern-table thead {
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         color: #495057;
@@ -46,17 +41,14 @@
         font-size: 0.85rem;
         letter-spacing: 0.5px;
     }
-
     .modern-table tbody tr {
         transition: background-color 0.3s ease;
     }
-
     .modern-table tbody tr:hover {
         background-color: #f8f9ff;
-        /* تم حذف الـ transform هنا لأنه يسبب مشاكل في طبقات الـ z-index للدروب داون */
+
     }
 
-    /* Dropdown محسن ومعالج لمشكلة السكرول */
     .actions-dropdown {
         position: relative;
     }
@@ -68,41 +60,38 @@
         padding: 0.5rem 1.2rem;
         font-size: 0.9rem;
         color: white;
-        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        box-shadow: 0 4px 15px rgba(40,167,69,0.3);
         transition: all 0.3s ease;
     }
-
+    
     .actions-dropdown .btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+        box-shadow: 0 8px 25px rgba(40,167,69,0.4);
     }
 
     .actions-dropdown .dropdown-menu {
         border: none;
         border-radius: 12px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         padding: 0.75rem 0;
         min-width: 250px;
-
-        /* إعدادات السكرول الداخلي */
-        max-height: 250px;
+        
+    
+        max-height: 250px; 
         overflow-y: auto !important;
         overflow-x: hidden;
-
-        z-index: 9999;
-        /* التأكد من ظهوره فوق كل شيء */
+        
+        z-index: 9999; 
         background: #fff;
     }
 
-    /* تخصيص الـ scrollbar داخل القائمة */
+
     .actions-dropdown .dropdown-menu::-webkit-scrollbar {
         width: 6px;
     }
-
     .actions-dropdown .dropdown-menu::-webkit-scrollbar-track {
         background: #f1f1f1;
     }
-
     .actions-dropdown .dropdown-menu::-webkit-scrollbar-thumb {
         background: #ccc;
         border-radius: 10px;
@@ -118,12 +107,10 @@
         align-items: center;
         text-align: right;
     }
-
     .actions-dropdown .dropdown-item:hover {
         background-color: #f0f4ff;
         transform: translateX(-5px);
     }
-
     .actions-dropdown .dropdown-item i {
         margin-left: 10px;
         width: 20px;
@@ -178,30 +165,9 @@
                                     <td>{{ $student->classroom->name ?? '-' }}</td>
                                     <td>{{ $student->Section->section_name ?? '-' }}</td>
                                     <td>
-                                        <div class="dropdown actions-dropdown">
-                                            <button class="btn dropdown-toggle" type="button"
-                                                id="dropdownMenuButton{{ $student->id }}"
-                                                data-toggle="dropdown"
-                                                data-boundary="window"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">
-                                                {{ trans('Students_trans.Actions') }}
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right"
-                                                aria-labelledby="dropdownMenuButton{{ $student->id }}">
-                                                <a class="dropdown-item" href="{{ route('parent.show', $student->id) }}">
-                                                    <i class="fa fa-eye text-warning"></i> {{ trans('Students_trans.show_student_data') }}
-                                                </a>
-                                                <a class="dropdown-item" href="{{route('get.son.fees',$student->id)}}">
-                                                    <i class="fa fa-edit text-primary"></i> {{ trans('Students_trans.show_student_invoice') }}
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fas fa-money-bill-alt text-info"></i> {{ trans('Students_trans.Add_payment_student') }}
-                                                </a>
-                                                <a class="dropdown-item" href="{{route('get.son.quiz',$student->id)}}">
-                                                    <i class="fa fa-question-circle"></i> {{ trans('Students_trans.show_student_quiz') }}
-                                                </a>
-                                            </div>
+                                        <a class="dropdown-item" href="{{ route('student.attendence', $student->id) }}">
+                                            <i class="fa fa-eye text-warning"></i> {{ trans('Students_trans.report_attendence') }}
+                                        </a>
                                     </td>
                                 </tr>
                                 @empty

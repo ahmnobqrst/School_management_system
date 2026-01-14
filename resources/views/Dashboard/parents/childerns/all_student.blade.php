@@ -178,30 +178,9 @@
                                     <td>{{ $student->classroom->name ?? '-' }}</td>
                                     <td>{{ $student->Section->section_name ?? '-' }}</td>
                                     <td>
-                                        <div class="dropdown actions-dropdown">
-                                            <button class="btn dropdown-toggle" type="button"
-                                                id="dropdownMenuButton{{ $student->id }}"
-                                                data-toggle="dropdown"
-                                                data-boundary="window"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">
-                                                {{ trans('Students_trans.Actions') }}
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right"
-                                                aria-labelledby="dropdownMenuButton{{ $student->id }}">
-                                                <a class="dropdown-item" href="{{ route('parent.show', $student->id) }}">
-                                                    <i class="fa fa-eye text-warning"></i> {{ trans('Students_trans.show_student_data') }}
-                                                </a>
-                                                <a class="dropdown-item" href="{{route('get.son.fees',$student->id)}}">
-                                                    <i class="fa fa-edit text-primary"></i> {{ trans('Students_trans.show_student_invoice') }}
-                                                </a>
-                                                <a class="dropdown-item" href="#">
-                                                    <i class="fas fa-money-bill-alt text-info"></i> {{ trans('Students_trans.Add_payment_student') }}
-                                                </a>
-                                                <a class="dropdown-item" href="{{route('get.son.quiz',$student->id)}}">
-                                                    <i class="fa fa-question-circle"></i> {{ trans('Students_trans.show_student_quiz') }}
-                                                </a>
-                                            </div>
+                                        <a class="dropdown-item" href="{{route('paymentfees.create.son',$student->id)}}">
+                                            <i class="fa fa-eye text-warning"></i> {{ trans('Students_trans.payment_fees') }}
+                                        </a>
                                     </td>
                                 </tr>
                                 @empty

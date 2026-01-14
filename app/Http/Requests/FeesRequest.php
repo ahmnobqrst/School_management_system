@@ -16,15 +16,25 @@ class FeesRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = 
+        [
             'name_ar'=>'required|string',
             'name_en'=>'required|string',
+            'desc_ar'=>'nullable|string',
+            'desc_en'=>'nullable|string',
             'amount'=>'required|numeric',
             'year'=>'required',
-            'grade_id'=>'required|integer',
-            'classroom_id'=>'required|integer',
-            // 'fee_type'=>'required',
+            'grade_id'=>'required|integer|exists:grades,id',
+            'classroom_id'=>'required|integer|exists:classrooms,id',
+            'fee_type'=>'required|in:fees,fees_bus',
         ];
+
+        if ($this->routeIs('store.fee.student')) {
+            $rules['grade_id'] = 'nullable|integer|exists:grades,id';
+            $rules['classroom_id'] = 'nullable|integer|exists:classrooms,id';
+        }
+
+        return $rules;
     }
 
     public function messages(){
@@ -38,7 +48,7 @@ class FeesRequest extends FormRequest
             'year.required'=>__('fee_trans.academic_year required'),
             'grade_id.required'=>__('fee_trans.grade_id is required'),
             'classroom_id.required'=>__('fee_trans.classroom_id is required'),
-            // 'fee_type.required'=>__('fee_trans.fee_type is required'),
+            'fee_type.required'=>__('fee_trans.fee_type is required'),
             
         ];
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('receipt_id')->nullable();
             // $table->foreign('receipt_id')->references('id')->on('reciepts')->onDelete('cascade');
             // $table->foreignId('payment_id')->nullable()->constrained('payments')->onDelete('cascade');
-            $table->unsignedInteger('payment_id');
+            $table->unsignedInteger('payment_id')->nullable();
             $table->decimal('Debit',8,2)->nullable();
             $table->decimal('credit',8,2)->nullable();
             $table->string('description');

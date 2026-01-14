@@ -47,6 +47,8 @@
                                             <th>{{trans('Students_trans.Grade')}}</th>
                                             <th>{{trans('Students_trans.classrooms')}}</th>
                                             <th>{{trans('Students_trans.section')}}</th>
+                                            <th>{{trans('Students_trans.subject_name')}}</th>
+                                            <th>{{trans('Students_trans.Actions')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -58,6 +60,12 @@
                                             <td>{{$quizze->grade->name}}</td>
                                             <td>{{$quizze->classroom->name}}</td>
                                             <td>{{$quizze->section->section_name}}</td>
+                                            <td>{{$quizze->subject->name}}</td>
+                                            <td>
+                                                 <a class="dropdown-item" href="{{route('get.son.result',['studentId'=>$student,'quizId'=>$quizze->id])}}">
+                                                    <i class="fa fa-eye text-warning"></i> {{ trans('Students_trans.show_student_result') }}
+                                                </a>
+                                            </td>
                                             
                                         </tr>
 

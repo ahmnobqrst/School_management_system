@@ -398,7 +398,10 @@ return [
 'show_student_result'=>'عرض نتائج الطالب',
 'academic_info'=>'المعلومات المدرسية',
 'view_manage_details'=>'تفاصيل الطالب',
-'sorry_cant_access'=>'لا يمكن زيارة هذا العنوان'
-  
+'sorry_cant_access'=>'لا يمكن زيارة هذا العنوان',
+'waiting_correction'=>'النتيجة قيد التصحيح حالياً',
+'waiting_note'=>'يرجى العودة لاحقاً لمراجعة إجابات ودرجات الطالب',
+  'Add_payment_student'=>'دفع المصاريف الدراسية',
+  'payment_fees'=>'دفع المصاريف الدراسية'
 
 ];

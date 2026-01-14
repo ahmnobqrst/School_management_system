@@ -15,7 +15,7 @@ class processingFeeRepository implements processingFeeRepositoryInterface
 
     public function index()
     {
-        $ProcessingFees = ProceesingFee::all();
+        $ProcessingFees = ProceesingFee::paginate(10);
         return view('Dashboard.processingfee.index',compact('ProcessingFees'));
     }
 

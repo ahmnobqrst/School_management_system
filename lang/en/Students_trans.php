@@ -397,6 +397,10 @@ return [
 'academic_info'=>'Academic Informations',
 'view_manage_details'=>'Student Details',
 'sorry_cant_access'=>'Sorry , Cannot Access This !?',
+'waiting_correction'=>'Waitting Correction.......',
+'waiting_note'=>'Waiting A Momment ......',
+'Add_payment_student'=>'Add Payment',
+'payment_fees'=>'Payment Fees'
 
    
 

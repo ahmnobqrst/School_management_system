@@ -14,7 +14,7 @@ class PaymentRespository implements PaymentRepositoryInterface
 
     public function index()
     {
-        $payment_students = Payment::all();
+        $payment_students = Payment::paginate(10);
         return view('Dashboard.payment.index',compact('payment_students'));
        
     }

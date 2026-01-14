@@ -46,5 +46,9 @@ return [
     'updated'=>'the data of father updated successfully',
     'Delete_parent'=>'the data are deleted successfully',
     'error_parent_delete'=>'can not delete this data as this contain attachment',
+     'total_fees' => 'Total Fees',
+    'paid' => 'Paid',
+    'remaining' => 'Remaining',
+    'pay_now' => 'Pay Now',
 
 ];

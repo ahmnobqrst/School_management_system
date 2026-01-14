@@ -18,7 +18,7 @@ class RecieptRepository implements RecieptRepositoryInterface
 
     public function index()
     {
-        $reciepts = Reciept::all();
+        $reciepts = Reciept::paginate(10);
         return view('Dashboard.reciept.index',compact('reciepts'));
     }
 
@@ -36,11 +36,8 @@ class RecieptRepository implements RecieptRepositoryInterface
 
     public function store($request)
     {
-       
         DB::beginTransaction();
-
         try {
-
             $reciept = new Reciept();
             $reciept->date = date('Y-m-d');
             $reciept->student_id = $request->student_id;
@@ -48,14 +45,14 @@ class RecieptRepository implements RecieptRepositoryInterface
             $reciept->description = ['ar'=>$request->description_ar,'en'=>$request->description_en];
             $reciept->save();
 
+            
             $found_account = new foundAccount();
             $found_account->date = date('Y-m-d');
             $found_account->receipt_id = $reciept->id;
-            $found_account->Debit = $request->Debit;
+            $found_account->Debit = "1000";
             $found_account->credit = 00.0;
             $found_account->description = ['ar'=>$request->description_ar,'en'=>$request->description_en];
             $found_account->save();
-
             
 
             StudentAccount::create([

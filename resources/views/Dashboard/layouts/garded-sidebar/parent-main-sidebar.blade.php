@@ -28,17 +28,7 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#authentication">
-                            <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Exams')}}</span></div>
-                            <div class="pull-right"><i class="ti-plus"></i></div>
-                            <div class="clearfix"></div>
-                        </a>
-                        <ul id="authentication" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('get.all.childern_quizzes')}}">{{trans('Students_trans.Exam_list_childern')}}</a> </li>
-                        </ul>
-                    </li>
+                   
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse"
@@ -62,11 +52,11 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error1" class="collapse">
-                            <li> <a href="#">{{trans('sidebar_trans.Apperance')}}</a>
+                            <li> <a href="{{route('get.childern.appearence')}}">{{trans('sidebar_trans.Apperance')}}</a>
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="javascript:void(0);" data-toggle="collapse"
                             data-target="#error2">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
@@ -75,10 +65,10 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error2" class="collapse">
-                            <li> <a href="#">{{trans('sidebar_trans.fees')}}</a>
+                            <li> <a href="{{route('get.all.childern')}}">{{trans('sidebar_trans.fees')}}</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> -->
 
                 </ul>
             </div>

@@ -17,6 +17,7 @@
         "macsidigital/laravel-zoom": "^8.0",
         "mcamara/laravel-localization": "^2.0",
         "spatie/laravel-translatable": "^6.6",
+        "srmklive/paypal": "~3.0",
         "yajra/laravel-datatables": "^10.0",
         "yoeunes/toastr": "^2.3"
     },

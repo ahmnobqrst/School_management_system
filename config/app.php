@@ -176,6 +176,7 @@ return [
         App\Providers\GraduatedProvider::class,
         App\Providers\FeesProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         
     ])->toArray(),
 
