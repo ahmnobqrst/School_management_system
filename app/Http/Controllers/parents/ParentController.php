@@ -4,7 +4,7 @@ namespace App\Http\Controllers\parents;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FeesRequest;
-use App\Models\{StudentQuizResult, Attendence, Fee_inovice, Reciept, Student, Quiz, Question, Fee, Payment ,StudentAccount};
+use App\Models\{StudentQuizResult, Attendence, Fee_inovice, Reciept, Student, Quiz, Question, Fee, Payment, StudentAccount};
 use App\Traits\ZoomTraitIntegration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -70,7 +70,7 @@ class ParentController extends Controller
         $totalFees = $fees->sum('amount');
         $paid = Reciept::where('student_id', $studentId)->sum('Debit');
         $remaining = $totalFees - $paid;
-        return view('Dashboard.parents.fees.index', compact('fees','student','totalFees','paid','remaining'));
+        return view('Dashboard.parents.fees.index', compact('fees', 'student', 'totalFees', 'paid', 'remaining'));
     }
 
     public function form_create($studentId)
@@ -101,19 +101,23 @@ class ParentController extends Controller
     //     }
     // // }
 
-     public function makePayment(Request $request, $studentId)
+    public function makePayment(Request $request, $studentId)
     {
         $request->validate([
             'amount' => 'required|numeric|min:1',
-            'fee_id'=> 'required|integer|exists:fees,id',
+            'fee_id' => 'required|integer|exists:fees,id',
         ]);
+
+        // $egpAmount = $request->amount;
+        // $usdAmount = $egpAmount / 48;
 
         session()->put('payment_data', [
             'amount' => $request->amount,
             'student_id' => $studentId,
-            'fee_id'=>$request->fee_id,
+            'fee_id' => $request->fee_id,
         ]);
-
+        
+        
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
@@ -144,11 +148,13 @@ class ParentController extends Controller
         return back()->withErrors(['error' => 'PayPal order failed']);
     }
 
-    public function paymentSuccess(Request $request, $studentId , $fee_id)
+    public function paymentSuccess(Request $request, $studentId)
     {
         if (!session()->has('payment_data')) {
             return redirect()->route('get.son.fees', $studentId);
         }
+
+        $paymentData = session('payment_data');
 
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -158,46 +164,52 @@ class ParentController extends Controller
 
         if (($response['status'] ?? '') === 'COMPLETED') {
             $amount = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
-            return $this->saveToDatabase($studentId, $amount,$fee_id);
+            $fee_id = $paymentData['fee_id'];
+
+            return $this->saveToDatabase($studentId, $amount, $fee_id);
         }
+
+        dd($response['error']['details'] ?? $response);
 
         return back()->withErrors(['error' => 'Payment not completed']);
     }
 
-    protected function saveToDatabase($studentId, $amount,$fee_id)
+    protected function saveToDatabase($studentId, $amount, $fee_id)
     {
         DB::beginTransaction();
 
         try {
             $student = Student::findOrFail($studentId);
-
-            Fee_inovice::create([
+            $invoice = Fee_inovice::create([
                 'invoice_date' => now(),
                 'student_id' => $studentId,
                 'grade_id' => $student->grade_id,
                 'classroom_id' => $student->classroom_id,
-                'fee_id'=>$fee_id,
+                'fee_id' => $fee_id,
                 'amount' => $amount,
                 'description' => 'PayPal Payment',
             ]);
 
             StudentAccount::create([
+                'date' => now(),
+                'type' => 'payment',
                 'student_id' => $studentId,
+                'fee_invoice_id' => $invoice->id,
                 'credit' => $amount,
-                'description' => 'PayPal Payment',
+                'desc' => 'PayPal Payment',
             ]);
 
             DB::commit();
             session()->forget('payment_data');
 
             return redirect()->route('get.son.fees', $studentId)
-                   ->with('success', 'Payment completed');
-
+                ->with('success', 'Payment completed');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
 
     public function paymentCancel()
     {

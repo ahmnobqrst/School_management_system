@@ -102,7 +102,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="#" autocomplete="off">
+                <form method="post" action="{{route('make.payment',$student->id)}}" autocomplete="off">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
@@ -131,12 +131,12 @@
                     </div>
 
                     <div class="row mt-4">
-                        
+
                         <div class="col-md-6 mb-3">
-                            <button type="button" id="paypal-btn" class="btn btn-paypal btn-lg btn-block shadow-sm">
-                                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="PayPal" style="height: 25px; vertical-align: middle;">
-                                <span class="ml-2">Pay with PayPal</span>
+                            <button id="paypalBtn" class="btn btn-warning mt-3">
+                                Pay with PayPal
                             </button>
+
                         </div>
                     </div>
                 </form>
@@ -152,22 +152,21 @@
 @toastr_js
 @toastr_render
 <script>
-    $(document).ready(function() {
-        $('#paypal-btn').click(function() {
-            const amount = $('#amount_input').val();
-            const studentId = "{{ $student->id }}";
+    document.getElementById('paypalBtn').onclick = function() {
+        let amount = document.getElementById('amount').value;
+        if (!amount || amount <= 0) return alert('Enter amount');
 
-            if (amount > 0) {
-                // التأكد من صحة المبلغ قبل التوجيه
-                window.location.href = "{{ url('paypal/payment') }}/" + studentId + "/" + amount;
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'خطأ',
-                    text: 'يرجى إدخال المبلغ المراد دفعه أولاً'
-                });
-            }
-        });
-    });
+        let form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{{ route('make.payment', $student->id) }}";
+
+        form.innerHTML = `
+        @csrf
+        <input type="hidden" name="amount" value="${amount}">
+    `;
+
+        document.body.appendChild(form);
+        form.submit();
+    };
 </script>
 @endsection
