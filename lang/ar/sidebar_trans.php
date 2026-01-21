@@ -80,8 +80,8 @@ return [
     'questions_student'=>'الاسئلة',
     'Liberary_book'=>'الكتب',
     'childerns'=>'الابناء',
-    'Liberary_book'=>'الكتب',
-    'Liberary_book'=>'الكتب',
+    'payment_details'=>'تقارير الحسابات المالية',
+    'timetable'=>'جدول الحصص',
     'Liberary_book'=>'الكتب',
 
 

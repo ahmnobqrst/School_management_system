@@ -2,13 +2,13 @@
 @section('css')
 @toastr_css
 @section('title')
-{{trans('Students_trans.lecture')}}
+{{trans('Students_trans.lecture_zoom')}}
 @stop
 @endsection
 @section('page-header')
 <!-- breadcrumb -->
 @section('PageTitle')
-{{trans('Students_trans.lecture')}}
+{{trans('Students_trans.lecture_zoom')}}
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -17,12 +17,12 @@
 <div class="page-title">
     <div class="row">
         <div class="col-sm-12">
-            <h4 class="mb-0">{{trans('Students_trans.lecture')}}</h4>
+            <h4 class="mb-0">{{trans('Students_trans.lecture_zoom')}}</h4>
         </div>
         <div class="col-sm-12">
             <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-                <li class="breadcrumb-item"><a href="#" class="default-color">Home</a></li>
-                <li class="breadcrumb-item active">{{trans('Students_trans.lecture')}}</li>
+                <li class="breadcrumb-item"><a href="{{route('dashboard')}}" class="default-color">Home</a></li>
+                <li class="breadcrumb-item active">{{trans('Students_trans.lecture_zoom')}}</li>
             </ol>
         </div>
     </div>
@@ -36,10 +36,6 @@
                     <div class="card card-statistics h-100">
                         <div class="card-body">
                             <div>
-                                <a href="{{route('online_classes.create')}}" class="btn btn-success" role="button"
-                                    aria-pressed="true">{{trans('Students_trans.Add_online_class')}}</a>
-                                <a href="{{route('offline.class')}}" class="btn btn-warning" role="button"
-                                    aria-pressed="true">{{trans('Students_trans.Add_new_class_without_integration')}}</a>
                                 <div>
                                     <br><br>
 
@@ -67,7 +63,7 @@
                                                     <td>{{$online_classe->grade->name}}</td>
                                                     <td>{{ $online_classe->classroom->name }}</td>
                                                     <td>{{$online_classe->section->section_name}}</td>
-                                                    <td>{{$online_classe->user->name}}</td>
+                                                    <td>{{$online_classe->created_by}} - {{where($online_classe->user?->email,$online_classe->created_by)}}</td>
                                                     <td>{{$online_classe->topic}}</td>
                                                     <td>{{$online_classe->start_at}}</td>
                                                     <td>{{$online_classe->duration}}</td>

@@ -74,7 +74,6 @@ class StudentRepository implements StudentRepositoryInterface
    {
       DB::beginTransaction();
       try {
-
          $students = new Student();
          $students->name = ['ar'=> $request->name_ar, 'en'=>$request->name_en];
          $students->email = $request->email;

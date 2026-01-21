@@ -17,6 +17,7 @@ use App\Http\Controllers\reciept\RecieptController;
 use App\Http\Controllers\process\ProcessingFee;
 use App\Http\Controllers\payment\PaymentController;
 use App\Http\Controllers\attendence\AttendenceController;
+use App\Http\Controllers\classScehdule\ClassScheduleController;
 use App\Http\Controllers\Google\GoogleController;
 use App\Http\Controllers\subject\SubjectController;
 use App\Http\Controllers\quiz\QuizzesController;
@@ -99,7 +100,7 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
         route::Post('/delete_classes', [ClassroomController::class, 'Delete_all'])->name('delete_all');
         route::Post('/filter_classes', [ClassroomController::class, 'filteration_class'])->name('filter_grade');
 
-        route::get('/classes/{id}', [SectionController::class, 'getclasses']);
+        route::get('/get-classes/{id}', [SectionController::class, 'getclasses']);
         route::get('/teachers-section/{id}', [SectionController::class, 'getteacher']);
 
         route::get('/classes/{id}', [StudentController::class, 'get_classes']);
@@ -150,6 +151,7 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
             'online_classes' => OnlineClassesController::class,
             'liberary' => LiberaryController::class,
             'setting' => SettingController::class,
+            'timetable' => ClassScheduleController::class,
 
         ]);
     }

@@ -402,6 +402,10 @@ return [
 'waiting_correction'=>'النتيجة قيد التصحيح حالياً',
 'waiting_note'=>'يرجى العودة لاحقاً لمراجعة إجابات ودرجات الطالب',
   'Add_payment_student'=>'دفع المصاريف الدراسية',
-  'payment_fees'=>'دفع المصاريف الدراسية'
+  'payment_fees'=>'دفع المصاريف الدراسية',
+  'lecture_zoom'=>'الحصص الاون لاين',
+  'show_questions'=>'عرض الاسئلة',
+  'answers'=>'الاجابات',
+  'total_degree'=>'درجة الامتحان'
 
 ];

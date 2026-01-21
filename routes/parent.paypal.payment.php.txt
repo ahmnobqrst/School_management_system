@@ -41,15 +41,15 @@ Route::group(
             //================================================= End Get Childerns Quizzess For Parent ===================================================//
 
             //================================================= Get Childerns Fees For Parent ===================================================//
-            Route::get('parent/student-fees/{studentId}', [ParentController::class, 'get_student_fees'])->name('get.son.fees');
+            Route::get('parent/student-fees/{studentId}',[ParentController::class, 'get_student_fees'])->name('get.son.fees');
 
-            Route::get('parent/pay/{studentId}', [ParentController::class, 'form_create'])->name('parent.pay.form');
+            Route::get('parent/pay/{studentId}',[ParentController::class, 'form_create'])->name('parent.pay.form');
 
-            Route::post('stripe/payment/{studentId}', [ParentController::class, 'makeStripePayment'])->name('stripe.payment');
+            Route::post('paypal/payment/{studentId}',[ParentController::class, 'makePayment'])->name('make.payment');
 
-            Route::get('stripe/success/{studentId}', [ParentController::class, 'stripeSuccess'])->name('stripe.success');
+            Route::get('paypal/success/{studentId}',[ParentController::class, 'paymentSuccess'])->name('payment.success');
 
-            Route::post('stripe/webhook', [ParentController::class, 'stripeWebhook']);
+            Route::get('paypal/cancel',[ParentController::class, 'paymentCancel'])->name('payment.cancel');
 
             // Route::get('get_student_result/{studentId}/{quizId}',[ParentController::class,'get_student_result'])->name('get.son.result');
             //================================================= End Get Childerns Fees For Parent ===================================================//
