@@ -2,10 +2,7 @@
 
 namespace App\Repository;
 use App\Interface\QuizzesInterface;
-use App\Models\Grade;
-use App\Models\Teacher;
-use App\Models\Subject;
-use App\Models\Quiz;
+use App\Models\{Quiz,Question,Grade,Teacher,Subject};
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -38,7 +35,9 @@ class QuizzesRepository implements QuizzesInterface
 
     public function show($id)
     {
-       
+       $questions = Question::where('quiz_id',$id)->paginate(8);
+       $totalDegree = Question::where('quiz_id',$id)->sum('degree');
+       return view('Dashboard.quizzes.show_questions',compact('questions','totalDegree'));
     }
 
     public function edit($id)

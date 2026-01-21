@@ -195,7 +195,7 @@
                                                 <a class="dropdown-item" href="{{route('get.son.fees',$student->id)}}">
                                                     <i class="fa fa-edit text-primary"></i> {{ trans('Students_trans.show_student_invoice') }}
                                                 </a>
-                                                <a class="dropdown-item" href="#">
+                                                <a class="dropdown-item" href="{{route('parent.pay.form',$student->id)}}">
                                                     <i class="fas fa-money-bill-alt text-info"></i> {{ trans('Students_trans.Add_payment_student') }}
                                                 </a>
                                                 <a class="dropdown-item" href="{{route('get.son.quiz',$student->id)}}">

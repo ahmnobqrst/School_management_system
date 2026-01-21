@@ -8,9 +8,11 @@ use App\Models\{StudentQuizResult, Attendence, Fee_inovice, Reciept, Student, Qu
 use App\Traits\ZoomTraitIntegration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Srmklive\PayPal\Services\PayPal as PayPalClient;
+// use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 class ParentController extends Controller
 {
@@ -68,7 +70,7 @@ class ParentController extends Controller
         $student = $this->get_childern_data($studentId);
         $fees = Fee::where('classroom_id', $student->classroom->id)->where('grade_id', $student->grade->id)->get();
         $totalFees = $fees->sum('amount');
-        $paid = Reciept::where('student_id', $studentId)->sum('Debit');
+        $paid = StudentAccount::where('student_id', $studentId)->sum('Debit');
         $remaining = $totalFees - $paid;
         return view('Dashboard.parents.fees.index', compact('fees', 'student', 'totalFees', 'paid', 'remaining'));
     }
@@ -80,99 +82,57 @@ class ParentController extends Controller
         return view('Dashboard.parents.fees.create', compact('student', 'fees'));
     }
 
-    // public function store(Request $request, $studentId)
-    // {
-    //     try {
-    //         $student = $this->get_childern_data($studentId);
-    //         Fee::create([
-    //             'name' => ['ar' => $request->name_ar, 'en' => $request->name_en],
-    //             'desc' => ['ar' => $request->desc_ar, 'en' => $request->desc_en],
-    //             'amount' => $request->amount,
-    //             'fee_type' => $request->fee_type,
-    //             'year' => $request->year,
-    //             'grade_id' => $student->grade->id,
-    //             'classroom_id' => $student->classroom->id,
-    //         ]);
-
-    //         toastr()->success(trans('fee_trans.the fee are added successfully'));
-    //         return redirect()->route('get.son.fees', $student->id);
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // // }
-
-    public function makePayment(Request $request, $studentId)
+    public function makeStripePayment(Request $request, $studentId)
     {
         $request->validate([
             'amount' => 'required|numeric|min:1',
-            'fee_id' => 'required|integer|exists:fees,id',
+            'fee_id' => 'required|exists:fees,id',
         ]);
-
-        // $egpAmount = $request->amount;
-        // $usdAmount = $egpAmount / 48;
 
         session()->put('payment_data', [
             'amount' => $request->amount,
             'student_id' => $studentId,
             'fee_id' => $request->fee_id,
         ]);
-        
-        
-        $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
-        $provider->getAccessToken();
 
-        $response = $provider->createOrder([
-            "intent" => "CAPTURE",
-            "application_context" => [
-                "return_url" => route('payment.success', $studentId),
-                "cancel_url" => route('payment.cancel'),
-            ],
-            "purchase_units" => [
-                [
-                    "amount" => [
-                        "currency_code" => "USD",
-                        "value" => number_format($request->amount, 2, '.', '')
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => 'Student Fees',
                     ],
-                    "description" => "StudentFees-$studentId"
-                ]
-            ]
+                    'unit_amount' => $request->amount * 100,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('stripe.success', $studentId),
+            'cancel_url' => route('parent.pay.form', $studentId),
         ]);
 
-        foreach ($response['links'] ?? [] as $link) {
-            if ($link['rel'] === 'approve') {
-                return redirect()->away($link['href']);
-            }
-        }
-
-        return back()->withErrors(['error' => 'PayPal order failed']);
+        return redirect($session->url);
     }
 
-    public function paymentSuccess(Request $request, $studentId)
+
+    public function stripeSuccess($studentId)
     {
         if (!session()->has('payment_data')) {
             return redirect()->route('get.son.fees', $studentId);
         }
 
-        $paymentData = session('payment_data');
+        $data = session('payment_data');
 
-        $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
-        $provider->getAccessToken();
-
-        $response = $provider->capturePaymentOrder($request->token);
-
-        if (($response['status'] ?? '') === 'COMPLETED') {
-            $amount = $response['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
-            $fee_id = $paymentData['fee_id'];
-
-            return $this->saveToDatabase($studentId, $amount, $fee_id);
-        }
-
-        dd($response['error']['details'] ?? $response);
-
-        return back()->withErrors(['error' => 'Payment not completed']);
+        return $this->saveToDatabase(
+            $studentId,
+            $data['amount'],
+            $data['fee_id']
+        );
     }
+
 
     protected function saveToDatabase($studentId, $amount, $fee_id)
     {
@@ -187,7 +147,7 @@ class ParentController extends Controller
                 'classroom_id' => $student->classroom_id,
                 'fee_id' => $fee_id,
                 'amount' => $amount,
-                'description' => 'PayPal Payment',
+                'description' => 'Stripe Payment',
             ]);
 
             StudentAccount::create([
@@ -195,20 +155,45 @@ class ParentController extends Controller
                 'type' => 'payment',
                 'student_id' => $studentId,
                 'fee_invoice_id' => $invoice->id,
-                'credit' => $amount,
-                'desc' => 'PayPal Payment',
+                'Debit' => $amount,
+                'credit' => 0.00,
+                'desc' => 'Stripe Payment',
             ]);
 
             DB::commit();
             session()->forget('payment_data');
 
             return redirect()->route('get.son.fees', $studentId)
-                ->with('success', 'Payment completed');
+                ->with('success', 'Payment completed successfully');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+    public function stripeWebhook(Request $request)
+    {
+        $payload = $request->getContent();
+        $sig = $request->header('Stripe-Signature');
+
+        try {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sig,
+                config('services.stripe.webhook_secret')
+            );
+        } catch (\Exception $e) {
+            return response('Invalid', 400);
+        }
+
+        if ($event->type == 'payment_intent.succeeded') {
+            // تقدر تحدث الحالة أو تسجل العملية
+        }
+
+        return response('OK', 200);
+    }
+
+
 
 
     public function paymentCancel()

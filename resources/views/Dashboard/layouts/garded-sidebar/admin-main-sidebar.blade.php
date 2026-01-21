@@ -75,7 +75,8 @@
 
                             <li>
                                 <a href="javascript:void(0);" data-toggle="collapse"
-                                    data-target="#Students_upgrade">{{trans('sidebar_trans.Promotions')}}<div
+                                    data-target="#Students_upgrade">{{trans('sidebar_trans.Promotions')}}
+                                    <div
                                         class="pull-right"><i class="ti-plus"></i></div>
                                     <div class="clearfix"></div>
                                 </a>
@@ -91,7 +92,8 @@
 
                             <li>
                                 <a href="javascript:void(0);" data-toggle="collapse"
-                                    data-target="#Graduate students">{{trans('sidebar_trans.Graduate_students')}}<div
+                                    data-target="#Graduate students">{{trans('sidebar_trans.Graduate_students')}}
+                                    <div
                                         class="pull-right"><i class="ti-plus"></i></div>
                                     <div class="clearfix"></div>
                                 </a>
@@ -159,6 +161,22 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#timetable-menu" class="sidebar-link-custom">
+                            <div class="pull-left">
+                                <i class="fas fa-calendar-alt"></i> <span class="right-nav-text">{{trans('sidebar_trans.timetable')}}</span>
+                            </div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="timetable-menu" class="collapse" data-parent="#sidebarnav">
+                            <li>
+                                <a href="{{ route('timetable.index') }}">
+                                    <i class="fas fa-list-ul ml-2"></i>{{trans('sidebar_trans.timetable')}}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#subject">
                             <div class="pull-left"><i class="ti-file"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Subject')}}</span></div>
@@ -178,7 +196,6 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="authentication" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('quizzes.create')}}">{{trans('sidebar_trans.create_quiz')}}</a> </li>
                             <li> <a href="{{route('quizzes.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
                         </ul>
                     </li>
@@ -191,19 +208,17 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="questions" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('questions.create')}}">{{trans('sidebar_trans.create_question')}}</a>
-                            </li>
                             <li> <a href="{{route('questions.index')}}">{{trans('sidebar_trans.question')}}</a> </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse"
-                            data-target="#error">{{trans('sidebar_trans.lecture')}}
+                            data-target="#error">{{trans('Students_trans.lecture_zoom')}}
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error" class="collapse">
-                            <li> <a href="{{route('online_classes.index')}}">{{trans('sidebar_trans.lecture')}}</a>
+                            <li> <a href="{{route('online_classes.index')}}">{{trans('Students_trans.lecture_zoom')}}</a>
                             </li>
                         </ul>
                     </li>
@@ -221,20 +236,17 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="{{route('setting.index')}}"><span
-                                class="right-nav-text">{{trans('sidebar_trans.Settings')}}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#element2">
-                            <div class="pull-left"><i class="ti-home"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Users')}}</span></div>
-                            <div class="pull-right"><i class="ti-plus"></i></div>
+                        <a href="{{route('setting.index')}}" class="sidebar-link-custom">
+                            <div class="pull-right">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="pull-left">
+                                <span class="right-nav-text">{{trans('sidebar_trans.Settings')}}</span>
+                            </div>
                             <div class="clearfix"></div>
                         </a>
-                        <ul id="element2" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="weather-icon.html">Weather icons</a> </li>
-                        </ul>
                     </li>
+
                 </ul>
             </div>
         </div>

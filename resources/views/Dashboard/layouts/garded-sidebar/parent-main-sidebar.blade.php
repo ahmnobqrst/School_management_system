@@ -56,19 +56,19 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- <li>
+                    <li>
                         <a href="javascript:void(0);" data-toggle="collapse"
                             data-target="#error2">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.fees')}}</span></div>
+                                    class="right-nav-text">{{trans('sidebar_trans.payment_details')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error2" class="collapse">
-                            <li> <a href="{{route('get.all.childern')}}">{{trans('sidebar_trans.fees')}}</a>
+                            <li> <a href="#">{{trans('sidebar_trans.payment_details')}}</a>
                             </li>
                         </ul>
-                    </li> -->
+                    </li>
 
                 </ul>
             </div>

@@ -36,14 +36,12 @@
 
 <script>
 $(document).ready(function () {
-    // عند تغيير المرحلة الدراسية
     $('select[name="Grade_id"]').on('change', function () {
         var grade_id = $(this).val();
 
         if (grade_id) {
-            // استدعاء الفصول
             $.ajax({
-                url: "{{ url('classes') }}/" + grade_id,
+                url: "{{ url('get-classes') }}/" + grade_id,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
@@ -54,20 +52,28 @@ $(document).ready(function () {
                     });
                 }
             });
+        } else {
+            $('select[name="Class_id"]').empty();
+            $('select[name="teacher_id[]"]').empty();
+        }
+    });
 
-            // استدعاء المدرسين
+    $('select[name="Class_id"]').on('change', function () {
+        var class_id = $(this).val();
+
+        if (class_id) {
             $.ajax({
-                url: "{{ url('teachers') }}/" + grade_id,
+                url: "{{ url('teachers-section') }}/" + class_id,
                 type: "GET",
                 dataType: "json",
                 success: function (data) {
                     $('select[name="teacher_id[]"]').empty();
+                    $('select[name="teacher_id[]"]').append('<option disabled selected>{{trans('Parent_trans.Choose')}}..</option>');
                     $.each(data, function (key, value) {
                         $('select[name="teacher_id[]"]').append('<option value="' + key + '">' + value + '</option>');
                     });
                 }
             });
-
         } else {
             $('select[name="Class_id"]').empty();
             $('select[name="teacher_id[]"]').empty();
@@ -214,14 +220,6 @@ $('select[name="classroom_id"]').on('change', function() {
     }
 });
 
-
-
-
-
-
-
-
-<!-- Js for add Section -->
 
 
 </script>

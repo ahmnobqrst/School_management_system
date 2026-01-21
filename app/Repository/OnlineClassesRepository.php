@@ -16,7 +16,7 @@ class OnlineClassesRepository implements OnlineClasses
 
     public function index()
     {
-        $online_classes = Online_Class::where('created_by',auth()->user()->email)->get();
+        $online_classes = Online_Class::where('created_by',auth()->user()->email)->paginate(10);
         return view('Dashboard.online_classes.index',compact('online_classes'));
     }
 

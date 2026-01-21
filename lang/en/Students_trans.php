@@ -400,7 +400,11 @@ return [
 'waiting_correction'=>'Waitting Correction.......',
 'waiting_note'=>'Waiting A Momment ......',
 'Add_payment_student'=>'Add Payment',
-'payment_fees'=>'Payment Fees'
+'payment_fees'=>'Payment Fees',
+'lecture_zoom'=>'Online Leacture',
+'show_questions'=>'Show Questions',
+'answers'=>'answers',
+'total_degree'=>'Total Degree',
 
    
 

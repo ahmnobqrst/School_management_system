@@ -14,6 +14,7 @@ use App\Repository\processingFeeRepository;
 use App\Interface\PaymentRepositoryInterface;
 use App\Repository\PaymentRespository;
 use App\Interface\AttendenceRepositoryInterface;
+use App\Interface\ClassScheduleInterface;
 use App\Repository\AttendenceRepository;
 use App\Interface\SubjectRepositoryInterface;
 use App\Repository\SubjectRepository;
@@ -28,6 +29,7 @@ use App\Repository\LiberaryRepository;
 use App\Interface\SettingInterface;
 use App\Repository\SettingRepository;
 use App\Interface\TeacherQuestionRepositoryInterface;
+use App\Repository\ClassScheduleRepository;
 use App\Repository\TeacherQuestionRepository;
 
 class FeesProvider extends ServiceProvider
@@ -49,7 +51,8 @@ class FeesProvider extends ServiceProvider
         $this->app->bind(OnlineClasses::class, OnlineClassesRepository::class);
         $this->app->bind(LiberaryInterface::class, LiberaryRepository::class);
         $this->app->bind(SettingInterface::class, SettingRepository::class);
-        $this->app->bind(TeacherQuestionRepositoryInterface::class, TeacherQuestionRepository::class);
+        // $this->app->bind(TeacherQuestionRepositoryInterface::class, TeacherQuestionRepository::class);
+        $this->app->bind(ClassScheduleInterface::class, ClassScheduleRepository::class);
     }
 
     /**

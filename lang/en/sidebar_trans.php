@@ -12,7 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-'Dashboard'=>'Dashboard',
+    'Dashboard'=>'Dashboard',
     'Grades'=>'Grades',
     'Grade_list'=>'Grade List',
     'Add_Grade'=>'Add New Grade',
@@ -81,6 +81,6 @@ return [
     'questions_student'=>'Questions',
     'Liberary_book'=>'Books',
     'childerns'=>'childerns',
-    'Liberary_book'=>'Books',
-    'Liberary_book'=>'Books',
+    'payment_details'=>'Payment Details',
+    'timetable'=>'Class Schedule',
 ];

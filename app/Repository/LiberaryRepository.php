@@ -18,7 +18,7 @@ class LiberaryRepository implements LiberaryInterface
   use studentimagetrait;
   public function index()
   {
-    $liberaries = Liberary::all();
+    $liberaries = Liberary::paginate(10);
     return view('Dashboard.liberary.index', compact('liberaries'));
   }
 
