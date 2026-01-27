@@ -219,6 +219,27 @@ $('select[name="classroom_id"]').on('change', function() {
         console.log('AJAX load did not work');
     }
 });
+$('select[name="grade_id"]').on('change', function() {
+    var teacher_id = $(this).val();
+    if (teacher_id) {
+        $.ajax({
+            url: "{{ URL::to('teacher/grades') }}/" + teacher_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('select[name="teacher_id"]').empty();
+                // $('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
+                $('select[name="teacher_id"]').append("<option selected disabled >{{trans('Students_trans.Choose')}}...</option>");
+                $.each(data, function(key, value) {
+                    $('select[name="teacher_id"]').append('<option value="' + key + '">' +
+                        value + '</option>');
+                });
+            },
+        });
+    } else {
+        console.log('AJAX load did not work');
+    }
+});
 
 
 

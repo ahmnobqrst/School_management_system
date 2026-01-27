@@ -13,7 +13,7 @@ class CreateClassroomsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->string('name');
-			$table->string('desc');
+			$table->string('desc')->nullable();
 			$table->integer('Grade_id')->unsigned();
 		});
 	}
