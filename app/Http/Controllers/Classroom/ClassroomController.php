@@ -47,60 +47,27 @@ class ClassroomController extends Controller
    */
   public function store(ClassRequest $request)
   {
-
-    // $list_classes = $request->class_list;
-
-    // try
-    // {
-
-    //   $validated = $request->validated();
-
-    //   foreach($list_classes as $list_class){
-    //     // $myclass = new Classroom();
-    //     // $myclass->name = ['ar'=>$list_class['name_ar'],'en'=>$list_class['name_en']];
-    //     // $myclass->desc = ['ar'=>$list_class['desc_ar'],'en'=>$list_class['desc_en']];
-    //     // $myclass->Grade_id = $list_class['grade_id'];
-    //     // $myclass->save();
-    //     $myclass = Classroom::updateOrCreate(['Grade_id',$list_class['grade_id']],[
-    //        'name' => ['ar'=>$list_class['name_ar'],'en'=>$list_class['name_en']],
-    //        'desc' => ['ar'=>$list_class['desc_ar'],'en'=>$list_class['desc_en']],
-    //     ]);
-
-    //   }
-    //   toastr()->success(trans('class_trans.the data are saved'));
-    //   return redirect()->route('classrooms.index');
-
-    // }
-    // catch(\Exception $e){
-    //   toastr()->error(trans('class_trans.the data are not saved'));
-    //   return redirect()->route('classrooms.index');
-
-    // }
-
     try {
-
       $list_classes = $request->class_list;
-
       $validated = $request->validated();
-
+      
       $duplicates = [];
-
+      
       foreach ($list_classes as $list_class) {
         $exists = Classroom::where('Grade_id', $list_class['grade_id'])
-          ->where(function ($query) use ($list_class) {
-            $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.ar')) = ?", [$list_class['name_ar']])
-              ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) = ?", [$list_class['name_en']]);
+        ->where(function ($query) use ($list_class) {
+          $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.ar')) = ?", [$list_class['name_ar']])
+          ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) = ?", [$list_class['name_en']]);
           })
           ->exists();
-
-        if ($exists) {
-          $duplicates[] = $list_class['name_ar'];
-          continue;
-        }
-
+          
+          if ($exists) {
+            $duplicates[] = $list_class['name_ar'];
+            continue;
+            }   
         Classroom::create([
           'name' => ['ar' => $list_class['name_ar'], 'en' => $list_class['name_en']],
-          'desc' => ['ar' => $list_class['desc_ar'], 'en' => $list_class['desc_en']],
+          'desc' => null,
           'Grade_id' => $list_class['grade_id'],
         ]);
       }
@@ -125,8 +92,8 @@ class ClassroomController extends Controller
 
   public function filteration_class(Request $request)
   {
-    $grades = Grade::all();
-    $search = Classroom::select('*')->where('Grade_id', '*', $request->Grade_id)->get();
+    $grades = Grade::paginate(10);
+    $search = Classroom::select('*')->where('Grade_id', '*', $request->Grade_id)->paginate(10);
     return view('Dashboard.classroom.index', compact('grades'))->withDetails('search');
   }
 

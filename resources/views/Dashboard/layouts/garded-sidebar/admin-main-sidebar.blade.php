@@ -18,7 +18,7 @@
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#elements">
-                            <div class="pull-left"><i class="ti-palette"></i><span
+                            <div class="pull-left"><i class="fas fa-school"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Grades')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -29,7 +29,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#calendar-menu">
-                            <div class="pull-left"><i class="ti-calendar"></i><span
+                            <div class="pull-left"><i class="fas fa-chalkboard"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Departments')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -40,7 +40,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#section-menu">
-                            <div class="pull-left"><i class="ti-calendar"></i><span
+                            <div class="pull-left"><i class="fas fa-th-large"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Sections')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -52,7 +52,7 @@
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#students-menu">
-                            <div class="pull-left"><i class="ti-calendar"></i><span class="right-nav-text">
+                            <div class="pull-left"><i class="fas fa-user-graduate"></i><span class="right-nav-text">
                                     {{trans('sidebar_trans.students')}}</span></div>
                             <div class="pull-right">
                                 <i class="ti-plus"></i>
@@ -111,7 +111,7 @@
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#font-icon">
-                            <div class="pull-left"><i class="ti-home"></i><span
+                            <div class="pull-left"><i class="fas fa-users"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Parents')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -122,7 +122,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#Form">
-                            <div class="pull-left"><i class="ti-files"></i><span
+                            <div class="pull-left"><i class="fas fa-chalkboard-teacher"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Teachers')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -133,7 +133,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#table">
-                            <div class="pull-left"><i class="ti-layout-tab-window"></i><span
+                            <div class="pull-left"><i class="fas fa-file-invoice-dollar"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Accounters')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -150,7 +150,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#custom-page">
-                            <div class="pull-left"><i class="ti-file"></i><span
+                            <div class="pull-left"><i class="fas fa-calendar-check"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Apperance')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -163,7 +163,7 @@
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#timetable-menu" class="sidebar-link-custom">
                             <div class="pull-left">
-                                <i class="fas fa-calendar-alt"></i> <span class="right-nav-text">{{trans('sidebar_trans.timetable')}}</span>
+                                <i class="fas fa-table"></i> <span class="right-nav-text">{{trans('sidebar_trans.timetable')}}</span>
                             </div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -178,7 +178,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#subject">
-                            <div class="pull-left"><i class="ti-file"></i><span
+                            <div class="pull-left"><i class="fas fa-book"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Subject')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -190,7 +190,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#authentication">
-                            <div class="pull-left"><i class="ti-id-badge"></i><span
+                            <div class="pull-left"><i class="fas fa-edit"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Exams')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -202,7 +202,7 @@
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#questions">
-                            <div class="pull-left"><i class="ti-id-badge"></i><span
+                            <div class="pull-left"><i class="fas fa-question-circle"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.question')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -214,7 +214,7 @@
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse"
                             data-target="#error">{{trans('Students_trans.lecture_zoom')}}
-                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="pull-right"><i class="fas fa-video"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error" class="collapse">
@@ -224,7 +224,7 @@
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#liberaries">
-                            <div class="pull-left"><i class="ti-id-badge"></i><span
+                            <div class="pull-left"><i class="fas fa-book-reader"></i><span
                                     class="right-nav-text">{{trans('sidebar_trans.Liberary')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>

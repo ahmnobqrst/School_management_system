@@ -405,6 +405,14 @@ return [
 'show_questions'=>'Show Questions',
 'answers'=>'answers',
 'total_degree'=>'Total Degree',
+'Day' => 'Day',
+    'Period' => 'Period',
+    'Time' => 'Time',
+    'Sun' => 'Sun',
+    'Mon' => 'Mon',
+    'Tue' => 'Tue',
+    'Wed' => 'Wed',
+    'Thu' => 'Thu',
 
    
 

@@ -64,7 +64,8 @@ return [
   'sure_delete_all'=>'متاكد من عملية الحذف!؟',
   'Delete_all'=>'حذف الصفوف',
   'no classes selected to detection'=>'لا يوجد عناصر مختارة للحذف!؟',
-  'search_by_grade'=>'بحث باسم المرحلة'
+  'search_by_grade'=>'بحث باسم المرحلة',
+  'desc_class_room'=>'ملاحظات إضافية (اختياري)'
     
 ];
 

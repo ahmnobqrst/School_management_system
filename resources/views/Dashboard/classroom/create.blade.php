@@ -10,23 +10,6 @@
 </div>
 @endif
 
-<!-- <form action="{{route('grades.store')}}" method="Post" enctype="multipart/form-data">
-<div class="card-block">
-<div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="name">{{trans('grades_trans.grade_name')}}</label>
-      <input type="text" class="form-control" id="name" placeholder="{{trans('grades_trans.grade_name')}}">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="description">{{trans('grades_trans.description')}}</label>
-      <input type="text" class="form-control" id="desc" placeholder="{{trans('grades_trans.description')}}">
-    </div>
-  </div>
-  
-  <button type="submit" class="btn btn-primary">{{trans('grades_trans.submit')}}</button>
-</div>
-</form> -->
-
 <form action="{{route('classrooms.store')}}" method="Post" enctype="multipart/form-data">
          
          @csrf

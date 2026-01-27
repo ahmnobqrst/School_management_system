@@ -33,72 +33,6 @@ class SectionController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(SectionRequest $request)
-    // {
-
-    //     try {
-
-    //         // $sections = new Section();
-    //         // $sections->section_name = ['ar'=> $request->section_name_ar, 'en'=>$request->section_name_en];
-    //         // $sections->Grade_id = $request->Grade_id;
-    //         // $sections->Class_id = $request->Class_id;
-    //         // $sections->status = 1;
-    //         // $sections->save();
-
-
-
-    //         $section = Section::updateOrCreate([
-    //             'section_name' => ['ar' => $request->section_name_ar, 'en' => $request->section_name_en],
-    //             'Grade_id' => $request->Grade_id,
-    //             'Class_id' => $request->Class_id,
-    //             'status' => 1
-
-    //         ]);
-
-    //         if ($request->has('teacher_id')) {
-    //             $section->Teachers()->syncWithoutDetaching($request->teacher_id);
-    //         }
-
-    //         // $sections->Teachers()->attach($request->teacher_id);
-
-    //         toastr()->success(trans('section_trans.the section are saved'));
-    //         return redirect()->route('section.index');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // }
-
-    // public function store(SectionRequest $request)
-    // {
-    //     try {
-    //         $section = Section::where('Grade_id', $request->Grade_id)
-    //             ->where('Class_id', $request->Class_id)
-    //             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.ar')) = ?", [$request->section_name_ar])
-    //             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.en')) = ?", [$request->section_name_en])
-    //             ->first();
-    //         if (! $section) {
-    //             $section = Section::create([
-    //                 'section_name' => ['ar' => $request->section_name_ar, 'en' => $request->section_name_en],
-    //                 'Grade_id' => $request->Grade_id,
-    //                 'Class_id' => $request->Class_id,
-    //                 'status' => 1,
-    //             ]);
-    //         } 
-
-    //         if ($request->has('teacher_id')) {
-    //             $section->Teachers()->syncWithoutDetaching($request->teacher_id);
-    //         }
-
-    //         toastr()->success(trans('section_trans.the section are saved'));
-    //         return redirect()->route('section.index');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // }
-
     public function store(SectionRequest $request)
 {
     try {
@@ -216,5 +150,11 @@ class SectionController extends Controller
     {
         $teachers = Teacher::where("grade_id", $id)->pluck("name", "id");
         return response()->json($teachers);
+    }
+
+    public function get_grade_for_teacher($gradeId)
+    {
+       $teachers = Teacher::where('grade_id',$gradeId)->pluck('name');
+       return $teachers;
     }
 }

@@ -103,6 +103,8 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
         route::get('/get-classes/{id}', [SectionController::class, 'getclasses']);
         route::get('/teachers-section/{id}', [SectionController::class, 'getteacher']);
 
+        route::get('teacher/grades/{gradeId}',[SectionController::class, 'get_grade_for_teacher'])->name('teacher.grades');
+
         route::get('/classes/{id}', [StudentController::class, 'get_classes']);
         route::get('/sections/{id}', [StudentController::class, 'get_sections']);
 
