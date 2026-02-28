@@ -11,6 +11,16 @@ return [
     'friday'    => 'Friday',
     'saturday'  => 'Saturday',
 
+    'from'=>'From',
+    'to'=>'To',
+    'present_days'=>'Count Present Days',
+    'absent_days'=>'Count Absent Days',
+    'student_status'=>'Student Appearance',
+    'no_records_found'=>'There is No Attendance Yet',
+    'from_date'=>'From Date',
+    'to_date'=>'To Date',
+    
+
     // Status
     'present'   => 'Present',
     'late'      => 'Late',

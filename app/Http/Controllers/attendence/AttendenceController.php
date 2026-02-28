@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\attendence;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReportRequest;
 use Illuminate\Http\Request;
 use App\Interface\AttendenceRepositoryInterface;
 
@@ -24,7 +25,7 @@ class AttendenceController extends Controller
 
     public function create()
     {
-        //
+        
     }
 
     public function store(Request $request)
@@ -32,9 +33,9 @@ class AttendenceController extends Controller
         return $this->attendence->store($request);
     }
 
-    public function show($id)
+    public function show(ReportRequest $request, $id)
     {
-        return $this->attendence->show($id);
+        return $this->attendence->show($request, $id);
     }
 
     public function edit($id)

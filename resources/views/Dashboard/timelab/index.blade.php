@@ -31,7 +31,7 @@
 <!-- row -->
 <div class="card-body">
     <a href="{{route('timetable.create')}}" class="btn btn-success btn-sm" role="button"
-                                aria-pressed="true">{{trans('teacher_trans.add_Teacher')}}</a><br><br>
+        aria-pressed="true">{{trans('teacher_trans.add_Teacher')}}</a><br><br>
     <div class="table-responsive">
         <table class="table table-bordered text-center">
             <thead class="bg-dark text-white">

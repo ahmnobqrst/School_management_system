@@ -16,11 +16,7 @@ class ClassroomController extends Controller
 
 
   use softDeletes;
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
+
   public function index()
   {
     $myclass = Classroom::paginate(10);
@@ -28,11 +24,6 @@ class ClassroomController extends Controller
     return view('Dashboard.classroom.index', compact('myclass', 'grades'));
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
   public function create()
   {
     $myclass = Classroom::all();
@@ -40,45 +31,41 @@ class ClassroomController extends Controller
     return view('Dashboard.classroom.create', compact('myclass', 'grades'));
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
+
   public function store(ClassRequest $request)
   {
+
     try {
       $list_classes = $request->class_list;
       $validated = $request->validated();
-      
+
       $duplicates = [];
-      
+
       foreach ($list_classes as $list_class) {
         $exists = Classroom::where('Grade_id', $list_class['grade_id'])
-        ->where(function ($query) use ($list_class) {
-          $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.ar')) = ?", [$list_class['name_ar']])
-          ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) = ?", [$list_class['name_en']]);
+          ->where(function ($query) use ($list_class) {
+            $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.ar')) = ?", [$list_class['name_ar']])
+              ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.en')) = ?", [$list_class['name_en']]);
           })
           ->exists();
-          
-          if ($exists) {
-            $duplicates[] = $list_class['name_ar'];
-            continue;
-            }   
+
+        if ($exists) {
+          $duplicates[] = $list_class['name_ar'];
+          continue;
+        }
         Classroom::create([
           'name' => ['ar' => $list_class['name_ar'], 'en' => $list_class['name_en']],
-          'desc' => null,
+          'desc' => $list_class['desc_ar'],
           'Grade_id' => $list_class['grade_id'],
         ]);
       }
 
       if (count($duplicates) > 0) {
-        toastr()->warning(trans('section_trans.the Classroon already exists')." ".implode(',', $duplicates));
+        toastr()->warning(trans('section_trans.the Classroon already exists') . " " . implode(',', $duplicates));
       } else {
         toastr()->success(trans('class_trans.the data are saved'));
       }
       return redirect()->route('classrooms.index');
-
     } catch (\Exception $e) {
       toastr()->error(trans('class_trans.the data are not saved'));
       return redirect()->route('classrooms.index');
@@ -97,20 +84,8 @@ class ClassroomController extends Controller
     return view('Dashboard.classroom.index', compact('grades'))->withDetails('search');
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
   public function show($id) {}
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
   public function edit(Classroom $Classroom)
   {
 
@@ -119,12 +94,7 @@ class ClassroomController extends Controller
     return view('Dashboard.classroom.edit', compact('Classroom', 'grades'));
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
+
   public function update(Request $request, Classroom $Classroom)
   {
     $Classrooms = Classroom::findOrFail($Classroom->id);
@@ -139,24 +109,7 @@ class ClassroomController extends Controller
   }
 
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
 
-  public function Delete($myclasses_id)
-  {
-    $classrooms = Classroom::find($myclasses_id); // equal offer::where('id','$offer_id')->first();
-    if (!$classrooms)
-      toastr()->error(trans('class_trans.error'));
-    //return redirect()->back()->with(['error'=>__('class_trans.error')]);
-
-    $classrooms->delete();
-    toastr()->success(trans('class_trans.the item classroom are deleted successfully'));
-    return redirect()->route('classrooms.index');
-  }
 
   public function Delete_all(Request $request)
   {
@@ -178,5 +131,11 @@ class ClassroomController extends Controller
 
 
 
-  public function destroy($id) {}
+  public function destroy(Request $request)
+  {
+    $classroom = Classroom::findOrFail($request->id);
+    $classroom->delete();
+    toastr()->success(trans('class_trans.the item classroom are deleted successfully'));
+    return redirect()->route('classrooms.index');
+  }
 }

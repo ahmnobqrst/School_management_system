@@ -30,13 +30,6 @@
 </div>
 @endif
 
-<!-- breadcrumb -->
-<div class="card-body">
-    <button type="button" class="button x-small" data-toggle="modal" data-target="#addsection">
-        {{trans('section_trans.add_Section')}}
-    </button>
-</div>
-
 
 
 @section('content')
@@ -98,7 +91,7 @@
 
                                                                 </td>
                                                                 <td>
-                                                                  <a type="button" class="btn btn-primary" href="{{route('attendence.show',$list_Sections->id)}}">{{trans('Students_trans.student')}}</a>
+                                                                    <a type="button" class="btn btn-primary" href="{{route('attendence.show',$list_Sections->id)}}">{{trans('attendance.attendance_report_title')}}</a>
                                                                 </td>
 
                                                             </tr>
@@ -124,80 +117,11 @@
 
 
 
-                        <!--------------------------------------------------------------------- the modal for insert section ----------------------------------------------------------------------------------------------------->
-                        <div class="modal" tabindex="-1" role="dialog" id="addsection" aria-hidden="true">
-
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">{{trans('section_trans.modal_insert_section')}}</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="{{route('section.store')}}" method="Post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="module-name">{{__('section_trans.section_name_ar')}}</label>
-                                                <input type="text" class="form-control modal_runsetup_name"
-                                                    name="section_name_ar"
-                                                    placeholder="{{__('section_trans.section_name_ar')}}">
-                                            </div>
-                                            @error('section_name_ar')
-                                            <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                            @enderror
-                                            <div class="form-group">
-                                                <label for="module-name">{{__('section_trans.section_name_en')}}</label>
-                                                <input type="text" class="form-control modal_runsetup_name"
-                                                    name="section_name_en"
-                                                    placeholder="{{__('section_trans.section_name_en')}}">
-                                            </div>
-                                            @error('section_name_en')
-                                            <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
-                                            @enderror
-
-                                            <div class="form-group col-md-12">
-                                                <label>{{trans('section_trans.Grade_id')}}</label>
-                                                <select name="Grade_id" id="Grade_id" class="form-control"
-                                                    onchange="console.log($(this).val())">
-                                                    <option value="" selected disabled>
-                                                        {{trans('section_trans.name_grade')}}</option>
-                                                    @foreach($grade as $gardes){
-                                                    <option value="{{$gardes->id}}">{{$gardes->name}} </option>
-                                                    }
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label>{{trans('section_trans.Class_id')}}</label>
-                                                <select name="Class_id" id="Class_id" class="form-control">
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <label>{{trans('section_trans.Teacher_name')}}</label>
-                                                <select name="teacher_id[]" id="teacher_id[]" class="form-control"
-                                                    multiple>
-                                                    <option value="" selected disabled>
-                                                        {{trans('section_trans.Teacher_name')}}</option>
-                                                    @foreach($teachers as $teacher){
-                                                    <option value="{{$teacher->id}}">{{$teacher->name}} </option>
-                                                    }
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit"
-                                                    class="btn btn-primary">{{trans('section_trans.Add Section')}}</button>
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">{{trans('section_trans.Close')}}</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
 
 
-                    <!-----------------------------------------------------------------------End the modal for insert section ------------------------------------------------------------------------------------------------------->
+                   
                 </div>
             </div>
             @endsection
@@ -216,27 +140,5 @@
 
             @toastr_js
             @toastr_render
-            <script>
-            $('select[name="Grade_id"]').on('change', function() {
-                var Grade_id = $(this).val();
-                if (Grade_id) {
-                    $.ajax({
-                        url: "{{ URL::to('classes') }}/" + Grade_id,
-                        type: "GET",
-                        dataType: "json",
-                        success: function(data) {
-                            $('select[name="Class_id"]').empty();
-                            //$('select[name="Class_id"]').append('<option value="Choose">Select State</option>');
-                            $.each(data, function(key, value) {
-                                $('select[name="Class_id"]').append('<option value="' +
-                                    key + '">' + value + '</option>');
-                            });
-                        },
-                    });
-                } else {
-                    console.log('AJAX load did not work');
-                }
-            });
-            </script>
 
             @endsection

@@ -24,25 +24,27 @@ class ClassScheduleRepository implements ClassScheduleInterface
 
         return view('Dashboard.timelab.index', compact('schedules', 'days', 'maxPeriods'));
     }
-    public function store($request) {
+    public function store($request)
+    {
         try {
-        ClassSchedule::create([
-            'day' => $request->day,
-            'period' => $request->period,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'teacher_id' => $request->teacher_id,
-            'section_id' => $request->section_id,
-            'subject_id' => $request->subject_id,
-            'grade_id' => $request->grad_id,
-            'classroom_id' => $request->classroom_id,
-        ]);
-        
-        toastr()->success(trans('messages.success'));
-        return redirect()->route('timetable.index');
-    } catch (\Exception $e) {
-        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    }
+
+            ClassSchedule::create([
+                'day' => $request->day,
+                'period' => $request->period,
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
+                'teacher_id' => $request->teacher_id,
+                'section_id' => $request->section_id,
+                'subject_id' => $request->subject_id,
+                'grade_id' => $request->grad_id,
+                'classroom_id' => $request->classroom_id,
+            ]);
+
+            toastr()->success(trans('messages.success'));
+            return redirect()->route('timetable.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
     }
     public function edit($id) {}
     public function create()

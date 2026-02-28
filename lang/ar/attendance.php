@@ -31,6 +31,14 @@ return [
     'total_present'     => 'إجمالي الحضور هذا الشهر',
     'total_late'        => 'إجمالي التأخير هذا الشهر',
     'total_absent'      => 'إجمالي الغياب هذا الشهر',
+    'from'=>'من',
+    'to'=>'إلى',
+    'present_days'=>'عدد أيام الحضور',
+    'absent_days'=>'عدد أيام الغياب',
+    'student_status'=>'حالة الحضور',
+    'no_records_found'=>'لا يوجد حالات حضور بعد',
+    'from_date'=>'من تاريخ',
+    'to_date'=>'إلى تاريخ',
 
     // Work info
     'worked_hours'      => 'إجمالي ساعات العمل',

@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Interface;
-
+use Illuminate\Http\Request;
+use App\Http\Requests\ReportRequest;
 
 
 interface AttendenceRepositoryInterface
 {
 
 
-    public function show($id);
+    public function show(ReportRequest $request, $id);
 
     public function store($request);
 

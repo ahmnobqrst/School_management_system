@@ -96,7 +96,7 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
         route::get('/create', [GradeController::class, 'create'])->name('create');
         route::post('grade/delete', [GradeController::class, 'delete'])->name('delete');
 
-        route::get('classrooms/{myclasses_id}', [ClassroomController::class, 'Delete'])->name('delete.class');
+        // route::get('classrooms/{myclasses_id}', [ClassroomController::class, 'Delete'])->name('delete.class');
         route::Post('/delete_classes', [ClassroomController::class, 'Delete_all'])->name('delete_all');
         route::Post('/filter_classes', [ClassroomController::class, 'filteration_class'])->name('filter_grade');
 

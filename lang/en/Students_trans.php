@@ -413,6 +413,9 @@ return [
     'Tue' => 'Tue',
     'Wed' => 'Wed',
     'Thu' => 'Thu',
+    'search' => 'Search',
+    'PDF' => 'PDF',
+    'Word' => 'Word',
 
    
 
