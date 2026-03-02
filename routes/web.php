@@ -30,35 +30,8 @@ use Illuminate\Support\Facades\Storage;
 
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-
-// Auth::routes();
-
-// route::group(['middleware'=>['guest']],function(){
-
-
-// Route::get('/', function()
-// {
-//     return view('auth.login');
-// });
-
-// });
-
-
-
-
-
-Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخدم انهي لغة للبرنامج سواء عربي او انجليزي
+Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
@@ -159,39 +132,4 @@ Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخ
     }
 );
 
-    // Route::group(  // هذا علشان تحفظ اخر مرة اليوزر استخدم انهي لغة للبرنامج سواء عربي او انجليزي
-    //     [
-    //         'prefix' => LaravelLocalization::setLocale(),
-    //         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
-    //     ], function()
-    //     { 
-     
-        
-    
-    //     Route::get('/livewire', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
-    
-    //     route::get('/create',[GradeController::class,'create'])->name('create');
-    //     route::post('grade/delete',[GradeController::class,'delete'])->name('delete');
-    
-    //     route::get('classrooms/{myclasses_id}',[ClassroomController::class,'Delete'])->name('delete.class');
-    //     route::Post('/delete_classes',[ClassroomController::class,'Delete_all'])->name('delete_all');
-    //     route::Post('/filter_classes',[ClassroomController::class,'filteration_class'])->name('filter_grade');
-    
-    //     route::get('/classes/{id}',[SectionController::class,'getclasses']);
-    
-    
-    //     Route::resources([
-    //         'grades'=>GradeController::class,
-    //         'classrooms'=>ClassroomController::class,
-    //         'section'=>SectionController::class]);
-    //     });
-
-
-
-
-
-
-
-
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+ 

@@ -34,45 +34,44 @@ class SectionController extends Controller
     }
 
     public function store(SectionRequest $request)
-{
-    try {
-        $section = Section::where('Grade_id', $request->Grade_id)
-            ->where('Class_id', $request->Class_id)
-            ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.ar')) = ?", [$request->section_name_ar])
-            ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.en')) = ?", [$request->section_name_en])
-            ->first();
+    {
+        try {
+            $section = Section::where('Grade_id', $request->grade_id)
+                ->where('Class_id', $request->classroom_id)
+                ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.ar')) = ?", [$request->section_name_ar])
+                ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.en')) = ?", [$request->section_name_en])
+                ->first();
 
-        if (! $section) {
-            $section = Section::create([
-                'section_name' => [
-                    'ar' => $request->section_name_ar,
-                    'en' => $request->section_name_en,
-                ],
-                'Grade_id' => $request->Grade_id,
-                'Class_id' => $request->Class_id,
-                'status' => 1,
-            ]);
-        }
-        if ($request->has('teacher_id')) {
-            $existingTeacherIds = $section->Teachers()->pluck('teachers.id')->toArray();
-            $newTeachers = array_diff($request->teacher_id, $existingTeacherIds);
+            if (! $section) {
+                $section = Section::create([
+                    'section_name' => [
+                        'ar' => $request->section_name_ar,
+                        'en' => $request->section_name_en,
+                    ],
+                    'Grade_id' => $request->grade_id,
+                    'Class_id' => $request->classroom_id,
+                    'status' => 1,
+                ]);
+            }
+            if ($request->has('teacher_id')) {
+                $existingTeacherIds = $section->Teachers()->pluck('teachers.id')->toArray();
+                $newTeachers = array_diff($request->teacher_id, $existingTeacherIds);
 
-            if (empty($newTeachers)) {
-                toastr()->warning(trans('section_trans.teacher_already_assigned'), '', ['timeOut' => 5000]);
+                if (empty($newTeachers)) {
+                    toastr()->warning(trans('section_trans.teacher_already_assigned'), '', ['timeOut' => 5000]);
+                } else {
+                    $section->Teachers()->attach($newTeachers);
+                    toastr()->success(trans('section_trans.the section are saved'));
+                }
             } else {
-                $section->Teachers()->attach($newTeachers);
                 toastr()->success(trans('section_trans.the section are saved'));
             }
-        } else {
-            toastr()->success(trans('section_trans.the section are saved'));
+
+            return redirect()->route('section.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return redirect()->route('section.index');
-
-    } catch (\Exception $e) {
-        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
-}
 
 
 
@@ -154,7 +153,7 @@ class SectionController extends Controller
 
     public function get_grade_for_teacher($gradeId)
     {
-       $teachers = Teacher::where('grade_id',$gradeId)->pluck('name');
-       return $teachers;
+        $teachers = Teacher::where('grade_id', $gradeId)->pluck('name', 'id');
+        return $teachers;
     }
 }

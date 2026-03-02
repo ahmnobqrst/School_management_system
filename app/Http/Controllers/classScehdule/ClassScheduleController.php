@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\classScehdule;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TimetableRequest;
 use App\Interface\ClassScheduleInterface;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class ClassScheduleController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(TimetableRequest $request)
     {
         return $this->cschedule->store($request);
     }

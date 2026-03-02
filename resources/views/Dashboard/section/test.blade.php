@@ -267,7 +267,7 @@
 
                                             <div class="form-group col-md-12">
                                                 <label>{{trans('section_trans.Grade_id')}}</label>
-                                                <select name="Grade_id" id="Grade_id" class="form-control" onchange="console.log($(this).val())">
+                                                <select name="grade_id" id="grade_id" class="form-control" onchange="console.log($(this).val())">
                                                     <option value="" selected disabled>{{trans('section_trans.name_grade')}}</option>
                                                     @foreach($grade as $gardes){
                                                     <option value="{{$gardes->id}}">{{$gardes->name}} </option>
@@ -275,15 +275,15 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                             @error('Grade_id')
+                                             @error('grade_id')
                                             <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                                             @enderror
                                             <div class="form-group col-md-12">
                                                 <label>{{trans('section_trans.Class_id')}}</label>
-                                                <select name="Class_id" id="Class_id" class="form-control">
+                                                <select name="classroom_id" id="classroom_id" class="form-control">
                                                 </select>
                                             </div>
-                                             @error('Class_id')
+                                             @error('classroom_id')
                                             <span class="alert alert-danger alert-dismissible">{{ $message }}</span>
                                             @enderror
                                             <div class="form-group col-md-12">

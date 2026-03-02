@@ -11,8 +11,7 @@ use Spatie\Translatable\HasTranslations;
 class ClassSchedule extends Model
 {
     use HasFactory, SoftDeletes, HasTranslations;
-
-    public $translatable = ['day'];
+    
     public $guarded = [];
 
     public function grade()

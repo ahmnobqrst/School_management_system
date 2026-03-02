@@ -15,35 +15,30 @@ class ClassScheduleRepository implements ClassScheduleInterface
 
     public function index()
     {
-        $schedules = ClassSchedule::with(['teacher', 'subject', 'section'])
-            ->get()
-            ->groupBy(['day', 'period']);
 
+        $grades = Grade::all();
         $days = ['sun', 'mon', 'tue', 'wed', 'thu'];
         $maxPeriods = 6;
 
-        return view('Dashboard.timelab.index', compact('schedules', 'days', 'maxPeriods'));
+        $allSchedules = ClassSchedule::with(['grade', 'classroom', 'section', 'subject', 'teacher'])->get();
+
+        $schedules = [];
+        foreach ($allSchedules as $item) {
+            $schedules[$item->grade_id][$item->day][$item->period][] = $item;
+        }
+
+        return view('Dashboard.timelab.index', compact('schedules', 'days', 'maxPeriods', 'grades'));
     }
     public function store($request)
     {
         try {
-
-            ClassSchedule::create([
-                'day' => $request->day,
-                'period' => $request->period,
-                'start_time' => $request->start_time,
-                'end_time' => $request->end_time,
-                'teacher_id' => $request->teacher_id,
-                'section_id' => $request->section_id,
-                'subject_id' => $request->subject_id,
-                'grade_id' => $request->grad_id,
-                'classroom_id' => $request->classroom_id,
-            ]);
-
-            toastr()->success(trans('messages.success'));
+            ClassSchedule::create($request->validated());
+            toastr()->success(trans('Students_trans.timetable_added_successfully'));
             return redirect()->route('timetable.index');
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+            return redirect()->back()->withInput()->withErrors([
+                'error' => trans('Students_trans.Update_Error')
+            ]);
         }
     }
     public function edit($id) {}
