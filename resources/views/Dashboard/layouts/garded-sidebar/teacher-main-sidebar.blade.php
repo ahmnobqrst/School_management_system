@@ -49,6 +49,17 @@
                             <li> <a href="{{route('getsectionss')}}">{{trans('sidebar_trans.Section')}}</a> </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#timelab-menu">
+                            <div class="pull-left"><i class="ti-calendar"></i><span
+                                    class="right-nav-text">{{trans('sidebar_trans.timetable')}}</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="timelab-menu" class="collapse" data-parent="#sidebarnav">
+                            <li> <a href="{{route('teachertimelab.index')}}">{{trans('sidebar_trans.timetable')}}</a> </li>
+                        </ul>
+                    </li>
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#students-menu">
@@ -72,38 +83,6 @@
                                     </li>
                                 </ul>
                             </li>
-
-                            <!-- <li>
-                                <a href="javascript:void(0);" data-toggle="collapse"
-                                    data-target="#Students_upgrade">{{trans('sidebar_trans.Promotions')}}<div
-                                        class="pull-right"><i class="ti-plus"></i></div>
-                                    <div class="clearfix"></div>
-                                </a>
-                                <ul id="Students_upgrade" class="collapse">
-                                    <li> <a
-                                            href="{{route('promotions.index')}}">{{trans('sidebar_trans.Promotions')}}</a>
-                                    </li>
-                                    <li> <a
-                                            href="{{route('promotions.create')}}">{{trans('sidebar_trans.Promotions_management')}}</a>
-                                    </li>
-                                </ul>
-                            </li> -->
-
-                            <!-- <li>
-                                <a href="javascript:void(0);" data-toggle="collapse"
-                                    data-target="#Graduate students">{{trans('sidebar_trans.Graduate_students')}}<div
-                                        class="pull-right"><i class="ti-plus"></i></div>
-                                    <div class="clearfix"></div>
-                                </a>
-                                <ul id="Graduate students" class="collapse">
-                                    <li> <a
-                                            href="{{route('graduates.create')}}">{{trans('sidebar_trans.add_Graduate')}}</a>
-                                    </li>
-                                    <li> <a
-                                            href="{{route('graduates.index')}}">{{trans('sidebar_trans.list_Graduate')}}</a>
-                                    </li>
-                                </ul>
-                            </li> -->
                         </ul>
                     </li>
 

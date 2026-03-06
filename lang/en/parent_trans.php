@@ -18,7 +18,7 @@ return [
     'Blood_Type_Father_id' => 'Blood Type',
     'Religion_Father_id' => 'Religion',
     'Address_Father' => 'Address Father',
-    'Address_Father_en'=>'English Address Father',
+    'Address_Father_en' => 'English Address Father',
 
 
     'Name_Mother' => 'Mother Name Arabic',
@@ -30,25 +30,26 @@ return [
     'Phone_Mother' => 'Telephone Number',
     'Nationality_Mother_id' => 'Nationality',
     'Blood_Type_Mother_id' => 'Blood Type',
-    'Address_Mother_en'=>'English Mother Address',
-    
+    'Address_Mother_en' => 'English Mother Address',
+
     'Address_Mother' => 'Address Mother',
 
     'Next' => 'Next',
     'Back' => 'Back',
     'Finish' => 'Finish',
     'Choose' => 'Choose',
-    'save_Data'=>'Are you sure to save Data!?',
-    'success'=>'Data of parent are added successfully',
-    'Attachments'=>'Attachments',
-    'Add_parent'=>'Add parent',
-    'Processes'=>'Actions',
-    'updated'=>'the data of father updated successfully',
-    'Delete_parent'=>'the data are deleted successfully',
-    'error_parent_delete'=>'can not delete this data as this contain attachment',
-     'total_fees' => 'Total Fees',
+    'save_Data' => 'Are you sure to save Data!?',
+    'success' => 'Data of parent are added successfully',
+    'Attachments' => 'Attachments',
+    'Add_parent' => 'Add parent',
+    'Processes' => 'Actions',
+    'updated' => 'the data of father updated successfully',
+    'Delete_parent' => 'the data are deleted successfully',
+    'error_parent_delete' => 'can not delete this data as this contain attachment',
+    'total_fees' => 'Total Fees',
     'paid' => 'Paid',
     'remaining' => 'Remaining',
     'pay_now' => 'Pay Now',
+    'invoices' => 'Invoices',
 
 ];

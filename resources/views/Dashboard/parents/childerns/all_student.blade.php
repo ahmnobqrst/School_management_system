@@ -178,7 +178,7 @@
                                     <td>{{ $student->classroom->name ?? '-' }}</td>
                                     <td>{{ $student->Section->section_name ?? '-' }}</td>
                                     <td>
-                                        <a class="dropdown-item" href="{{route('paymentfees.create.son',$student->id)}}">
+                                        <a class="dropdown-item" href="{{route('parent.payment.details',$student->id)}}">
                                             <i class="fa fa-eye text-warning"></i> {{ trans('Students_trans.payment_fees') }}
                                         </a>
                                     </td>

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use App\Models\{Section,Teacher};
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
 class Grade extends Model 
@@ -13,6 +14,7 @@ class Grade extends Model
 
     use SoftDeletes;
     use HasTranslations;
+    use HasFactory;
 
     protected $table = "Grades";
     public $translatable = ['name','desc'];

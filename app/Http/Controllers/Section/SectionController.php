@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Section;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Grade;
@@ -12,12 +11,10 @@ use App\Http\Requests\SectionRequest;
 
 class SectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $grade = Grade::with(['Sections'])->get();
+        $grade = Grade::with(['Sections.Teachers', 'Sections.Classes'])->get();
         $grades = Grade::all();
         $sections = Section::all();
         $teachers = Teacher::all();
@@ -25,150 +22,65 @@ class SectionController extends Controller
         return view('dashboard.section.test', compact('grades', 'grade', 'sections', 'teachers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(SectionRequest $request)
-    // {
-
-    //     try {
-
-    //         // $sections = new Section();
-    //         // $sections->section_name = ['ar'=> $request->section_name_ar, 'en'=>$request->section_name_en];
-    //         // $sections->Grade_id = $request->Grade_id;
-    //         // $sections->Class_id = $request->Class_id;
-    //         // $sections->status = 1;
-    //         // $sections->save();
-
-
-
-    //         $section = Section::updateOrCreate([
-    //             'section_name' => ['ar' => $request->section_name_ar, 'en' => $request->section_name_en],
-    //             'Grade_id' => $request->Grade_id,
-    //             'Class_id' => $request->Class_id,
-    //             'status' => 1
-
-    //         ]);
-
-    //         if ($request->has('teacher_id')) {
-    //             $section->Teachers()->syncWithoutDetaching($request->teacher_id);
-    //         }
-
-    //         // $sections->Teachers()->attach($request->teacher_id);
-
-    //         toastr()->success(trans('section_trans.the section are saved'));
-    //         return redirect()->route('section.index');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // }
-
-    // public function store(SectionRequest $request)
-    // {
-    //     try {
-    //         $section = Section::where('Grade_id', $request->Grade_id)
-    //             ->where('Class_id', $request->Class_id)
-    //             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.ar')) = ?", [$request->section_name_ar])
-    //             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.en')) = ?", [$request->section_name_en])
-    //             ->first();
-    //         if (! $section) {
-    //             $section = Section::create([
-    //                 'section_name' => ['ar' => $request->section_name_ar, 'en' => $request->section_name_en],
-    //                 'Grade_id' => $request->Grade_id,
-    //                 'Class_id' => $request->Class_id,
-    //                 'status' => 1,
-    //             ]);
-    //         } 
-
-    //         if ($request->has('teacher_id')) {
-    //             $section->Teachers()->syncWithoutDetaching($request->teacher_id);
-    //         }
-
-    //         toastr()->success(trans('section_trans.the section are saved'));
-    //         return redirect()->route('section.index');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-    //     }
-    // }
-
     public function store(SectionRequest $request)
-{
-    try {
-        $section = Section::where('Grade_id', $request->Grade_id)
-            ->where('Class_id', $request->Class_id)
-            ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.ar')) = ?", [$request->section_name_ar])
-            ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.en')) = ?", [$request->section_name_en])
-            ->first();
+    {
+        try {
+            $section = Section::where('Grade_id', $request->grade_id)
+                ->where('Class_id', $request->classroom_id)
+                ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.ar')) = ?", [$request->section_name_ar])
+                ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(section_name, '$.en')) = ?", [$request->section_name_en])
+                ->first();
 
-        if (! $section) {
-            $section = Section::create([
-                'section_name' => [
-                    'ar' => $request->section_name_ar,
-                    'en' => $request->section_name_en,
-                ],
-                'Grade_id' => $request->Grade_id,
-                'Class_id' => $request->Class_id,
-                'status' => 1,
-            ]);
-        }
-        if ($request->has('teacher_id')) {
-            $existingTeacherIds = $section->Teachers()->pluck('teachers.id')->toArray();
-            $newTeachers = array_diff($request->teacher_id, $existingTeacherIds);
+            if (! $section) {
+                $section = Section::create([
+                    'section_name' => [
+                        'ar' => $request->section_name_ar,
+                        'en' => $request->section_name_en,
+                    ],
+                    'Grade_id' => $request->grade_id,
+                    'Class_id' => $request->classroom_id,
+                    'status' => 1,
+                ]);
+            }
+            if ($request->has('teacher_id')) {
+                $existingTeacherIds = $section->Teachers()->pluck('teachers.id')->toArray();
+                $newTeachers = array_diff($request->teacher_id, $existingTeacherIds);
 
-            if (empty($newTeachers)) {
-                toastr()->warning(trans('section_trans.teacher_already_assigned'), '', ['timeOut' => 5000]);
+                if (empty($newTeachers)) {
+                    toastr()->warning(trans('section_trans.teacher_already_assigned'), '', ['timeOut' => 5000]);
+                } else {
+                    $section->Teachers()->attach($newTeachers);
+                    toastr()->success(trans('section_trans.the section are saved'));
+                }
             } else {
-                $section->Teachers()->attach($newTeachers);
                 toastr()->success(trans('section_trans.the section are saved'));
             }
-        } else {
-            toastr()->success(trans('section_trans.the section are saved'));
+
+            return redirect()->route('section.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        return redirect()->route('section.index');
-
-    } catch (\Exception $e) {
-        return redirect()->back()->withErrors(['error' => $e->getMessage()]);
     }
-}
 
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
-
-
-
-
         try {
-            //$validated = $request->validated();
             $sections = Section::findOrFail($request->id);
 
             $sections->section_name = ['ar' => $request->section_name_ar, 'en' => $request->section_name_en];
@@ -196,9 +108,6 @@ class SectionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         Section::findOrFail($request->id)->delete();
@@ -216,5 +125,11 @@ class SectionController extends Controller
     {
         $teachers = Teacher::where("grade_id", $id)->pluck("name", "id");
         return response()->json($teachers);
+    }
+
+    public function get_grade_for_teacher($gradeId)
+    {
+        $teachers = Teacher::where('grade_id', $gradeId)->pluck('name', 'id');
+        return $teachers;
     }
 }

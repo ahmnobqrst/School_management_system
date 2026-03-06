@@ -6,9 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ReportRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -17,15 +14,18 @@ class ReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'student_id'=>'required',
-            'from'=>'required|date|date_format:Y-m-d|before_or_equal:today',
-            'to'=>'required|date|date_format:Y-m-d|after_or_equal:from',
+            'name'  => 'nullable|string|max:255',
+            'from'  => 'nullable|date|date_format:Y-m-d|before_or_equal:today',
+            'to'    => 'nullable|date|date_format:Y-m-d|after_or_equal:from',
+            'month' => 'nullable|integer|min:1|max:12',
+            'year'  => 'nullable|integer|min:2000|max:2100',
+            'export'=> 'nullable|in:pdf,excel',
         ];
     }
 
     public function messages()
     {
-        return[
+        return [
             'student_id.required' => trans('Students_trans.Student_name'),
             'from.required' => trans('Students_trans.from_required'),
             'from.date' => trans('Students_trans.date'),

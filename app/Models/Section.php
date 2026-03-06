@@ -7,36 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 use App\Models\Classroom;
-use App\Models\{Teacher,Student};
+use App\Models\{Teacher, Student};
 
 class Section extends Model
 {
-    use HasFactory , SoftDeletes, HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations;
 
     protected $table = "sections";
-    public $translatable = ['section_name', 'status'];
-    public $fillable = ['id', 'section_name', 'status', 'Grade_id', 'Class_id', 'created_at', 'updated_at', 'deleted_at'];
+    public $translatable = ['section_name'];
+    public $fillable = ['id', 'section_name', 'status', 'Grade_id', 'Class_id', 'capacity', 'created_at', 'updated_at', 'deleted_at'];
     public $timestamps = true;
+
+
 
     public function Classes()
     {
-        return $this->belongsTo(Classroom::class , 'Class_id');
+        return $this->belongsTo(Classroom::class, 'Class_id');
     }
 
-    public function Teachers(){
-        return $this->belongsToMany(Teacher::class,'teacher_section');
+    public function Teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_section');
     }
     public function students()
     {
-        return $this->hasMany(Student::class,'section_id');
+        return $this->hasMany(Student::class, 'section_id');
     }
-
-
-
-   
-
-    
-
-
-    
 }

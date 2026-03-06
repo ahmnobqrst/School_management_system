@@ -26,23 +26,18 @@ class TeacherQuizController extends Controller
         return view('Data.quizzes.index', compact('quizzes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-
         $teacher = Auth::guard('teacher')->user();
-        $data['subject'] = Subject::where('teacher_id', $teacher->id)->firstOrFail();
-        // if($teacher->subject)
-        // {
-        //     $data['subject'] = Subject::where('teacher_id',$teacher->id)->firstOrFail();
-        // }
-        // else
-        // {
-        //    toastr()->error(trans('Students_trans.subject_teacher'));
-        //    return redirect()->back();
-        // }
+        $subject = Subject::where('teacher_id', $teacher->id)->first();
+
+        if (!$subject) {
+            toastr()->warning(trans('Students_trans.subject_not_assigned'));
+            return redirect()->route('quizz.index');
+        }
+
+        $data['subject'] = $subject;
         $data['grades'] = $this->getteachergrades();
 
         return view('Data.quizzes.create', $data);
@@ -138,22 +133,23 @@ class TeacherQuizController extends Controller
         }])
             ->where('quiz_id', $quizId)
             ->get();
-        
-        $totalScore = StudentQuizResult::where('quiz_id',$quizId)->where('student_id',$studentId)->firstOrFail();
-        return view('Dashboard.teacher.quiz.student_answers',compact('questions', 'studentId','totalScore','quizId'));
+
+        $totalScore = StudentQuizResult::where('quiz_id', $quizId)->where('student_id', $studentId)->firstOrFail();
+        return view('Dashboard.teacher.quiz.student_answers', compact('questions', 'studentId', 'totalScore', 'quizId'));
     }
 
-    public function confirm_student_degree($quizId,$studentId)
+    public function confirm_student_degree($quizId, $studentId)
     {
-        $student_degree = StudentQuizResult::where('quiz_id',$quizId)->where('student_id',$studentId)->firstOrFail();
+        $student_degree = StudentQuizResult::where('quiz_id', $quizId)->where('student_id', $studentId)->firstOrFail();
         $student_degree->updateOrCreate(
-        [
-            'quiz_id'=>$quizId,
-            'student_id'=>$studentId,
-        ],
-        [
-           'check'=>true,
-        ]);
+            [
+                'quiz_id' => $quizId,
+                'student_id' => $studentId,
+            ],
+            [
+                'check' => true,
+            ]
+        );
 
         return redirect()->back();
     }

@@ -1,123 +1,229 @@
 @extends('Dashboard.layouts.master')
+
 @section('css')
 @toastr_css
+
+<style>
+    .month-tabs { gap: .5rem; }
+    .month-tab {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: .55rem .9rem;
+        border-radius: 999px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        color: #333;
+        font-weight: 600;
+        box-shadow: 0 2px 10px rgba(0,0,0,.04);
+        transition: all .15s ease-in-out;
+        text-decoration: none !important;
+        min-width: 90px;
+    }
+    .month-tab:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(0,0,0,.07);
+        border-color: #d8d8d8;
+    }
+    .month-tab.active {
+        border-color: #0d6efd;
+        background: rgba(13,110,253,.08);
+        color: #0d6efd;
+        box-shadow: 0 6px 16px rgba(13,110,253,.15);
+    }
+
+    .cell-present {
+        background: rgba(25,135,84,.10);
+        color: #198754;
+        font-weight: 800;
+    }
+    .cell-absent {
+        background: rgba(220,53,69,.10);
+        color: #dc3545;
+        font-weight: 800;
+    }
+    .cell-none {
+        background: rgba(255,193,7,.12);
+        color: #b78103;
+        font-weight: 700;
+    }
+    .att-icon { font-size: 16px; line-height: 1; }
+
+    .days-head th { position: sticky; top: 0; background: #f7f7f7; z-index: 2; }
+</style>
+
 @section('title')
-{{trans('Students_trans.attendence_list_register')}}
+{{ trans('attendance.attendance_report_title') }}
 @stop
 @endsection
+
 @section('page-header')
 <div class="page-title">
     <div class="row">
-        <div class="col-sm-12">
-            <h4 class="mb-0">{{trans('Students_trans.attendence_list_register')}}</h4>
+        <div class="col-sm-6">
+            <h4 class="mb-0">{{ trans('attendance.attendance_report_title') }}</h4>
         </div>
-        <div class="col-sm-12">
-            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right ">
-                <li class="breadcrumb-item"><a href="{{route('section.index')}}"
-                        class="default-color">{{trans('Students_trans.Home')}}</a></li>
-                <li class="breadcrumb-item active">{{trans('Students_trans.attendence_list_register')}}</li>
+        <div class="col-sm-6">
+            <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('section.index') }}" class="default-color">{{ trans('Students_trans.Home') }}</a>
+                </li>
+                <li class="breadcrumb-item active">{{ trans('attendance.attendance_report_title') }}</li>
             </ol>
         </div>
     </div>
 </div>
-@if($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach($errors->all() as $error)
-        <li>{{$error}}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 
-
-<h5 style="font-family: 'Cairo', sans-serif;color: red"> {{trans('Students_trans.data_today')}}: {{ date('Y-m-d') }}
-</h5>
-<form method="post" action="{{ route('attendence.store') }}">
-
-    @csrf
-    <table id="datatable" class="table  table-hover table-sm table-bordered p-0" data-page-length="30"
-        style="text-align: center">
-        <thead>
-            <tr>
-                <th class="alert-success">#</th>
-                <th class="alert-success">{{ trans('Students_trans.name') }}</th>
-                <th class="alert-success">{{ trans('Students_trans.email') }}</th>
-                <th class="alert-success">{{ trans('Students_trans.gender') }}</th>
-                <th class="alert-success">{{ trans('Students_trans.Grade') }}</th>
-                <th class="alert-success">{{ trans('Students_trans.classrooms') }}</th>
-                <th class="alert-success">{{ trans('Students_trans.section') }}</th>
-                <th class="alert-success">{{ trans('Students_trans.Processes') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($students as $student)
-            <tr>
-                <td>{{ $loop->index + 1 }}</td>
-                <td>{{ $student->name }}</td>
-                <td>{{ $student->email }}</td>
-                <td>{{ $student->Gender->name }}</td>
-                <td>{{ $student->Grade->name }}</td>
-                <td>{{ $student->Classroom->name }}</td>
-                <td>{{ $student->Section->section_name }}</td>
-                <td>
-
-                    @if(isset($student->attendance()->where('attendence_date',date('Y-m-d'))->first()->student_id))
-
-                    <label class="block text-gray-500 font-semibold sm:border-r sm:pr-4">
-                        <input name="attendences[{{ $student->id }}]" disabled
-                            {{ $student->attendance()->first()->attendence_status == 1 ? 'checked' : '' }}
-                            class="leading-tight" type="radio" value="presence">
-                        <span class="text-success">{{trans('Students_trans.presence')}}</span>
-                    </label>
-
-                    <label class="ml-4 block text-gray-500 font-semibold">
-                        <input name="attendences[{{ $student->id }}]" disabled
-                            {{ $student->attendance()->first()->attendence_status == 0 ? 'checked' : '' }}
-                            class="leading-tight" type="radio" value="absent">
-                        <span class="text-danger">{{trans('Students_trans.absence')}}</span>
-                    </label>
-
-                    @else
-
-                    <label class="block text-gray-500 font-semibold sm:border-r sm:pr-4">
-                        <input name="attendences[{{ $student->id }}]" class="leading-tight" type="radio"
-                            value="presence">
-                        <span class="text-success">{{trans('Students_trans.presence')}}</span>
-                    </label>
-
-                    <label class="ml-4 block text-gray-500 font-semibold">
-                        <input name="attendences[{{ $student->id }}]" class="leading-tight" type="radio" value="absent">
-                        <span class="text-danger">{{trans('Students_trans.absence')}}</span>
-                    </label>
-
-                    @endif
-
-                    <input type="hidden" name="student_id[]" value="{{ $student->id }}">
-                    <input type="hidden" name="grade_id" value="{{ $student->grade_id }}">
-                    <input type="hidden" name="classroom_id" value="{{ $student->classroom_id }}">
-                    <input type="hidden" name="section_id" value="{{ $student->section_id }}">
-
-
-
-                </td>
-
-            </tr>
-
-
+<div class="card mb-3 shadow-sm">
+    <div class="card-body">
+        <div class="d-flex flex-wrap month-tabs">
+            @foreach($months as $m)
+                @php
+                    $isActive = ((int)$month === (int)$m['number']);
+                    $qs = request()->all();
+                    $qs['month'] = $m['number'];
+                    $qs['year']  = $year;
+                    unset($qs['export']);
+                @endphp
+                <a class="month-tab {{ $isActive ? 'active' : '' }}"
+                   href="{{ route('attendence.show', $id).'?'.http_build_query($qs) }}">
+                    {{ $m['name'] }}
+                </a>
             @endforeach
+        </div>
+    </div>
+</div>
 
+<div class="card mb-4 shadow-sm">
+    <div class="card-body">
+        <form method="GET" action="{{ route('attendence.show', $id) }}">
+            <input type="hidden" name="month" value="{{ $month }}">
+            <input type="hidden" name="year" value="{{ $year }}">
 
-        </tbody>
+            <div class="row align-items-start">
+                <div class="col-md-3 mb-3">
+                    <label class="form-label font-weight-bold">{{ trans('Students_trans.student_name') }}:</label>
+                    <input type="text" name="name" value="{{ $name }}" class="form-control" placeholder="ابحث بالاسم...">
+                    @error('name')
+                    <small class="text-danger mt-1 d-block" style="font-size: 85%; font-weight: 500;">
+                        <i class="fa fa-exclamation-circle"></i> {{ $message }}
+                    </small>
+                    @enderror
+                </div>
+                
 
-    </table>
-    <P>
-        <button class="btn btn-success" type="submit">{{ trans('Students_trans.submit') }}</button>
-    </P>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label font-weight-bold">{{ trans('attendance.from_date') }}:</label>
+                    <input type="date" name="from" value="{{ $from }}" class="form-control">
+                     @error('from')
+                    <small class="text-danger mt-1 d-block" style="font-size: 85%; font-weight: 500;">
+                        <i class="fa fa-exclamation-circle"></i> {{ $message }}
+                    </small>
+                    @enderror
+                </div>
 
-</form><br>
-<!-- row closed -->
+                <div class="col-md-3 mb-3">
+                    <label class="form-label font-weight-bold">{{ trans('attendance.to_date') }}:</label>
+                    <input type="date" name="to" value="{{ $to }}" class="form-control">
+                    @error('to')
+                    <small class="text-danger mt-1 d-block" style="font-size: 85%; font-weight: 500;">
+                        <i class="fa fa-exclamation-circle"></i> {{ $message }}
+                    </small>
+                    @enderror
+                </div>
+
+                <div class="col-md-3 mt-md-4 pt-md-2">
+                    <div class="btn-group w-100">
+                        <button type="submit" class="btn btn-primary btn-sm" title="بحث">
+                            <i class="fa fa-search"></i>
+                        </button>
+
+                        <button type="submit" name="export" value="pdf" class="btn btn-danger btn-sm" title="PDF">
+                            <i class="fa fa-file-pdf-o"></i> PDF
+                        </button>
+
+                        <button type="submit" name="export" value="excel" class="btn btn-info btn-sm" title="Excel">
+                            <i class="fa fa-file-excel-o"></i> Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-2 text-muted">
+            الفترة المعروضة: <b>{{ $from }}</b> إلى <b>{{ $to }}</b>
+        </div>
+    </div>
+</div>
 @endsection
+
+@section('content')
+<div class="row">
+    <div class="col-xl-12 mb-30">
+        <div class="card card-statistics h-100">
+            <div class="card-body">
+
+                <div class="table-responsive" style="max-height: 70vh;">
+                    <table class="table table-sm table-bordered" style="text-align:center; white-space: nowrap;">
+                        <thead class="days-head">
+                            <tr class="alert-success">
+                                <th>#</th>
+                                <th>{{ trans('Students_trans.name') }}</th>
+                                <th>{{ trans('Students_trans.Grade') }}</th>
+                                <th>{{ trans('Students_trans.section') }}</th>
+                                <th>{{ trans('attendance.present_days') }}</th>
+                                <th>{{ trans('attendance.absent_days') }}</th>
+
+                                @foreach($days as $d)
+                                    <th>{{ \Carbon\Carbon::parse($d)->format('d') }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach($students as $student)
+                                @php
+                                    $presentCount = $student->attendance->filter(fn($a)=> (int)$a->attendence_status === 1)->count();
+                                    $absentCount  = $student->attendance->filter(fn($a)=> (int)$a->attendence_status === 0)->count();
+                                @endphp
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $student->name }}</td>
+                                    <td>{{ optional($student->Grade)->name }}</td>
+                                    <td>{{ optional($student->Section)->section_name }}</td>
+                                    <td class="text-success font-weight-bold">{{ $presentCount }}</td>
+                                    <td class="text-danger font-weight-bold">{{ $absentCount }}</td>
+
+                                    @foreach($days as $d)
+                                        @php $status = $attendanceMap[$student->id][$d] ?? null; @endphp
+
+                                        @if($status === 1)
+                                            <td class="cell-present">
+                                                <span class="att-icon">✔</span>
+                                            </td>
+                                        @elseif($status === 0)
+                                            <td class="cell-absent">
+                                                <span class="att-icon">✖</span>
+                                            </td>
+                                        @else
+                                            <td class="cell-none">
+                                                <span class="att-icon">—</span>
+                                            </td>
+                                        @endif
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
 @section('js')
 @toastr_js
 @toastr_render

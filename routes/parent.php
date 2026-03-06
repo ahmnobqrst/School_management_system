@@ -12,6 +12,8 @@ use App\Http\Controllers\student\StudentController;
 use App\Http\Controllers\Teacher\{TeacherController, TeacherQuizController, TeacherClassesController, LiberaryTeacher};
 use Illuminate\Support\Facades\Route;
 use App\Livewire\AddParent;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Student\Timelab\TimelabStudent;
 
 Route::group(
     [
@@ -59,6 +61,10 @@ Route::group(
             Route::get('student_Attendence/{studentId}', [ParentController::class, 'student_attendence'])->name('student.attendence');
             // Route::post('store/{studentId}',[ParentController::class,'store'])->name('store.fee.student');
             //================================================= End Get Childerns Appearence For Parent ===================================================//
+
+            //=================================== Timelab ===================================================//
+            Route::get('parent/timelab', [TimelabStudent::class, 'son_timelab'])->name('parent.timelab');
+            //=================================== End Timelab ===================================================//
 
             //================================================= Get Childerns PaymentFees For Parent ===================================================//
             // Route::get('get_childern_paymentfees',[ParentController::class,'get_childern_paymentFees'])->name('get.all.childern');

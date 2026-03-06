@@ -60,6 +60,7 @@ return [
     'Delete_all'=>'Delete all',
     'no classes selected to detection'=>'no classes selected to detection',
     'search_by_grade'=>'Search By Grade',
+    'desc_class_room'=>'Description(optional)'
     
 
     
