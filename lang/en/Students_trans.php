@@ -428,6 +428,15 @@ return [
     'start_time' => 'Start Time',
     'end_time' => 'End Time',
     'save' => 'Save',
+    'after_or_equal_8_morning'=>'Timelab Must be After 8:00 Morning',
+    'after_or_equal'=> 'Timelab Must be After or Equal Today',
+    'before_or_equal'=>'Timelab Must be Before or Equal 5:00 Afternoon',
+    'teacher_id_required' => 'Teacher Name is Required',
+    'section_id_required' => 'Section Name is Required',
+    'subject_id_required' => 'Subject Name is Required',
+    'grade_id_required' => 'Grade Name is Required',
+    'classroom_id_required' => 'Classroom Name is Required',
+    'subject_not_assigned' => 'No Subject Assigned To This Teacher',
 
 
 

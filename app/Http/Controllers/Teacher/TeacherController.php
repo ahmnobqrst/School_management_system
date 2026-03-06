@@ -18,6 +18,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TeacherQuestionRequest;
 use Carbon\Carbon;
 use App\Traits\ZoomTraitIntegration;
+use App\Services\AttendanceFilterService;
+use App\Exports\AttendanceReportExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
@@ -125,7 +129,7 @@ class TeacherController extends Controller
     public function getalldatastudent($id)
     {
         $teacher = Teacher::with('Sections.Classes')
-        ->findOrFail(auth()->user()->id);
+            ->findOrFail(auth()->user()->id);
         $sections = $teacher->sections()->pluck('section_id');
         $Student = Student::where('id', $id)
             ->whereIn('section_id', $sections)
@@ -147,7 +151,7 @@ class TeacherController extends Controller
     }
 
 
-    public function registerattendencestore(Request $request,$sectionId)
+    public function registerattendencestore(Request $request, $sectionId)
     {
         try {
             $attenddate = date('Y-m-d');
@@ -182,24 +186,75 @@ class TeacherController extends Controller
         $teacher = $this->getteachergrade();
         return view('Data.attendence.reports.attendence_report', compact('teacher'));
     }
-    public function get_report_attendence($sectionId)
+    public function show_section_report(ReportRequest $request, $sectionId)
     {
-        $section = Section::findOrFail($sectionId);
-        $students   = Student::where('section_id', $section->id)->get();
+        $teacherSections = $this->getSections()->pluck('id')->toArray();
+        abort_unless(in_array((int)$sectionId, $teacherSections), 403);
 
-        return view('Data.attendence.reports.report', compact('students'));
+        $filter = new AttendanceFilterService($request);
+        $days   = $filter->getDaysRange();
+        $months = $filter->getMonthsList();
+
+        $students = Student::with([
+            'Grade',
+            'Section',
+            'attendance' => function ($q) use ($filter, $sectionId) {
+                $q->where('section_id', $sectionId)
+                    ->whereBetween('attendence_date', [$filter->fromString(), $filter->toString()]);
+            }
+        ])
+            ->where('section_id', $sectionId)
+            ->when($filter->name, function ($q) use ($filter) {
+                $q->where('name', 'like', "%{$filter->name}%");
+            })
+            ->orderBy('name')
+            ->get();
+
+        $attendanceMap = [];
+        foreach ($students as $student) {
+            foreach ($student->attendance as $att) {
+                $date = is_object($att->attendence_date)
+                    ? $att->attendence_date->format('Y-m-d')
+                    : Carbon::parse($att->attendence_date)->format('Y-m-d');
+
+                $attendanceMap[$student->id][$date] = (int) $att->attendence_status;
+            }
+        }
+
+        $viewData = [
+            'students'      => $students,
+            'days'          => $days,
+            'from'          => $filter->fromString(),
+            'to'            => $filter->toString(),
+            'id'            => $sectionId,
+            'name'          => $filter->name,
+            'attendanceMap' => $attendanceMap,
+            'months'        => $months,
+            'year'          => $filter->year,
+            'month'         => $filter->month,
+        ];
+
+        if ($request->get('export') === 'excel') {
+            $fileName = "attendance_section_{$sectionId}_{$filter->from->format('Ymd')}_{$filter->to->format('Ymd')}.xlsx";
+
+            return Excel::download(
+                new AttendanceReportExport($students, $days, $filter->fromString(), $filter->toString(), (int)$sectionId, $filter->name),
+                $fileName
+            );
+        }
+
+        if ($request->get('export') === 'pdf') {
+            $fileName = "attendance_section_{$sectionId}_{$filter->from->format('Ymd')}_{$filter->to->format('Ymd')}.pdf";
+
+            $pdf = Pdf::loadView('Dashboard.attendence.section_pdf', $viewData)
+                ->setPaper('a4', 'landscape');
+
+            return $pdf->download($fileName);
+        }
+
+        return view('Data.attendence.reports.section_report', $viewData);
     }
 
-    public function get_attendence_report(ReportRequest $request)
-    {
-
-        $Students = Attendence::whereBetween('attendence_date', [$request->from, $request->to])->paginate(15);
-        return view('Data.attendence.reports.result_report', compact('Students'));
-    }
-
-
-
-    // this is report about sections questions to get all questions for all sections 
 
     public function question_section_report()
     {

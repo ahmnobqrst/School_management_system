@@ -8,7 +8,7 @@
                     <li>
                         <a href="{{ route('parent.dashboard') }}">
                             <div class="pull-left"><i class="ti-home"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Dashboard')}}</span>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Dashboard') }}</span>
                             </div>
                             <div class="clearfix"></div>
                         </a>
@@ -19,53 +19,40 @@
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#elements">
                             <div class="pull-left"><i class="ti-palette"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.childerns')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.childerns') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="elements" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="{{route('get.all.childern')}}">{{trans('sidebar_trans.childerns')}}</a></li>
+                            <li><a href="{{ route('get.all.childern') }}">{{ trans('sidebar_trans.childerns') }}</a>
+                            </li>
                         </ul>
                     </li>
 
-                   
+
 
                     <li>
-                        <a href="javascript:void(0);" data-toggle="collapse"
-                            data-target="#error">
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#error">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.lecture')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.timetable') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error" class="collapse">
-                            <li> <a href="#">{{trans('sidebar_trans.lecture')}}</a>
+                            <li> <a href="{{ route('parent.timelab') }}">{{ trans('sidebar_trans.timetable') }}</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" data-toggle="collapse"
-                            data-target="#error1">
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#error1">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Apperance')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Apperance') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error1" class="collapse">
-                            <li> <a href="{{route('get.childern.appearence')}}">{{trans('sidebar_trans.Apperance')}}</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" data-toggle="collapse"
-                            data-target="#error2">
-                            <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.payment_details')}}</span></div>
-                            <div class="pull-right"><i class="ti-plus"></i></div>
-                            <div class="clearfix"></div>
-                        </a>
-                        <ul id="error2" class="collapse">
-                            <li> <a href="#">{{trans('sidebar_trans.payment_details')}}</a>
+                            <li> <a
+                                    href="{{ route('get.childern.appearence') }}">{{ trans('sidebar_trans.Apperance') }}</a>
                             </li>
                         </ul>
                     </li>
@@ -73,8 +60,8 @@
                 </ul>
             </div>
         </div>
-                    
-                   
+
+
     </div>
 </div>
 <!-- Left Sidebar End-->

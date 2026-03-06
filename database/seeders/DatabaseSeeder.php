@@ -1,23 +1,14 @@
 <?php
 
 namespace Database\Seeders;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\{Classroom, Section, MyParent, Student, Teacher};
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+    
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
 
         $this->call(BloodSeeder::class);
         $this->call(NationalitySeeder::class);
@@ -29,5 +20,11 @@ class DatabaseSeeder extends Seeder
         $this->call(PerentSeeder::class);
         $this->call(TeacherSeeder::class);
         $this->call(SettingSeeder::class);
+
+        Classroom::factory(10)->create();
+        Teacher::factory(10)->create();
+        Section::factory(10)->create();
+        MyParent::factory(10)->create();
+        Student::factory(10)->create();
     }
 }

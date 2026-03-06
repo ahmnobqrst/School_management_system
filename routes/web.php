@@ -27,6 +27,7 @@ use App\Http\Controllers\liberary\LiberaryController;
 use App\Http\Controllers\Teacher\Profile\ProfileController;
 use App\Http\Controllers\setting\SettingController;
 use Illuminate\Support\Facades\Storage;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
 
@@ -76,7 +77,7 @@ Route::group(
         route::get('/get-classes/{id}', [SectionController::class, 'getclasses']);
         route::get('/teachers-section/{id}', [SectionController::class, 'getteacher']);
 
-        route::get('teacher/grades/{gradeId}',[SectionController::class, 'get_grade_for_teacher'])->name('teacher.grades');
+        route::get('teacher/grades/{gradeId}', [SectionController::class, 'get_grade_for_teacher'])->name('teacher.grades');
 
         route::get('/classes/{id}', [StudentController::class, 'get_classes']);
         route::get('/sections/{id}', [StudentController::class, 'get_sections']);
@@ -131,5 +132,3 @@ Route::group(
         ]);
     }
 );
-
- 

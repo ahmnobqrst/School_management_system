@@ -1,24 +1,29 @@
 <?php
 
-namespace app\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{Grade,Section};
+use App\Models\{Grade, Section};
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Classroom extends Model 
+class Classroom extends Model
 {
 
-    
+
     use SoftDeletes;
     use HasTranslations;
+    use HasFactory;
+
     protected $table = 'Classrooms';
     public $timestamps = true;
 
     protected $dates = ['deleted_at'];
-    public $translatable = ['name','desc'];
-    public $fillable = ['id', 'name', 'desc', 'created_at', 'updated_at', 'deleted_at','Grade_id'];
+    public $translatable = ['name', 'desc'];
+    public $fillable = ['id', 'name', 'desc', 'created_at', 'updated_at', 'deleted_at', 'Grade_id'];
+
+
 
     public function grades()
     {
@@ -29,5 +34,4 @@ class Classroom extends Model
     {
         return $this->hasMany(Section::class);
     }
-
 }

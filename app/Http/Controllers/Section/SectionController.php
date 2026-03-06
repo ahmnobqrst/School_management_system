@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Section;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Grade;
@@ -12,12 +11,10 @@ use App\Http\Requests\SectionRequest;
 
 class SectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $grade = Grade::with(['Sections'])->get();
+        $grade = Grade::with(['Sections.Teachers', 'Sections.Classes'])->get();
         $grades = Grade::all();
         $sections = Section::all();
         $teachers = Teacher::all();
@@ -25,9 +22,7 @@ class SectionController extends Controller
         return view('dashboard.section.test', compact('grades', 'grade', 'sections', 'teachers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
@@ -73,35 +68,19 @@ class SectionController extends Controller
         }
     }
 
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
-
-
-
-
         try {
-            //$validated = $request->validated();
             $sections = Section::findOrFail($request->id);
 
             $sections->section_name = ['ar' => $request->section_name_ar, 'en' => $request->section_name_en];
@@ -129,9 +108,6 @@ class SectionController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Request $request)
     {
         Section::findOrFail($request->id)->delete();

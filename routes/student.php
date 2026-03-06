@@ -7,36 +7,8 @@ use App\Http\Controllers\Teacher\Profile\ProfileController;
 use App\Models\Student;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-
-
-
-/*
-|--------------------------------------------------------------------------
-| Student Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-// Auth::routes();
-
-// route::group(['middleware'=>['guest']],function(){
-
-
-// Route::get('/', function()
-// {
-//     return view('auth.login');
-// });
-
-// });
-
-
-
-
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Student\Timelab\TimelabStudent;
 
 Route::group(
     [
@@ -60,12 +32,16 @@ Route::group(
         //======================================== Student Profile =====================================================================//
         Route::get('student-profile', [ProfileController::class, 'get_profile_data_for_student'])->name('student.getprofile');
         Route::post('student-profile/{studentId}', [ProfileController::class, 'update_profile_for_student'])->name('student.update.profile');
-       //======================================== End Student Profile =====================================================================//
+        //======================================== End Student Profile =====================================================================//
 
 
         //======================================== Student Exam =================================================================//
         Route::get('result_of_exam/{quiz_id}', [StudentExamsController::class, 'show_exam_result'])->name('show_exam_result');
         //========================================= End Student Exam ============================================================//
+
+        //=================================== Timelab ===================================================//
+        Route::get('student/timelab', [TimelabStudent::class, 'index'])->name('student.timelab');
+        //=================================== End Timelab ===================================================//
 
         //======================================== Student Appearnce =================================================================//
         Route::get('MyAppearnce', [StudentExamsController::class, 'student_appearnce'])->name('student.appearnce');
@@ -77,7 +53,7 @@ Route::group(
 
         //======================================== Student Books =================================================================//
         Route::get('MyBooks', [StudentExamsController::class, 'student_books'])->name('student.books');
-         Route::get('/Download/{path}', [StudentExamsController::class, 'Download_Books'])->where('path', '.*')->name('student.download.book');
+        Route::get('/Download/{path}', [StudentExamsController::class, 'Download_Books'])->where('path', '.*')->name('student.download.book');
         //========================================= End Student Books ============================================================//
 
         //=================================== Google Login ===================================================//

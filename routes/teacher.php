@@ -11,6 +11,8 @@ use App\Http\Controllers\student\StudentController;
 use App\Http\Controllers\Teacher\{TeacherController, TeacherQuizController, TeacherClassesController, LiberaryTeacher};
 use Illuminate\Support\Facades\Route;
 use App\Livewire\AddParent;
+use App\Http\Controllers\Teacher\Timelab\TimelabTeacher;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::group(
     [
@@ -50,10 +52,7 @@ Route::group(
                 Route::post('/registerattendence/{sectionId}', [TeacherController::class, 'registerattendencestore'])->name('registerattendence.store');
 
                 Route::get('/attendence_section', [TeacherController::class, 'attendence_report'])->name('attendence_section');
-                Route::get('report_of_attendence', [TeacherController::class, 'report_of_attendence'])->name('report');
-                Route::get('/getreportattendence/{sectionId}', [TeacherController::class, 'get_report_attendence'])->name('report_attendence.get');
-                Route::get('report_of_attendence', [TeacherController::class, 'attendence_report'])->name('attendance.report');
-                Route::post('report_of_attendence', [TeacherController::class, 'get_attendence_report'])->name('get_attendance.report');
+                Route::get('/section-report/{sectionId}', [TeacherController::class, 'show_section_report'])->name('teacher.section_report');
                 // Route::post('/updateattendence/{sectionId}', [TeacherController::class, 'updateattendencestore'])->name('updateattendence.store');
 
                 // End Routes for Attendence For Teacher's Students
@@ -67,8 +66,8 @@ Route::group(
 
                 Route::get('students_in_quiz/{quiz_id}', [TeacherQuizController::class, 'get_student_in_quiz'])->name('quiz.with.student');
                 Route::get('students_answers/{quizId}/{studentId}', [TeacherQuizController::class, 'get_student_answers'])->name('student.answers');
-                Route::post('confirm_student_degree/{quizId}/{studentId}',[TeacherQuizController::class, 'confirm_student_degree'])
-                ->name('confirmation.degree');
+                Route::post('confirm_student_degree/{quizId}/{studentId}', [TeacherQuizController::class, 'confirm_student_degree'])
+                    ->name('confirmation.degree');
                 // theses End Routes For Teacher 
 
 
@@ -113,6 +112,12 @@ Route::group(
                 //=================================== Google Login ===================================================//
                 // Route::get('teacher/auth/google', [GoogleController::class, 'redirectToGoogle']);
                 // Route::get('teacher/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+
+                //=================================== Timelab ===================================================//
+                Route::get('timelab', [TimelabTeacher::class, 'index'])->name('teachertimelab.index');
+                //=================================== End Timelab ===================================================//
+
 
 
 

@@ -23,7 +23,7 @@ class TimetableRequest extends FormRequest
             'classroom_id' => 'required|exists:classrooms,id',
             'section_id' => 'required|exists:sections,id',
             'teacher_id' => 'required|exists:teachers,id',
-            'start_time' => 'required',
+            'start_time' => 'required|after_or_equal:08:00|before_or_equal:17:00|after_or_equal:today',
             'end_time' => 'required|after:start_time',
         ];
     }
@@ -57,6 +57,15 @@ class TimetableRequest extends FormRequest
             'day.required' => trans('Students_trans.day_required'),
             'period.required' => trans('Students_trans.period_required'),
             'end_time.after' => trans('Students_trans.end_time_after'),
+            'start_time.after_or_equal' => trans('Students_trans.after_or_equal_8_morning'),
+            'start_time.after_or_equal' => trans('Students_trans.after_or_equal'),
+            'start_time.before_or_equal' => trans('Students_trans.before_or_equal'),
+            'teacher_id.required' => trans('Students_trans.teacher_id_required'),
+            'section_id.required' => trans('Students_trans.section_id_required'),
+            'subject_id.required' => trans('Students_trans.subject_id_required'),
+            'grade_id.required' => trans('Students_trans.grade_id_required'),
+            'classroom_id.required' => trans('Students_trans.classroom_id_required'),
+            
         ];
     }
 }

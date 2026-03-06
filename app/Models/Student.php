@@ -22,36 +22,45 @@ use App\Models\Attendence;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class Student extends Authenticatable
 {
-    use HasFactory , SoftDeletes , HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations;
 
     protected $table = 'students';
     public $guarded = [];
     public $translatable = ['name'];
     public $timestamps = true;
 
-    public function Parents(){
-        return $this->belongsTo(MyParent::class,'parent_id');
+
+
+    public function Parents()
+    {
+        return $this->belongsTo(MyParent::class, 'parent_id');
     }
 
-    public function Section(){
-        return $this->belongsTo(Section::class,'section_id');
+    public function Section()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
     }
-    public function Subjects(){
-        return $this->belongsToMany(Subject::class,'student_subject');
-    }
-
-    public function Grade(){
-        return $this->belongsTo(Grade::class,'grade_id');
+    public function Subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'student_subject');
     }
 
-    public function Gender(){
-        return $this->belongsTo(Gender::class,'gender_id');
+    public function Grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
     }
 
-    public function Classroom(){
-        return $this->belongsTo(Classroom::class,'classroom_id');
+    public function Gender()
+    {
+        return $this->belongsTo(Gender::class, 'gender_id');
+    }
+
+    public function Classroom()
+    {
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 
     public function images()
@@ -59,14 +68,14 @@ class Student extends Authenticatable
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function Nationality(){
-        return $this->belongsTo(National::class,'national_student_id');
+    public function Nationality()
+    {
+        return $this->belongsTo(National::class, 'national_student_id');
     }
 
     public function student_account()
     {
         return $this->hasMany(StudentAccount::class, 'student_id');
-
     }
 
     public function attendance()
@@ -74,15 +83,14 @@ class Student extends Authenticatable
         return $this->hasMany(Attendence::class, 'student_id');
     }
 
-    public function BloodType(){
-        return $this->belongsTo(BloodType::class,'blood_type_student_id');
+    public function BloodType()
+    {
+        return $this->belongsTo(BloodType::class, 'blood_type_student_id');
     }
-    
+
 
     public function Quizzes()
     {
-        return $this->belongsToMany(Quiz::class,'student_quiz_results');
+        return $this->belongsToMany(Quiz::class, 'student_quiz_results');
     }
-
-    
 }
