@@ -88,7 +88,7 @@
         }
 
         /* spacing adjustments */
-        .row > div {
+        .row>div {
             margin-bottom: 30px;
         }
     </style>
@@ -109,7 +109,8 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h4 class="mb-0">{{ __('Students_trans.Welcome') }} : {{ auth()->user()->name_of_father }}</h4>
+                        <h4 class="mb-0">{{ __('Students_trans.Welcome') }} : {{ auth()->user()->name_of_father }}
+                        </h4>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right"></ol>
@@ -133,7 +134,7 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                
+
                                 <a href="#" target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
@@ -224,16 +225,17 @@
                     </div>
                 </div>
             </div>
-            
 
-           
+
+
             @include('Dashboard.layouts.footer')
         </div>
     </div>
 
-     @include('Dashboard.layouts.footer-scripts')
+    @include('Dashboard.layouts.footer-scripts')
 
-     @livewireScripts
-     @stack('scripts')
+    @livewireScripts
+    @stack('scripts')
 </body>
+
 </html>
