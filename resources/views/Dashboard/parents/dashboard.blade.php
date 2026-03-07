@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{ trans('Students_trans.Dashboard_parent') }}</title>
     @include('Dashboard.layouts.head')
+
     @livewireStyles
     <style>
         body {
@@ -88,7 +90,7 @@
         }
 
         /* spacing adjustments */
-        .row > div {
+        .row>div {
             margin-bottom: 30px;
         }
     </style>
@@ -109,7 +111,8 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h4 class="mb-0">{{ __('Students_trans.Welcome') }} : {{ auth()->user()->name_of_father }}</h4>
+                        <h4 class="mb-0">{{ __('Students_trans.Welcome') }} : {{ auth()->user()->name_of_father }}
+                        </h4>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb pt-0 pr-0 float-left float-sm-right"></ol>
@@ -127,14 +130,15 @@
                                     <i class="fas fa-user-graduate highlight-icon"></i>
                                 </div>
                                 <div class="float-right text-right">
-                                    <p class="card-text">{{ __('Students_trans.Grade') }}</p>
+                                    <p class="card-text">{{ trans('sidebar_trans.childerns') }}</p>
                                     <h4></h4>
                                 </div>
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                
-                                <a href="#" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+
+                                <a href="{{ route('get.all.childern') }}"
+                                    target="_blank">{{ trans('sidebar_trans.childerns') }}</a>
                             </p>
                         </div>
                     </div>
@@ -149,13 +153,14 @@
                                     <i class="fas fa-chalkboard highlight-icon"></i>
                                 </div>
                                 <div class="float-right text-right">
-                                    <p class="card-text">{{ __('Students_trans.classrooms') }}</p>
+                                    <p class="card-text">{{ trans('sidebar_trans.timetable') }}</p>
                                     <h4></h4>
                                 </div>
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="#" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('parent.timelab') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -170,34 +175,14 @@
                                     <i class="fas fa-stream highlight-icon"></i>
                                 </div>
                                 <div class="float-right text-right">
-                                    <p class="card-text">{{ __('Students_trans.section') }}</p>
+                                    <p class="card-text">{{ trans('sidebar_trans.Apperance') }}</p>
                                     <h4></h4>
                                 </div>
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="#" target="_blank">{{ __('Students_trans.Show_data') }}</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- المواد -->
-                <div class="col-md-4 col-sm-12">
-                    <div class="card card-statistics h-100">
-                        <div class="card-body">
-                            <div class="clearfix mb-3">
-                                <div class="float-left text-warning">
-                                    <i class="fas fa-book-open highlight-icon"></i>
-                                </div>
-                                <div class="float-right text-right">
-                                    <p class="card-text">{{ __('Students_trans.subjects') }}</p>
-                                    <h4></h4>
-                                </div>
-                            </div>
-                            <p class="text-muted pt-3 mb-0 mt-2 border-top">
-                                <i class="fas fa-eye mr-1"></i>
-                                <a href="#" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('get.childern.appearence') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -218,22 +203,24 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="#" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('parent.getstudentteachers') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            
 
-           
+            <livewire:calender-student />
+
             @include('Dashboard.layouts.footer')
         </div>
     </div>
 
-     @include('Dashboard.layouts.footer-scripts')
+    @include('Dashboard.layouts.footer-scripts')
 
-     @livewireScripts
-     @stack('scripts')
+    @livewireScripts
+    @stack('scripts')
 </body>
+
 </html>

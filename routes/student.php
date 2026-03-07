@@ -56,6 +56,8 @@ Route::group(
         Route::get('/Download/{path}', [StudentExamsController::class, 'Download_Books'])->where('path', '.*')->name('student.download.book');
         //========================================= End Student Books ============================================================//
 
+        Route::get('student/settings', [TimelabStudent::class, 'student_settings'])->name('student.settings');
+
         //=================================== Google Login ===================================================//
         // Route::get('student/auth/google', [GoogleController::class, 'redirectToGoogle']);
         // Route::get('student/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

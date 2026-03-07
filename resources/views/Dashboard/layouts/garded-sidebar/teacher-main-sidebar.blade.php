@@ -8,7 +8,7 @@
                     <li>
                         <a href="{{ route('teacher.dashboard') }}">
                             <div class="pull-left"><i class="ti-home"></i><span
-                                    class="right-nav-text">{{trans('Students_trans.Dashboard_teacher')}}</span>
+                                    class="right-nav-text">{{ trans('Students_trans.Dashboard_teacher') }}</span>
                             </div>
                             <div class="clearfix"></div>
                         </a>
@@ -19,52 +19,54 @@
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#elements">
                             <div class="pull-left"><i class="ti-palette"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Grades')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Grades') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="elements" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="{{route('getgrade')}}">{{trans('sidebar_trans.Grade_list')}}</a></li>
+                            <li><a href="{{ route('getgrade') }}">{{ trans('sidebar_trans.Grade_list') }}</a></li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#calendar-menu">
                             <div class="pull-left"><i class="ti-calendar"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Departments')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Departments') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="calendar-menu" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('getclasses')}}">{{trans('sidebar_trans.classrooms')}}</a> </li>
+                            <li> <a href="{{ route('getclasses') }}">{{ trans('sidebar_trans.classrooms') }}</a> </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#section-menu">
                             <div class="pull-left"><i class="ti-calendar"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Sections')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Sections') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="section-menu" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('getsectionss')}}">{{trans('sidebar_trans.Section')}}</a> </li>
+                            <li> <a href="{{ route('getsectionss') }}">{{ trans('sidebar_trans.Section') }}</a> </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#timelab-menu">
                             <div class="pull-left"><i class="ti-calendar"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.timetable')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.timetable') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="timelab-menu" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('teachertimelab.index')}}">{{trans('sidebar_trans.timetable')}}</a> </li>
+                            <li> <a
+                                    href="{{ route('teachertimelab.index') }}">{{ trans('sidebar_trans.timetable') }}</a>
+                            </li>
                         </ul>
                     </li>
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#students-menu">
                             <div class="pull-left"><i class="ti-calendar"></i><span class="right-nav-text">
-                                    {{trans('sidebar_trans.students')}}</span></div>
+                                    {{ trans('sidebar_trans.students') }}</span></div>
                             <div class="pull-right">
                                 <i class="ti-plus"></i>
                             </div>
@@ -73,13 +75,13 @@
                         <ul id="students-menu" class="collapse">
                             <li>
                                 <a href="javascript:void(0);" data-toggle="collapse"
-                                    data-target="#Student_information">{{trans('sidebar_trans.Student_information')}}
+                                    data-target="#Student_information">{{ trans('sidebar_trans.Student_information') }}
                                     <div class="pull-right"><i class="ti-plus"></i></div>
                                     <div class="clearfix"></div>
                                 </a>
                                 <ul id="Student_information" class="collapse">
                                     <li> <a
-                                            href="{{route('getstds')}}">{{trans('sidebar_trans.students_list')}}</a>
+                                            href="{{ route('getstds') }}">{{ trans('sidebar_trans.students_list') }}</a>
                                     </li>
                                 </ul>
                             </li>
@@ -89,12 +91,14 @@
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#font-icon">
                             <div class="pull-left"><i class="ti-home"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Parents')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Parents') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="font-icon" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('get_student_parent')}}">{{trans('sidebar_trans.Parent_list')}}</a> </li>
+                            <li> <a
+                                    href="{{ route('get_student_parent') }}">{{ trans('sidebar_trans.Parent_list') }}</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -102,83 +106,100 @@
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#custom-page">
                             <div class="pull-left"><i class="ti-file"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Apperance')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Apperance') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="custom-page" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('attendence')}}">{{trans('sidebar_trans.Apperance_list')}}</a>
+                            <li> <a href="{{ route('attendence') }}">{{ trans('sidebar_trans.Apperance_list') }}</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#custom-page1">
                             <div class="pull-left"><i class="ti-file"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Apperance_report')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Apperance_report') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="custom-page1" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('attendence_section')}}">{{trans('sidebar_trans.Apperance_report')}}</a>
+                            <li> <a
+                                    href="{{ route('attendence_section') }}">{{ trans('sidebar_trans.Apperance_report') }}</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#subject">
                             <div class="pull-left"><i class="ti-file"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Subject')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Subject') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="subject" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('getsubject')}}">{{trans('sidebar_trans.subject_list')}}</a> </li>
+                            <li> <a href="{{ route('getsubject') }}">{{ trans('sidebar_trans.subject_list') }}</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#authentication">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Exams')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Exams') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="authentication" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('quizz.index')}}">{{trans('sidebar_trans.Exam_list')}}</a> </li>
+                            <li> <a href="{{ route('quizz.index') }}">{{ trans('sidebar_trans.Exam_list') }}</a>
+                            </li>
                         </ul>
                     </li>
 
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#questions">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.question')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.question') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="questions" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('question_section')}}">{{trans('sidebar_trans.question')}}</a> </li>
+                            <li> <a href="{{ route('question_section') }}">{{ trans('sidebar_trans.question') }}</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse"
-                            data-target="#error">{{trans('sidebar_trans.lecture')}}
+                            data-target="#error">{{ trans('sidebar_trans.lecture') }}
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="error" class="collapse">
-                            <li> <a href="{{route('classes.index')}}">{{trans('sidebar_trans.lecture')}}</a>
+                            <li> <a href="{{ route('classes.index') }}">{{ trans('sidebar_trans.lecture') }}</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#liberaries">
                             <div class="pull-left"><i class="ti-id-badge"></i><span
-                                    class="right-nav-text">{{trans('sidebar_trans.Liberary')}}</span></div>
+                                    class="right-nav-text">{{ trans('sidebar_trans.Liberary') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="liberaries" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('lib.index')}}">{{trans('sidebar_trans.Liberary_book')}}</a>
+                            <li> <a href="{{ route('lib.index') }}">{{ trans('sidebar_trans.Liberary_book') }}</a>
                             </li>
-                            <!-- <li> <a href="{{route('questions.index')}}">{{trans('sidebar_trans.question')}}</a> </li> -->
+                            <!-- <li> <a href="{{ route('questions.index') }}">{{ trans('sidebar_trans.question') }}</a> </li> -->
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#error2">
+                            <div class="pull-left"><i class="ti-id-badge"></i><span
+                                    class="right-nav-text">{{ trans('Students_trans.settings') }}</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="error2" class="collapse">
+                            <li> <a href="{{ route('teacher.settings') }}">{{ trans('Students_trans.settings') }}</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\AddParent;
 use App\Http\Controllers\Teacher\Timelab\TimelabTeacher;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Http\Controllers\Student\Timelab\TimelabStudent;
 
 Route::group(
     [
@@ -117,6 +118,8 @@ Route::group(
                 //=================================== Timelab ===================================================//
                 Route::get('timelab', [TimelabTeacher::class, 'index'])->name('teachertimelab.index');
                 //=================================== End Timelab ===================================================//
+
+                Route::get('teacher/settings', [TimelabStudent::class, 'teacher_settings'])->name('teacher.settings');
 
 
 

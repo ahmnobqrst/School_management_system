@@ -271,6 +271,7 @@ return [
   'Dashboard'                                      => 'لوحة التحكم',
   'Edit_Grade'                                     => 'تعديل المرحلة الدراسية',
   'Dashboard_Student'                              => 'لوحة تحكم الطالب',
+  'Dashboard_Admin'                              => 'لوحة تحكم الادمن',
   'Dashboard_teacher'                              => 'لوحة تحكم المدرس',
   'Dashboard_parent'                               => 'لوحة تحكم ولي الامر',
   'show_teacher_data'                              => 'عرض بيانات المدرس',
@@ -431,13 +432,22 @@ return [
   'start_time' => 'وقت البدء',
   'end_time' => 'وقت الانتهاء',
   'save' => 'حفظ',
-  'after_or_equal_8_morning'=>'يجب أن يكون وقت البدء بعد أو يساوي 8:00 صباحًا',
-  'after_or_equal'=> 'يجب أن يكون وقت البدء بعد أو يساوي تاريخ اليوم',
-  'before_or_equal'=>'يجب أن يكون وقت البدء قبل أو يساوي 5:00 مساءً',
+  'after_or_equal_8_morning' => 'يجب أن يكون وقت البدء بعد أو يساوي 8:00 صباحًا',
+  'after_or_equal' => 'يجب أن يكون وقت البدء بعد أو يساوي تاريخ اليوم',
+  'before_or_equal' => 'يجب أن يكون وقت البدء قبل أو يساوي 5:00 مساءً',
   'teacher_id_required' => 'اسم المدرس مطلوب',
   'section_id_required' => 'اسم القسم مطلوب',
   'subject_id_required' => 'اسم المادة مطلوب',
   'grade_id_required' => 'اسم المرحلة مطلوب',
   'classroom_id_required' => 'اسم الفصل الدراسي مطلوب',
   'subject_not_assigned' => 'لا يوجد مادة مسندة لهذا المدرس',
+
+  // Parent Settings Translated Keys
+  'School_data_and_information' => 'بيانات ومعلومات المدرسة',
+  'School_details' => 'إليك تفاصيل المنشأة التعليمية',
+  'General_data' => 'البيانات العامة',
+  'Current_Academic_Year' => 'العام الدراسي الحالي',
+  'No_Logo' => 'لا يوجد شعار',
+  'Not_Available' => 'غير متوفر',
+
 ];

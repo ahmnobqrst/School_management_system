@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Student\Timelab;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{ClassSchedule, Student};
+use App\Models\{ClassSchedule, Student, Teacher, Setting};
 
 class TimelabStudent extends Controller
 {
@@ -47,5 +47,32 @@ class TimelabStudent extends Controller
         }
 
         return view('Dashboard.parents.timelab.index', compact('children', 'childrenSchedules', 'days', 'maxPeriods'));
+    }
+
+    public function son_teachers()
+    {
+        $children = Student::where('parent_id', auth()->user()->id)->get();
+
+        $teachers = Teacher::whereHas('Sections', function ($query) use ($children) {
+            $query->whereIn('teacher_section.section_id', $children->pluck('section_id'));
+        })->get();
+
+        return view('Dashboard.parents.childerns.teachers', compact('children', 'teachers'));
+    }
+
+    public function settings()
+    {
+        $settings = Setting::all();
+        return view('Dashboard.parents.settings', compact('settings'));
+    }
+    public function student_settings()
+    {
+        $settings = Setting::all();
+        return view('Dashboard.student.settings', compact('settings'));
+    }
+    public function teacher_settings()
+    {
+        $settings = Setting::all();
+        return view('Dashboard.teacher.settings', compact('settings'));
     }
 }

@@ -266,6 +266,7 @@ return [
     'Dashboard' => 'Dashboard',
     'Edit_Grade' => 'ُEdit Grade',
     'Dashboard_Student' => 'Student Dashboard',
+    'Dashboard_Admin' => 'Admin Dashboard',
     'Dashboard_teacher' => 'Teacher Dashboard',
     'Dashboard_parent' => 'Parent Dashboard',
     'show_teacher_data' => 'Show Teacher Data',
@@ -428,9 +429,9 @@ return [
     'start_time' => 'Start Time',
     'end_time' => 'End Time',
     'save' => 'Save',
-    'after_or_equal_8_morning'=>'Timelab Must be After 8:00 Morning',
-    'after_or_equal'=> 'Timelab Must be After or Equal Today',
-    'before_or_equal'=>'Timelab Must be Before or Equal 5:00 Afternoon',
+    'after_or_equal_8_morning' => 'Timelab Must be After 8:00 Morning',
+    'after_or_equal' => 'Timelab Must be After or Equal Today',
+    'before_or_equal' => 'Timelab Must be Before or Equal 5:00 Afternoon',
     'teacher_id_required' => 'Teacher Name is Required',
     'section_id_required' => 'Section Name is Required',
     'subject_id_required' => 'Subject Name is Required',
@@ -438,6 +439,12 @@ return [
     'classroom_id_required' => 'Classroom Name is Required',
     'subject_not_assigned' => 'No Subject Assigned To This Teacher',
 
-
+    // Parent Settings Translated Keys
+    'School_data_and_information' => 'School Data and Information',
+    'School_details' => 'Here are the details of the educational facility',
+    'General_data' => 'General Data',
+    'Current_Academic_Year' => 'Current Academic Year',
+    'No_Logo' => 'No Logo',
+    'Not_Available' => 'Not Available',
 
 ];

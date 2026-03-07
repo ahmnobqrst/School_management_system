@@ -102,6 +102,19 @@
                             <!-- <li> <a href="{{ route('questions.index') }}">{{ trans('sidebar_trans.question') }}</a> </li> -->
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#error2">
+                            <div class="pull-left"><i class="ti-id-badge"></i><span
+                                    class="right-nav-text">{{ trans('Students_trans.settings') }}</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="error2" class="collapse">
+                            <li> <a
+                                    href="{{ route('student.settings') }}">{{ trans('Students_trans.settings') }}</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
