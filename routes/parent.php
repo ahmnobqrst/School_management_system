@@ -66,6 +66,14 @@ Route::group(
             Route::get('parent/timelab', [TimelabStudent::class, 'son_timelab'])->name('parent.timelab');
             //=================================== End Timelab ===================================================//
 
+            //=================================== Son Teachers ===================================================//
+            Route::get('parent/getstudentteachers', [TimelabStudent::class, 'son_teachers'])->name('parent.getstudentteachers');
+            //=================================== End Son Teachers ===================================================//
+
+            //=================================== Settings ===================================================//
+            Route::get('parent/settings', [TimelabStudent::class, 'settings'])->name('parent.get.settings');
+            //=================================== End Settings ===================================================//
+
             //================================================= Get Childerns PaymentFees For Parent ===================================================//
             // Route::get('get_childern_paymentfees',[ParentController::class,'get_childern_paymentFees'])->name('get.all.childern');
             // Route::get('student_Payment_create/{studentId}',[ParentController::class,'student_payment_create'])->name('paymentfees.create.son');

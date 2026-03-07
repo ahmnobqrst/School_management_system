@@ -8,6 +8,7 @@
     <meta name="description" content="Webmin - Bootstrap 4 & Angular 5 Admin Dashboard Template" />
     <meta name="author" content="potenzaglobalsolutions.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{ trans('Students_trans.Dashboard_teacher') }}</title>
     @include('Dashboard.layouts.head')
 
     <style>
@@ -153,7 +154,8 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getstds') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getstds') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -174,7 +176,8 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getclasses') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getclasses') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -195,7 +198,8 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getsectionss') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getsectionss') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>

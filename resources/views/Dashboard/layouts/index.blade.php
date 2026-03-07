@@ -9,7 +9,7 @@
     <meta name="description" content="Webmin - Bootstrap 4 & Angular 5 Admin Dashboard Template" />
     <meta name="author" content="potenzaglobalsolutions.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>School Management System</title>
+    <title>{{ trans('Students_trans.Dashboard_Admin') }}</title>
 
     @include('Dashboard.layouts.head')
     @livewireStyles

@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>{{ trans('Students_trans.Dashboard_Student') }}</title>
     @include('Dashboard.layouts.head')
     @livewireStyles
     <style>
@@ -88,7 +89,7 @@
         }
 
         /* spacing adjustments */
-        .row > div {
+        .row>div {
             margin-bottom: 30px;
         }
     </style>
@@ -133,8 +134,9 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                
-                                <a href="{{ route('getstudentgrade') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+
+                                <a href="{{ route('getstudentgrade') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -155,7 +157,8 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getstudentclassroom') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getstudentclassroom') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -176,7 +179,8 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getstudentsection') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getstudentsection') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -197,7 +201,8 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getstudentsubjects') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getstudentsubjects') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
@@ -218,13 +223,14 @@
                             </div>
                             <p class="text-muted pt-3 mb-0 mt-2 border-top">
                                 <i class="fas fa-eye mr-1"></i>
-                                <a href="{{ route('getstudentteachers') }}" target="_blank">{{ __('Students_trans.Show_data') }}</a>
+                                <a href="{{ route('getstudentteachers') }}"
+                                    target="_blank">{{ __('Students_trans.Show_data') }}</a>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
 
             <livewire:calender-student />
 
@@ -232,9 +238,10 @@
         </div>
     </div>
 
-     @include('Dashboard.layouts.footer-scripts')
+    @include('Dashboard.layouts.footer-scripts')
 
-     @livewireScripts
-     @stack('scripts')
+    @livewireScripts
+    @stack('scripts')
 </body>
+
 </html>
